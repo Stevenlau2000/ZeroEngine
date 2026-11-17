@@ -2,480 +2,875 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WorkBuddy 是什么｜给每个岗位，配一位数字员工</title>
-<meta name="description" content="用大白话讲清 WorkBuddy：产品介绍、八项核心能力、20 个岗位与 13 大职能、六个行业落地方案与演示视频、版本价格与采购流程。零点引擎（腾讯云合作伙伴）整理。">
-<link rel="icon" href="assets/wb-logo.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>零点引擎 | 连接 AI 工具，让应用落地</title>
+<meta name="description" content="零点引擎：集团技术底座与数据底座，AI 技术应用输出型、数据驱动型公司。以「带数据、可打通、有 API」为业务归属门槛，连接数字AI × 物理AI，让 AI 融入真实业务场景、让个人数据形成统一视图。">
+<link rel="icon" type="image/png" href="assets/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c14;
+  --surface: #111827;
+  --surface2: #1e293b;
+  --surface3: #273449;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --amber: #F59E0B;
+  --amber-dim: #92400E;
+  --cyan: #06B6D4;
+  --green: #10B981;
+  /* ── 零点引擎品牌令牌（海报实测） ── */
+  --ink: #000000;        /* 海报世界 · Hero 专用 */
+  --brand: #FFE300;      /* 品牌黄 · logo/主CTA/眉标/光晕/已上线标签 */
+  --brand-2: #C8B078;    /* 眉标金棕（海报实测） */
+  --hero-title: #F6F4F0; /* Hero 主标题暖白 */
+  --hero-sub: #C0C8C8;   /* Hero 副标题冷灰 */
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: 'Inter Tight', -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed; inset:0;
+  background-image:
+    linear-gradient(rgba(245,158,11,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,158,11,.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Topnav ── */
+.topnav { position:sticky; top:0; z-index:10; display:flex; align-items:center; gap:16px; padding:14px 28px; background:rgba(8,12,20,.85); backdrop-filter:blur(12px); border-bottom:1px solid var(--surface2); }
+.topnav .brand { display:inline-flex; align-items:center; height:22px; text-decoration:none; }
+.topnav .brand picture { display:inline-flex; align-items:center; height:100%; }
+.topnav .brand img { height:22px; width:auto; max-width:190px; object-fit:contain; display:block; }
+.topnav .ver { margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--cyan); border:1px solid rgba(6,182,212,.3); padding:3px 10px; border-radius:20px; white-space:nowrap; }
+
+/* ── Nav links (desktop) ── */
+.nav-links { display:flex; align-items:center; gap:2px; margin-left:auto; }
+.nav-links a { font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.4px; color:var(--text2); text-decoration:none; padding:8px 12px; position:relative; transition:color .2s; white-space:nowrap; }
+.nav-links a:hover { color:var(--brand); }
+.nav-links a.active { color:var(--brand); }
+.nav-links a::after { content:''; position:absolute; left:12px; right:12px; bottom:2px; height:2px; background:var(--brand); transform:scaleX(0); transform-origin:left; transition:transform .25s; }
+.nav-links a:hover::after, .nav-links a.active::after { transform:scaleX(1); }
+.nav-links a:focus-visible { outline:2px solid var(--brand); outline-offset:3px; border-radius:4px; }
+.nav-toggle { display:none; }
+.topnav.scrolled { background:rgba(8,12,20,.92); border-bottom-color:rgba(255,227,0,.22); }
+
+/* ── Section banner ── */
+.banner { position:relative; border:1px solid var(--surface2); border-radius:10px; overflow:hidden; margin:0 0 24px; }
+.banner::before { content:''; position:absolute; top:0; left:0; width:100%; height:2px; background:linear-gradient(90deg,transparent,var(--amber-dim),var(--amber),var(--amber-dim),transparent); opacity:.7; z-index:1; }
+.banner img { display:block; width:100%; height:220px; object-fit:cover; }
+
+/* ── 解决方案 · 场景封面（两栏） ── */
+.solcover {
+  display:grid; grid-template-columns:432px 1fr; gap:28px; align-items:center;
+  background:linear-gradient(135deg, var(--surface) 0%, rgba(17,24,39,.4) 100%);
+  border:1px solid var(--surface2); border-radius:10px; padding:24px; margin:0 0 24px;
+}
+.solcover-fig { margin:0; border-radius:8px; overflow:hidden; position:relative; border:1px solid rgba(255,227,0,.22); box-shadow:0 12px 32px rgba(0,0,0,.38); }
+.solcover-fig::after { content:''; position:absolute; inset:0; pointer-events:none; box-shadow:inset 0 0 0 1px rgba(255,227,0,.14); }
+.solcover-fig img { display:block; width:100%; height:auto; }
+.solcover-eyebrow { font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:1.5px; color:var(--brand-2); margin-bottom:10px; }
+.solcover-title { font-family:'Inter Tight','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif; font-size:23px; font-weight:700; color:var(--hero-title); margin:0 0 12px; line-height:1.38; letter-spacing:-.01em; }
+.solcover-text { font-size:14px; color:var(--text2); line-height:1.85; margin:0 0 16px; }
+.solcover-chips { display:flex; flex-wrap:wrap; gap:8px; }
+.solcover-chips span { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.5px; color:var(--brand); border:1px solid rgba(255,227,0,.35); background:rgba(255,227,0,.06); padding:5px 13px; border-radius:20px; }
+@media(max-width:768px){ .solcover { grid-template-columns:1fr; gap:18px; padding:18px; } .solcover-title { font-size:19px; } }
+
+/* ── Card media (device thumbnails) ── */
+.card-media { margin:-24px -24px 16px; border-radius:10px 10px 0 0; overflow:hidden; border-bottom:1px solid var(--surface2); }
+.card-media img { display:block; width:100%; height:150px; object-fit:cover; }
+.card:hover .card-media { box-shadow:inset 0 0 0 1px rgba(255,227,0,.28); }
+/* ── 萌宠形象（透明底 · 完整显示 · 小尺寸） ── */
+.card-media.mascot { display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#0a0f1a 0%,#05080f 100%); }
+.card-media.mascot img { width:auto; height:128px; max-width:74%; object-fit:contain; }
+/* 物理AI 设备实拍图：白底产品照 → 纯白"产品台"舞台（与图内白底无缝），contain 完整呈现（禁 cover 裁切） */
+.card-media.device { display:flex; align-items:center; justify-content:center; background:#fff; }
+.card-media.device img { width:100%; height:170px; object-fit:contain; }
+
+/* ── Footer mini-nav ── */
+.fnav { display:flex; flex-wrap:wrap; gap:6px 16px; justify-content:center; margin:12px 0; }
+.fnav a { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text2); text-decoration:none; letter-spacing:.3px; }
+.fnav a:hover { color:var(--brand); }
+
+/* ── Mobile nav (≤1024px: hamburger + drawer) ── */
+@media(max-width:1024px){
+  .nav-toggle { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; margin-left:auto; background:transparent; border:1px solid var(--surface3); border-radius:8px; cursor:pointer; padding:0; }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after { content:''; display:block; width:18px; height:2px; background:var(--brand); position:relative; transition:transform .25s, background .2s; }
+  .nav-toggle span::before { position:absolute; top:-6px; left:0; }
+  .nav-toggle span::after { position:absolute; top:6px; left:0; }
+  .nav-toggle[aria-expanded="true"] span { background:transparent; }
+  .nav-toggle[aria-expanded="true"] span::before { transform:translateY(6px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span::after { transform:translateY(-6px) rotate(-45deg); }
+  .nav-links { position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; gap:0; margin-left:0; background:rgba(8,12,20,.97); border-bottom:1px solid var(--surface2); padding:6px 0; max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .nav-links.open { max-height:420px; }
+  .nav-links a { padding:14px 20px; }
+  .nav-links a::after { display:none; }
+  .banner img { height:168px; }
+}
+
+/* ── Hero（分栏 · 海报世界） ── */
+.hero {
+  position: relative;
+  z-index: 1;
+  background: var(--ink);
+  text-align: left;
+  overflow: hidden;
+}
+.hero-inner {
+  max-width:1200px; margin:0 auto;
+  padding:84px 40px 40px;
+  display:grid; grid-template-columns:52% 48%; gap:36px; align-items:center;
+}
+.hero .eyebrow {
+  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:500;
+  letter-spacing:2px; color:var(--brand-2); margin-bottom:20px;
+  animation: heroRise .45s .05s both;
+}
+.hero h1 {
+  font-family:'Inter Tight','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  font-size:60px; font-weight:800; line-height:1.12; letter-spacing:-.02em;
+  color:var(--hero-title); margin-bottom:20px;
+}
+.hero h1 span { display:block; }
+.hero h1 .l1 { animation: heroRise .5s .12s both; }
+.hero h1 .l2 { animation: heroRise .5s .22s both; }
+.hero .hero-sub {
+  font-size:19px; color:var(--hero-sub); margin-bottom:30px;
+  animation: heroRise .45s .34s both;
+}
+.hero .cta-group { display:flex; justify-content:flex-start; gap:12px; flex-wrap:wrap; animation: heroRise .45s .44s both; }
+.hero .hero-meta {
+  display:flex; align-items:center; gap:14px; margin-top:28px;
+  font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text3);
+  animation: heroRise .4s .54s both;
+}
+.hero .hero-meta .mv { color:var(--cyan); border:1px solid rgba(6,182,212,.3); padding:2px 9px; border-radius:20px; }
+.hero-visual { position:relative; display:flex; align-items:center; justify-content:center; min-height:460px; }
+.hero-visual img {
+  position:relative; z-index:1; display:block; width:auto; height:auto;
+  max-width:100%; max-height:560px;
+  animation: heroFade .7s .18s both;
+}
+.hero-visual::before {
+  content:''; position:absolute; left:50%; top:50%; width:82%; aspect-ratio:1/1;
+  transform:translate(-50%,-50%); z-index:0;
+  background:radial-gradient(circle, rgba(255,227,0,.13) 0%, rgba(255,227,0,.045) 42%, rgba(255,227,0,0) 70%);
+  animation: heroBreathe 9s 1.6s ease-in-out infinite;
+}
+.hero-visual::after {
+  content:''; position:absolute; inset:6% 2%; z-index:2; pointer-events:none;
+  background:linear-gradient(112deg, rgba(255,227,0,0) 44%, rgba(255,227,0,.30) 50%, rgba(255,227,0,0) 56%);
+  animation: heroArc 1.1s .7s ease-out both;
+}
+.hero-fade { height:140px; background:linear-gradient(180deg, #000000 0%, #080c14 100%); }
+@keyframes heroRise { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes heroFade { from { opacity:0; transform:translateY(10px) scale(.985); } to { opacity:1; transform:none; } }
+@keyframes heroBreathe { 0%,100% { opacity:.5; transform:translate(-50%,-50%) scale(.94); } 50% { opacity:1; transform:translate(-50%,-50%) scale(1.06); } }
+@keyframes heroArc { 0% { opacity:0; transform:translateX(-55%); } 22% { opacity:1; } 100% { opacity:0; transform:translateX(55%); } }
+
+.cta-group { display:flex; gap:12px; flex-wrap:wrap; }
+.cta {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:12px 28px; border-radius:8px; font-weight:600; font-size:14px;
+  text-decoration:none; transition:all .25s; position:relative;
+}
+.cta.primary { background:var(--brand); color:#000; box-shadow:0 4px 18px rgba(255,227,0,.22); }
+.cta.primary:hover { transform:translateY(-2px); box-shadow:0 8px 26px rgba(255,227,0,.32); }
+.cta.secondary { background:transparent; color:var(--brand); border:1px solid rgba(255,227,0,.55); }
+.cta.secondary:hover { background:rgba(255,227,0,.08); transform:translateY(-2px); }
+
+/* ── Sections ── */
+.section { position:relative; z-index:1; max-width:1080px; margin:48px auto; padding:0 24px; scroll-margin-top:72px; }
+.section.wide { max-width:1100px; padding:0 20px; }
+.section > h2 { font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:600; color:var(--cyan); text-transform:uppercase; letter-spacing:1px; margin-bottom:18px; padding-bottom:10px; border-bottom:1px solid var(--surface2); }
+.section > h2 .num { color:var(--amber); margin-right:8px; }
+.intro { color:var(--text2); font-size:14px; max-width:820px; margin-bottom:24px; }
+.subhead { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600; color:var(--text2); letter-spacing:.5px; margin:28px 0 14px; display:flex; align-items:center; gap:8px; }
+.subhead::before { content:'▸'; color:var(--cyan); font-size:11px; }
+.subhead:first-of-type { margin-top:0; }
+
+/* ── Cards Grid ── */
+.cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:16px; }
+.section .cards { margin:0; }
+.cards.cols2 { grid-template-columns:repeat(2, 1fr); }
+.cards.cols4 { grid-template-columns:repeat(4, 1fr); }
+.card {
+  background: linear-gradient(135deg, var(--surface) 0%, rgba(17,24,39,.4) 100%);
+  border: 1px solid var(--surface2);
+  border-radius: 10px; padding: 24px; transition: all .25s; position:relative; overflow:hidden;
+}
+.card::before {
+  content:''; position:absolute; top:0; left:0; width:100%; height:2px;
+  background:linear-gradient(90deg, transparent, var(--amber-dim), var(--amber), var(--amber-dim), transparent);
+  opacity:0; transition:opacity .3s;
+}
+.card:hover { border-color:rgba(245,158,11,.2); box-shadow:0 0 24px rgba(245,158,11,.06); transform:translateY(-2px); }
+.card:hover::before { opacity:1; }
+.card h3 { font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--amber); margin-bottom:8px; letter-spacing:-.2px; }
+.card p { font-size:13px; color:var(--text3); line-height:1.7; }
+.card .tag {
+  display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.5px;
+  padding:3px 10px; border-radius:20px; border:1px solid var(--surface3);
+  color:var(--text3); margin-bottom:10px;
+}
+.card .tag.live { color:var(--brand); border-color:rgba(255,227,0,.4); background:rgba(255,227,0,.07); }
+.card .tag.agent { color:var(--cyan); border-color:rgba(6,182,212,.3); }
+.card .tag.planned { color:var(--text3); border-style:dashed; border-color:var(--surface3); }
+.card .tag.device { color:var(--green); border-color:rgba(16,185,129,.35); }
+.card .pending { color:var(--text3); border-bottom:1px dashed var(--surface3); }
+.card .link {
+  display:inline-flex; align-items:center; gap:4px; margin-top:14px;
+  color:var(--cyan); text-decoration:none; font-size:12px; font-weight:600; transition:gap .2s;
+}
+.card:hover .link { gap:8px; }
+.card .link.soon { color:var(--text3); cursor:default; }
+.card .link.stack { display:flex; width:fit-content; margin-top:8px; }
+.card .step { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--cyan); letter-spacing:1px; margin-bottom:8px; }
+.card .flow { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--cyan); letter-spacing:.2px; margin-top:10px; line-height:1.9; }
+.card.planned { border-style:dashed; border-color:var(--surface3); opacity:.72; filter:saturate(.5); }
+.card.planned:hover { opacity:1; filter:none; border-color:var(--surface3); box-shadow:none; transform:none; }
+.card.planned:hover::before { opacity:0; }
+.card.planned h3 { color:var(--text2); }
+.card.soon { border:1px dashed var(--brand); background:linear-gradient(135deg, rgba(255,227,0,.045) 0%, rgba(17,24,39,.4) 100%); }
+.card.soon:hover { border-color:var(--brand); box-shadow:none; transform:none; }
+.card.soon:hover::before { opacity:0; }
+.card.soon .tag { color:var(--brand); border:1px dashed rgba(255,227,0,.4); }
+
+/* ── 业务架构 · 双轮交叠（内联 SVG） ── */
+.capline { display:flex; flex-wrap:wrap; gap:8px; margin:-8px 0 22px; }
+.capline span {
+  font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text3);
+  padding:5px 13px; border:1px solid var(--surface3); border-radius:20px;
+}
+.wheels-wrap { position:relative; display:flex; justify-content:center; margin-bottom:26px; }
+.wheels { width:100%; max-width:560px; height:auto; display:block; }
+.wheels .wheel-stroke { stroke-dasharray:100; stroke-dashoffset:100; animation:wheelDraw 1.5s ease-out forwards; }
+.wheels .wheel-stroke.b { animation-delay:.22s; }
+.wheels .wl { font-family:'JetBrains Mono',monospace; }
+.wheels .wl-role { font-size:20px; font-weight:700; fill:var(--brand); }
+.wheels .wl-role2 { font-size:20px; font-weight:700; fill:var(--brand-2); }
+.wheels .wl-sub { font-size:12px; fill:var(--text2); }
+.wheels .wl-core { font-size:19px; font-weight:700; fill:#0d1016; }
+.wheels .wl-core-sub { font-size:11.5px; fill:#33301f; }
+.wheels-mobile { display:none; }
+@keyframes wheelDraw { to { stroke-dashoffset:0; } }
+.wheel-notes { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.wheel-note {
+  background:linear-gradient(135deg, var(--surface) 0%, rgba(17,24,39,.4) 100%);
+  border:1px solid var(--surface2); border-radius:10px; padding:20px 22px;
+}
+.wheel-note .wn-name { font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:700; color:var(--brand); margin-bottom:3px; }
+.wheel-note .wn-name.alt { color:var(--brand-2); }
+.wheel-note .wn-role { display:block; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--cyan); letter-spacing:.5px; margin-bottom:9px; }
+.wheel-note p { font-size:13px; color:var(--text3); line-height:1.7; }
+
+/* ── Table ── */
+.ptable { width:100%; border-collapse:collapse; margin:16px 0; font-size:13px; }
+.ptable th { background:var(--surface3); color:var(--text); text-align:left; padding:9px 12px; font-family:'JetBrains Mono',monospace; font-weight:600; border:1px solid var(--surface2); }
+.ptable td { padding:9px 12px; border:1px solid var(--surface2); color:var(--text2); vertical-align:top; }
+.ptable tr:nth-child(even) td { background:rgba(30,41,59,.4); }
+.ptable code { font-family:'JetBrains Mono',monospace; color:var(--amber); background:rgba(245,158,11,.08); padding:1px 6px; border-radius:3px; font-size:12px; }
+.note { color:var(--text3); font-size:12px; margin-top:14px; line-height:1.8; }
+.note strong { color:var(--text2); font-weight:600; }
+
+/* ── CTA ── */
+.cta-split { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:center; }
+.cta-panel {
+  position:relative; text-align:left;
+  background:linear-gradient(135deg,var(--surface) 0%,rgba(17,24,39,.4) 100%);
+  border:1px solid var(--surface2); border-radius:10px; padding:48px 32px; overflow:hidden;
+}
+.cta-panel::before { content:''; position:absolute; top:0; left:0; width:100%; height:2px; background:linear-gradient(90deg,transparent,var(--amber-dim),var(--amber),var(--amber-dim),transparent); opacity:.7; }
+.cta-panel .big { font-family:'JetBrains Mono',monospace; font-size:22px; font-weight:700; color:var(--brand); letter-spacing:-.5px; margin-bottom:12px; line-height:1.45; }
+.cta-panel .sub { font-size:14px; color:var(--text2); max-width:520px; }
+.cta-panel .note { margin-top:18px; }
+.poster-frame { border:1px solid var(--surface2); border-radius:10px; padding:10px; background:rgba(8,12,20,.55); }
+.poster-frame img { display:block; width:100%; height:auto; border-radius:6px; background:#000; }
+.poster-cap { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text3); margin-top:10px; text-align:center; letter-spacing:.3px; }
+
+/* ── Footer ── */
+.footer {
+  position:relative; z-index:1; text-align:center; padding:40px;
+  color:var(--text3); font-size:12px; border-top:1px solid var(--surface2);
+}
+.footer .fbrand { display:inline-flex; align-items:center; gap:10px; margin-bottom:10px; }
+.footer .fbrand img { height:32px; width:auto; display:block; }
+.footer .fbrand span { font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text); font-weight:600; }
+.footer .motto { font-family:'JetBrains Mono',monospace; color:var(--text2); margin-top:6px; letter-spacing:.5px; }
+.footer .fnote { margin-top:10px; }
+
+/* ── 公司 IP 形象「零零」（AI 生成概念稿）：纯装饰点缀，不承载文案与承诺 ──
+   版式纪律：object-fit:contain（禁 cover）、width:auto + max-width:none、尺寸走流式布局（禁绝对定位）。 */
+.ip-mark { width:auto; height:auto; max-width:none; object-fit:contain; display:block; opacity:.72; }
+.hero .hero-meta .ip-mark { height:30px; margin-left:2px; }
+.footer .ip-foot { height:30px; margin:16px auto 0; opacity:.5; }
+@media(max-width:768px){ .hero .hero-meta .ip-mark { height:24px; } .footer .ip-foot { height:24px; } }
+
+/* ── Reveal (JS 增强，无 JS 时内容完整可见) ── */
+.js .reveal { opacity:0; transform:translateY(10px); }
+.js .reveal.in { opacity:1; transform:none; transition:opacity .5s ease, transform .5s ease; }
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .hero-inner { grid-template-columns:1fr; padding:56px 20px 24px; gap:22px; }
+  .hero h1 { font-size:40px; }
+  .hero .hero-sub { font-size:16px; margin-bottom:24px; }
+  .hero-visual { min-height:0; }
+  .hero-visual img { max-width:100%; max-height:420px; }
+  .hero-fade { height:120px; }
+  .topnav { padding:12px 16px; }
+  /* 移动端：品牌标识切 logo-mark（黄色标记），保证竖立形态可读并与导航垂直居中 */
+  .topnav .brand { height:28px; }
+  .topnav .brand img { height:28px; width:auto; max-width:32px; object-fit:contain; }
+  .section { padding:0 16px; }
+  .section.wide { padding:0 16px; }
+  .cards.cols2 { grid-template-columns:1fr; }
+  .cards.cols4 { grid-template-columns:repeat(2,1fr); }
+  .wheel-notes { grid-template-columns:1fr; }
+  .wheels-desktop { display:none; }
+  .wheels-mobile { display:block; max-width:320px; }
+  .cta-split { grid-template-columns:1fr; }
+  .cta-panel { padding:34px 20px; }
+  .cta-panel .big { font-size:17px; }
+}
+@media(max-width:520px){
+  .cards.cols4 { grid-template-columns:1fr; }
+  .hero h1 { font-size:32px; }
+  .hero .eyebrow { font-size:12px; letter-spacing:1px; }
+  .hero .hero-meta { flex-wrap:wrap; gap:10px; }
+}
+
+/* ── Hero 编排入场收尾兜底（JS 加 .hero-done；不干扰常驻呼吸光晕） ── */
+html.hero-done .hero .eyebrow, html.hero-done .hero h1 .l1, html.hero-done .hero h1 .l2,
+html.hero-done .hero .hero-sub, html.hero-done .hero .cta-group,
+html.hero-done .hero .hero-meta, html.hero-done .hero-visual img { animation:none !important; opacity:1 !important; transform:none !important; }
+html.hero-done .hero-visual::after { animation:none !important; opacity:0 !important; }
+
+/* ── 动效降级：prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce){
+  html { scroll-behavior: auto; }
+  /* ↓ 全站 transition 复位：覆盖 .reveal 淡入、卡片悬停、CTA 与链接过渡 */
+  *, *::before, *::after{
+    transition-duration:.001ms !important;
+    transition-delay:0s !important;
+  }
+  .js .reveal { opacity:1; transform:none; }
+  /* ↓ Hero 编排入场（heroRise / heroFade）：直接呈现终态 */
+  .hero .eyebrow,
+  .hero h1 .l1,
+  .hero h1 .l2,
+  .hero .hero-sub,
+  .hero .cta-group,
+  .hero .hero-meta,
+  .hero-visual img { animation: none !important; opacity:1 !important; transform:none !important; }
+  /* ↓ Hero 金色光弧（heroArc）：不再扫过 */
+  .hero-visual::after { animation: none !important; opacity:0 !important; }
+  /* ↓ Hero 呼吸光晕（heroBreathe）：保留静态光晕，取消循环 */
+  .hero-visual::before { animation: none !important; opacity:.55 !important; }
+  /* ↓ 双轮图描边绘制（wheelDraw）：直接呈现完整描边 */
+  .wheels .wheel-stroke { animation: none !important; stroke-dashoffset:0 !important; }
+}
+</style>
 </head>
 <body>
 
-<!-- ============ 导航 ============ -->
-<header class="nav">
-  <div class="nav-in">
-    <a class="brand" href="#top">
-      <img src="assets/wb-logo.svg" alt="WorkBuddy">
-      <span class="brand-txt"><strong>WorkBuddy</strong><span>数字员工 · 企业级 AI 工作台</span></span>
-    </a>
-    <nav class="nav-links" id="navLinks">
-      <a href="#what">是什么</a>
-      <a href="#features">能做什么</a>
-      <a href="#scenarios">谁在用</a>
-      <a href="#industry">行业方案</a>
-      <a href="#videos">看视频</a>
-      <a href="#buy">怎么买</a>
-      <a href="#faq">常见问题</a>
-    </nav>
-    <button class="burger" id="burger" aria-label="展开导航">☰</button>
-    <a class="nav-cta" href="https://cloud.tencent.com/act/pro/workbuddy" target="_blank" rel="noopener">免费开始用 ↗</a>
-  </div>
+<header class="topnav" id="topnav">
+  <a class="brand" href="#top" aria-label="零点引擎 回到顶部"><picture><source media="(max-width: 768px)" srcset="assets/logo-mark.png"><img src="assets/logo-lockup.png" width="467" height="150" alt="零点引擎 ZERO ENGINE" loading="eager"></picture></a>
+  <nav class="nav-links" id="navLinks" aria-label="栏目导航">
+    <a href="#boundary">定位与边界</a>
+    <a href="#architecture">业务架构</a>
+    <a href="#value">客户价值</a>
+    <a href="#products">产品矩阵</a>
+    <a href="#solutions">解决方案</a>
+    <a href="#governance">治理分润</a>
+    <a href="#partnership">合作方式</a>
+    <a href="#links">链接矩阵</a>
+    <a href="#contact">联系我们</a>
+  </nav>
+  <button class="nav-toggle" id="navToggle" aria-label="打开导航菜单" aria-expanded="false" aria-controls="navLinks"><span></span></button>
+  <span class="ver">V1.4 · 2026.11.10</span>
 </header>
 
-<main id="top">
-
-<!-- ============ Hero ============ -->
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-grid">
-      <div>
-        <span class="hero-badge"><i></i> 腾讯云 WorkBuddy · 企业级 AI 工作台</span>
-        <h1>不是又一个聊天框，<br>是给每个岗位配一位<em>数字员工</em></h1>
-        <p class="hero-desc">
-          你只说清「<b>要什么</b>」，它自己拆步骤、查资料、写文档、连系统，最后交回一份<b>能直接用的成果</b>。<br>
-          人定目标、人签结果；中间最费时的活，它接过去。
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="https://cloud.tencent.com/act/pro/workbuddy" target="_blank" rel="noopener">免费开始用 ↗</a>
-          <button class="btn btn-ghost" data-video="assets/videos/intro-full.mp4" data-title="WorkBuddy 数字员工上岗 · 完整解说" data-desc="7 分钟讲清：它是什么、能带来什么、值不值、为什么是现在。">看 7 分钟完整解说 ▷</button>
-        </div>
-        <div class="hero-trust">
-          <span>首批通过信通院可信 AI 智能体评估</span>
-          <span>智能体 PIA 二星+（材料口径：全国唯一）</span>
-          <span>100+ 行业标杆落地</span>
-        </div>
+<!-- ── 01 · Hero（分栏 · 海报 3D 视觉） ── -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="eyebrow">技术底座 · 数据底座</div>
+      <h1><span class="l1">连接 AI 工具</span><span class="l2">让应用落地</span></h1>
+      <p class="hero-sub">让 AI 融入真实业务场景，让数据可打通、可沉淀</p>
+      <div class="cta-group">
+        <a class="cta primary" href="#products">进入产品矩阵</a>
+        <a class="cta secondary" href="#contact">联系我们</a>
       </div>
-
-      <div class="hero-visual" aria-label="一次派活的完整过程示意">
-        <div class="wb-topbar">
-          <i class="wb-dot" style="background:#F0786A"></i><i class="wb-dot" style="background:#FFB800"></i><i class="wb-dot" style="background:#4ED8A0"></i>
-          <span>WorkBuddy · 工作目录／客户拜访</span>
-          <span class="wb-mode">Craft 做一做</span>
-        </div>
-        <div class="wb-task">
-          <div class="who">你 · 一句话派活</div>
-          <p>「把下周要拜访的三家客户，各出一份背景简报和拜访提纲，明早给我。」</p>
-        </div>
-        <div class="wb-steps">
-          <div class="wb-step"><span class="ico">1</span><span><b>拆步骤</b>　列出客户名单、资料来源、交付格式</span></div>
-          <div class="wb-step"><span class="ico">2</span><span><b>查资料</b>　读公司文档、连腾讯文档与邮箱</span></div>
-          <div class="wb-step done"><span class="ico">3</span><span><b>写初稿</b>　三份简报 + 三份提纲</span></div>
-          <div class="wb-step done"><span class="ico">4</span><span><b>自检</b>　核对数据来源、补齐空缺项</span></div>
-        </div>
-        <div class="wb-result">
-          <div class="who">交回来的成果 · 你来签收</div>
-          <div class="wb-files">
-            <span class="wb-file">客户A_背景简报.docx</span>
-            <span class="wb-file">客户B_背景简报.docx</span>
-            <span class="wb-file">拜访提纲汇总.xlsx</span>
-            <span class="wb-file">资料来源清单.md</span>
-          </div>
-        </div>
-        <div class="wb-foot"><span>任务完成</span><span class="bar"><i></i></span><span>4 / 4</span></div>
+      <div class="hero-meta">
+        <span>集团技术底座 / 数据底座</span>
+        <span class="mv">V1.4 · 2026.11.10</span>
+        <img class="ip-mark" src="assets/mascot-lingling.webp" width="22" height="30" alt="零零 · 科技小麒麟角色形象（AI 生成概念稿）" loading="lazy" decoding="async">
       </div>
     </div>
-
-    <div class="stat-strip">
-      <div class="stat"><b>20<i>+</i></b><span>可配置的岗位</span></div>
-      <div class="stat"><b>60<i>+</i></b><span>开箱即用的场景</span></div>
-      <div class="stat"><b>13<i>大</i></b><span>覆盖的职能条线</span></div>
-      <div class="stat"><b>2,376<i>元</i></b><span>企业版／人／年（起）</span></div>
-      <div class="stat"><b>7×24</b><span>企业版云端自动化</span></div>
+    <div class="hero-visual">
+      <img src="assets/hero-visual.webp?v=20261029" width="1073" height="1245" alt="零点引擎品牌主视觉：金色光网玻璃球核，与播放、对话、协作三块玻璃面板以光带相连" loading="eager" fetchpriority="high">
     </div>
   </div>
+  <div class="hero-fade" aria-hidden="true"></div>
 </section>
 
-<!-- ============ 01 是什么 ============ -->
-<section class="sec" id="what">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">01 / WHAT IT IS · 它是什么</div>
-      <h2>先说人话：它跟聊天机器人、跟公司里的系统，差在哪</h2>
-      <p class="lead">不用记新概念，记住一个分工就行：<span class="hl">人定目标、人签结果；中间最费时的几步，数字员工接过去。</span>下面这张表，是最快讲清楚的方式。</p>
-    </div>
+<main>
 
-    <div class="reveal" style="overflow:hidden;border-radius:18px">
-      <p class="swipe-hint small">表格可左右滑动查看 →</p>
-      <table class="compare">
-        <thead>
-          <tr><th>比什么</th><th>普通聊天 AI</th><th>公司里的信息系统</th><th class="good">WorkBuddy 数字员工</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>你怎么用它</td>
-            <td>一问一答，你得盯着、得复制粘贴</td>
-            <td>点菜单、走固定流程，先培训</td>
-            <td class="good"><strong>一句话派活</strong>，它自己拆步骤去干</td>
-          </tr>
-          <tr>
-            <td>交回什么</td>
-            <td>一段文字、一个建议</td>
-            <td>一条记录、一张表单</td>
-            <td class="good"><strong>干完的活</strong>：文档、表格、PPT、网页、看板</td>
-          </tr>
-          <tr>
-            <td>跨系统 / 流程外的事</td>
-            <td>基本不管</td>
-            <td>流程外的就卡住，只能找人</td>
-            <td class="good">连着邮箱、文档、ERP、CRM，<strong>把活串起来干完</strong></td>
-          </tr>
-          <tr>
-            <td>好经验留不留得下</td>
-            <td>关掉对话就没了</td>
-            <td>只留数据，不留做法</td>
-            <td class="good">做对一次<strong>存成套路</strong>，全公司下次照着做</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<!-- ── 02A · 定位与边界（2026-11-10 会议口径新增） ── -->
+<div class="section" id="boundary">
+  <h2><span class="num">//</span> 定位与边界</h2>
+  <p class="intro">零点引擎是集团的技术底座、数据底座：AI 技术应用输出型、数据驱动型公司。核心不是把商品卖出去，而是把设备与系统产生的数据接进来、打通、沉淀，形成统一数据视图、场景解决方案与数据赋能能力。</p>
+  <p class="capline"><span>面向个人 / OPC</span><span>代表小 B</span><span>带数据 · 可打通 · 有 API</span><span>不做物理销售</span></p>
 
-    <div class="criteria reveal">
-      <div class="crit"><div class="k">标准 01</div><h4>有岗位</h4><p>放进销售、财务、法务，就干那个岗位的活。不是通用助手，是上岗。</p></div>
-      <div class="crit"><div class="k">标准 02</div><h4>能派活</h4><p>不是你一步步操作它，是说清目标后，它自己规划路径并执行。</p></div>
-      <div class="crit"><div class="k">标准 03</div><h4>交成果</h4><p>交回来的是能用的初稿和文件，不是「你可以这样做」的建议。</p></div>
-      <div class="crit"><div class="k">标准 04</div><h4>会成长</h4><p>带一次就改；做对一次存成模板，下一个人一键复用。</p></div>
+  <div class="cards cols2">
+    <div class="card soon">
+      <span class="tag">业务归属判定</span>
+      <h3>以「数据 + API」为门槛</h3>
+      <p>凡涉及数据、需要 API 接口与系统打通的数字AI、物理AI、硬件、软件与系统，归零点引擎；与系统、数据无关的延伸产品不放入。物理设备只是载体，核心是智能系统、接口、数据与后续运营。</p>
+      <div class="flow">带数据 → 有系统 → 有 API → 可打通 → 可运营 → 归零点引擎</div>
     </div>
-
-    <h3 style="margin-top:56px;font-size:20px" class="reveal">一件活是怎么跑完的：两头始终是人</h3>
-    <div class="flow reveal">
-      <div class="flow-item"><span class="n">01</span><span class="badge human">人</span><h4>定目标</h4><p>说清要什么、标准是什么</p></div>
-      <div class="flow-item"><span class="n">02</span><span class="badge ai">数字员工</span><h4>做规划</h4><p>拆路径、排步骤、找资料</p></div>
-      <div class="flow-item"><span class="n">03</span><span class="badge ai">数字员工</span><h4>自主执行</h4><p>跨系统查数、写文档、出图</p></div>
-      <div class="flow-item"><span class="n">04</span><span class="badge ai">数字员工</span><h4>自检反思</h4><p>交之前先按标准自查一遍</p></div>
-      <div class="flow-item"><span class="n">05</span><span class="badge human">人</span><h4>评审验收</h4><p>结果由人把关、由人签收</p></div>
-      <div class="flow-item"><span class="n">06</span><span class="badge human">人 + AI</span><h4>存成套路</h4><p>好做法进公司知识库</p></div>
-    </div>
-    <div class="note">系统不用换。数字员工连着原有系统，把系统干不了的活（读懂内容、做分析、应对流程外的事、跨系统串活、交成果）补上。</div>
-  </div>
-</section>
-
-<!-- ============ 02 功能特点 ============ -->
-<section class="sec" id="features">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">02 / CAPABILITIES · 能做什么</div>
-      <h2>八件最常用、也最好懂的事</h2>
-      <p class="lead">每张卡只讲一件事：它替你省掉哪一步，以及一个能立刻想象出来的例子。术语都翻译成了大白话。</p>
-    </div>
-    <div class="grid g4" id="featureGrid"></div>
-
-    <div class="pathway reveal" style="margin-top:34px;background:linear-gradient(110deg,rgba(78,216,160,.07),transparent 70%);border-color:rgba(78,216,160,.22)">
-      <h3>企业还要管得住：安全不是附加项</h3>
-      <div class="p3">
-        <div><b>放权有刻度</b><p>Ask 只答不改文件 / Plan 先看计划再动手 / Craft 放手干；重要文件先备份。</p></div>
-        <div><b>运行有隔离</b><p>权限黑白名单、运行时沙箱、入口拦截与熔断；第三方技能装前可扫描，删除进回收站。</p></div>
-        <div><b>组织有后台</b><p>企业版支持 SSO 单点登录、组织架构、操作留痕、用量与成本分析，可 VPC 专享或私有化。</p></div>
-      </div>
-      <p class="small" style="margin-top:18px">资质口径：首批通过中国信通院可信 AI 智能体评估（2026.04，5 大维度 57 项）；智能体 PIA 个人信息保护二星+级（2026.07，材料标注为全国唯一获评）。</p>
+    <div class="card">
+      <span class="tag agent">客户与角色</span>
+      <h3>面向个人 / OPC，代表小 B</h3>
+      <p>核心客户是个人与一人公司（OPC），围绕个人数据构建，而非泛泛做企业数据。平台站在客户角度整合智能体、工具与供应链，先帮客户省钱或挣钱，再谈自身收益；不做两个 B 之间的信息中介。</p>
+      <div class="flow">代表小 B → 整合资源 → 客户先受益 → 建立信任</div>
     </div>
   </div>
-</section>
 
-<!-- ============ 03 应用场景 ============ -->
-<section class="sec" id="scenarios">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">03 / WHO USES IT · 谁在用</div>
-      <h2>放进公司，哪些岗位真的用得上</h2>
-      <p class="lead">按业务分成四类，点标签切换。官方材料口径覆盖 <span class="hl">20 个岗位、60+ 场景、13 大职能、130+ 典型场景</span>——先找到自己那一格，再往下看行业方案。</p>
+  <h3 class="subhead" style="margin-top:28px">归属示例</h3>
+  <table class="ptable">
+    <thead><tr><th>业务 / 载体</th><th>数据 + API</th><th>归属</th></tr></thead>
+    <tbody>
+      <tr><td>心脏健康档案、数据集与检测系统</td><td><code>是</code></td><td>零点引擎；硬件由供应商直接供应</td></tr>
+      <tr><td>物理 AI 终端（可穿戴设备等）</td><td><code>是</code></td><td>零点引擎（数据接入与运营）</td></tr>
+      <tr><td>数字 AI 智能体、算力与 token 通道</td><td><code>是</code></td><td>零点引擎</td></tr>
+      <tr><td>智能家居系统</td><td><code>是</code></td><td>零点引擎，与个人健康数据关联</td></tr>
+      <tr><td>健康延伸商品、家庭采买与选品</td><td><code>否</code></td><td>供应链 / 壹点好物体系</td></tr>
+      <tr><td>GEO 与内容服务</td><td>视形态</td><td>归属待定，按场景确定</td></tr>
+    </tbody>
+  </table>
+  <p class="note"><strong>说明：</strong>归属以「是否带数据、能否通过 API 与系统打通」判定，与产品放在哪个界面展示无关；边界确定后不再随项目摇摆。表中「待定」项不作为已开展业务的承诺。</p>
+
+  <h3 class="subhead">职责切分</h3>
+  <table class="ptable">
+    <thead><tr><th>角色</th><th>职责</th></tr></thead>
+    <tbody>
+      <tr><td>零点引擎</td><td>数据接入、打通与沉淀，统一数据视图、场景解决方案与数据运营；选品与商务、供应商管理</td></tr>
+      <tr><td>供应商</td><td>售前与售后、硬件直接供应、部署培训与技术支持、库存与发货</td></tr>
+      <tr><td>供应链 / 壹点好物</td><td>采买供应、客服体系与物理销售</td></tr>
+      <tr><td>平台协调</td><td>服务协调与跟踪，不重复建设售前售后体系</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="subhead">两类打通</h3>
+  <div class="cards cols2">
+    <div class="card">
+      <h3>算力 / token 支付打通</h3>
+      <p>不同智能体消耗的算力与 token 不同，需统一计费与充值通道，形成可查询的使用视图。</p>
+      <div class="flow">智能体使用 → 统一计量 → 充值与结算</div>
     </div>
-    <div class="tabs" id="roleTabs"></div>
-    <div id="rolePanels"></div>
-
-    <div class="func-table reveal">
-      <h3 style="font-size:19px">13 大职能：官方材料中的单点场景提效口径</h3>
-      <p class="small" style="margin-top:8px">看的是「同一件活，交给数字员工前后差多少」，不是全公司效率承诺。</p>
-      <div class="func-grid" id="funcGrid" style="margin-top:20px"></div>
-      <div class="note">提效倍数来自厂商宣讲材料中的单点场景口径，企业间基线差异很大。建议按「先跑一个月 → 记下每件活的花费与工时 → 和以前比」自测，再决定扩到哪些部门。</div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 04 行业方案 ============ -->
-<section class="sec" id="industry">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">04 / SOLUTIONS · 行业应用方案</div>
-      <h2>换个行业，到底怎么落地</h2>
-      <p class="lead">每个方案都按同一套逻辑写：<span class="hl">先说痛点 → 再给三步做法 → 最后给有出处的量化结果</span>。点「看演示」可以直接播放对应场景视频。</p>
-    </div>
-    <div class="ind-grid" id="industryGrid"></div>
-
-    <div class="pathway reveal">
-      <h3>从试点到全公司：一条被验证过的三步路径</h3>
-      <div class="p3">
-        <div><b>第一步 · 单点跑通</b><p>选 1–2 件高频、好验收的活做 MVP（文件审核、周报、报价），跑通即验证，不等平台。</p></div>
-        <div><b>第二步 · 装进组织</b><p>当场景数超过 100 个，单点工具管不住了，需要统一入口、权限与成果管理。</p></div>
-        <div><b>第三步 · 经验变资产</b><p>把资深员工的做法萃取成 Skill 和模板，新人一键复用，组织下限抬到最好那个人的标准。</p></div>
-      </div>
-      <p class="small" style="margin-top:18px">路径提炼自某工程管理咨询公司（公共资金监督）案例：从个人版升企业版决策周期 1 个月，10 位咨询工程师的工作方式萃取为 1 个可复用 Skill。</p>
+    <div class="card">
+      <h3>数据打通</h3>
+      <p>拓客、维客、AI 直播等智能体与设备数据可查、可打通，用户使用多个能力后在平台侧形成统一数据视图；有数据之后，才按场景形成解决方案。</p>
+      <div class="flow">多源采集 → 统一视图 → 场景方案</div>
     </div>
   </div>
-</section>
+  <p class="note"><strong>说明：</strong>「个人数据大管家」属于长期方向设想，需逐步试点，不代表已上线能力；数据仅在合作方授权与必要同意范围内采集，遵循最小化采集留存与独立权限管理。本板块为业务边界对齐口径，不构成对外交付承诺，具体合作以双方确认的方案为准。</p>
+</div>
 
-<!-- ============ 05 视频 ============ -->
-<section class="sec" id="videos">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">05 / WATCH · 看它跑一遍</div>
-      <h2>说得再多，不如看一次真实操作</h2>
-      <p class="lead">上面讲的是「是什么」，这里看「怎么用」。视频分两类：WorkBuddy 产品与场景演示，以及 AI 内容生产在各行业的成片案例。</p>
+<!-- ── 02 · 业务架构（双轮交叠） ── -->
+<div class="section" id="architecture">
+  <h2><span class="num">//</span> 业务架构</h2>
+  <p class="intro">两类产品能力，三条业务线。双轮驱动，按场景形成交付；产品与设备同时是数据的入口与载体，归口判定见「定位与边界」。</p>
+  <p class="capline"><span>轻资产协作</span><span>供应商履约</span><span>平台协调</span><span>场景交付</span><span>数据打通</span></p>
+  <div class="wheels-wrap reveal">
+    <svg class="wheels wheels-desktop" viewBox="0 0 424 270" role="img" aria-labelledby="wheelsTitle wheelsDesc" xmlns="http://www.w3.org/2000/svg">
+      <title id="wheelsTitle">双轮交叠业务架构图</title>
+      <desc id="wheelsDesc">左轮为数字AI（自研 ＋ 代理），右轮为物理AI（大健康 · 聚焦美业），两轮交叠的中心为解决方案（组合与服务协调 · 独立业务线）。</desc>
+      <defs>
+        <linearGradient id="wheelGold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#FFE300" stop-opacity=".62"/>
+          <stop offset="55%" stop-color="#E8C94A" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="#C8B078" stop-opacity=".42"/>
+        </linearGradient>
+        <clipPath id="lensDesktop"><circle cx="272" cy="135" r="112"/></clipPath>
+      </defs>
+      <circle cx="152" cy="135" r="112" fill="#FFE300" fill-opacity=".06"/>
+      <circle cx="272" cy="135" r="112" fill="#C8B078" fill-opacity=".07"/>
+      <g clip-path="url(#lensDesktop)"><circle cx="152" cy="135" r="112" fill="url(#wheelGold)"/></g>
+      <circle class="wheel-stroke" cx="152" cy="135" r="112" pathLength="100" fill="none" stroke="#FFE300" stroke-width="2.5" stroke-opacity=".9"/>
+      <circle class="wheel-stroke b" cx="272" cy="135" r="112" pathLength="100" fill="none" stroke="#C8B078" stroke-width="2.5" stroke-opacity=".9"/>
+      <text class="wl wl-role" x="100" y="127" text-anchor="middle">数字AI</text>
+      <text class="wl wl-sub" x="100" y="151" text-anchor="middle">自研 ＋ 代理</text>
+      <text class="wl wl-role2" x="324" y="127" text-anchor="middle">物理AI</text>
+      <text class="wl wl-sub" x="324" y="151" text-anchor="middle">大健康 · 聚焦美业</text>
+      <text class="wl wl-core" x="212" y="133" text-anchor="middle">解决方案</text>
+      <text class="wl wl-core-sub" x="212" y="157" text-anchor="middle">组合与服务协调</text>
+      <text class="wl wl-core-sub" x="212" y="176" text-anchor="middle">独立业务线</text>
+    </svg>
+    <svg class="wheels wheels-mobile" viewBox="0 0 300 370" role="img" aria-labelledby="wheelsTitleM wheelsDescM" xmlns="http://www.w3.org/2000/svg">
+      <title id="wheelsTitleM">双轮交叠业务架构图（竖排）</title>
+      <desc id="wheelsDescM">上轮为数字AI（自研 ＋ 代理），下轮为物理AI（大健康 · 聚焦美业），两轮交叠的中心为解决方案（组合与服务协调 · 独立业务线）。</desc>
+      <defs>
+        <linearGradient id="wheelGoldM" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#FFE300" stop-opacity=".62"/>
+          <stop offset="55%" stop-color="#E8C94A" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="#C8B078" stop-opacity=".42"/>
+        </linearGradient>
+        <clipPath id="lensMobile"><circle cx="150" cy="245" r="112"/></clipPath>
+      </defs>
+      <circle cx="150" cy="125" r="112" fill="#FFE300" fill-opacity=".06"/>
+      <circle cx="150" cy="245" r="112" fill="#C8B078" fill-opacity=".07"/>
+      <g clip-path="url(#lensMobile)"><circle cx="150" cy="125" r="112" fill="url(#wheelGoldM)"/></g>
+      <circle class="wheel-stroke" cx="150" cy="125" r="112" pathLength="100" fill="none" stroke="#FFE300" stroke-width="2.5" stroke-opacity=".9"/>
+      <circle class="wheel-stroke b" cx="150" cy="245" r="112" pathLength="100" fill="none" stroke="#C8B078" stroke-width="2.5" stroke-opacity=".9"/>
+      <text class="wl wl-role" x="150" y="62" text-anchor="middle">数字AI</text>
+      <text class="wl wl-sub" x="150" y="84" text-anchor="middle">自研 ＋ 代理</text>
+      <text class="wl wl-core" x="150" y="175" text-anchor="middle">解决方案</text>
+      <text class="wl wl-core-sub" x="150" y="198" text-anchor="middle">组合与服务协调</text>
+      <text class="wl wl-core-sub" x="150" y="216" text-anchor="middle">独立业务线</text>
+      <text class="wl wl-role2" x="150" y="310" text-anchor="middle">物理AI</text>
+      <text class="wl wl-sub" x="150" y="332" text-anchor="middle">大健康 · 聚焦美业</text>
+    </svg>
+  </div>
+  <div class="wheel-notes">
+    <div class="wheel-note reveal">
+      <div class="wn-name">数字AI</div>
+      <span class="wn-role">自研 ＋ 代理</span>
+      <p>自研垂类产品，组合通用智能体。自研产品围绕明确任务打磨；代理产品按功能、成本与授权选型，技术支持原则由供应商承担。</p>
     </div>
-
-    <div class="feature-video reveal">
-      <div class="thumb" data-video="assets/videos/intro-full.mp4" data-title="WorkBuddy 数字员工上岗 · 完整解说" data-desc="腾讯云渠道材料逐页解说：它是什么、带来什么变化、值不值、为什么是现在。">
-        <img src="assets/posters/intro-full.jpg" alt="完整解说视频封面" loading="lazy">
-        <span class="play-big">▷</span>
-      </div>
-      <div class="meta">
-        <div class="k">先看这个 · 7 分 22 秒</div>
-        <h3>《数字员工上岗》完整解说</h3>
-        <p>一份材料讲完四件事：它是什么、能带来什么、值不值、为什么是现在。适合管理者、采购和一线业务部门一起看，看完就能对齐口径。</p>
-        <div class="chips"><span class="chip">产品定位</span><span class="chip">20 岗位地图</span><span class="chip">三笔账</span><span class="chip">选型理由</span></div>
-        <button class="btn btn-ghost btn-sm" style="margin-top:22px" data-video="assets/videos/intro-full.mp4" data-title="WorkBuddy 数字员工上岗 · 完整解说" data-desc="7 分钟完整解说">播放完整视频 ▷</button>
-      </div>
+    <div class="wheel-note reveal">
+      <div class="wn-name alt">物理AI</div>
+      <span class="wn-role">大健康 · 聚焦美业</span>
+      <p>以大健康设备建立线下服务能力，从已有产品组合中确定适用设备，入场景以美业需求切入，区分生活美容、医美机构与健康管理。设备库存、物流与售后由供应商负责，技术支持原则由供方承担。</p>
     </div>
-
-    <div class="tabs reveal" id="videoTabs">
-      <button class="tab active" data-vtab="demo">产品与场景演示（8）</button>
-      <button class="tab" data-vtab="case">行业成片案例（12）</button>
-    </div>
-
-    <div class="tab-panel active" id="vpanel-demo">
-      <div class="vgrid" id="demoGrid"></div>
-      <p class="small" style="margin-top:16px">说明：为避免页面过大，演示视频为原片约 26 秒的高清片段，用于快速了解场景；完整解说见上方主视频。</p>
-    </div>
-
-    <div class="tab-panel" id="vpanel-case">
-      <div class="case-filters" id="caseFilters"></div>
-      <div class="case-grid" id="caseGrid"></div>
-      <p class="small" style="margin-top:16px">行业成片来自零点引擎《零小剪》AI 内容创作引擎公开案例库（原页共 56 段，按 6 类场景编排），此处精选 12 段用于展示 AI 内容生产在不同行业的成品效果。</p>
+    <div class="wheel-note reveal">
+      <div class="wn-name">解决方案</div>
+      <span class="wn-role">组合与服务协调 · 独立业务线</span>
+      <p>方案统筹，连接数字AI与物理AI能力，按场景形成交付，是一条独立业务线。零点负责统筹与协调，技术支持原则由供方承担。</p>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ============ 06 采购流程与链接 ============ -->
-<section class="sec" id="buy">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">06 / HOW TO BUY · 怎么买</div>
-      <h2>花多少钱、走几步、点哪里</h2>
-      <p class="lead">采购不复杂：<span class="hl">先定人数和版本，再决定是自己下单还是通过伙伴下单，最后开通陪跑。</span>下面价格与链接都可直接核对。</p>
+<!-- ── 03 · 客户价值四步 ── -->
+<div class="section wide" id="value">
+  <h2><span class="num">//</span> 客户价值</h2>
+  <div class="banner reveal"><img src="assets/banner-value.webp?v=20261029" width="1100" height="360" alt="客户价值场景：两人在办公桌前协作讨论，笔记本电脑与笔记本摊开" loading="lazy" decoding="async"></div>
+  <p class="intro">从客户任务出发，减少选择与落地的断点。</p>
+  <div class="cards cols4">
+    <div class="card reveal">
+      <div class="step">STEP 01</div>
+      <h3>选型</h3>
+      <p>按任务与预算，筛选工具和设备。</p>
     </div>
-
-    <div class="price-grid reveal">
-      <div class="price-box">
-        <div class="hd"><h3>个人版 · 4 档（含免费）</h3><p>适合个人试用、自由职业者、单人高频办公</p></div>
-        <table>
-          <thead><tr><th>版本</th><th>月付</th><th>连续包年</th><th>积分/月</th></tr></thead>
-          <tbody>
-            <tr><td>体验版</td><td class="pr">免费</td><td>—</td><td>500</td></tr>
-            <tr><td>标准版</td><td class="pr">99 元</td><td>672 元</td><td>2,000</td></tr>
-            <tr><td>高级版</td><td class="pr">199 元</td><td>1,344 元</td><td>4,000</td></tr>
-            <tr><td>旗舰版</td><td class="pr">999 元</td><td>6,720 元</td><td>20,000</td></tr>
-          </tbody>
-        </table>
-        <div class="ft">连续包月 7 折；连续包年在年付 7 折基础上再 8 折。纯个人使用，无协作与管理后台。</div>
-      </div>
-      <div class="price-box">
-        <div class="hd"><h3>企业版 · 2 档</h3><p>适合团队、公司、政务与强合规组织</p></div>
-        <table>
-          <thead><tr><th>版本</th><th>按年</th><th>起购</th><th>关键差别</th></tr></thead>
-          <tbody>
-            <tr><td>SaaS 旗舰版</td><td class="pr">2,376 元/人</td><td>1 坐席</td><td>共享积分池、SSO、审计、专属客户成功</td></tr>
-            <tr><td>专有云专享版</td><td class="pr">3,792 元/人</td><td>100 坐席</td><td>再加租户隔离、专属实例、私有化部署</td></tr>
-          </tbody>
-        </table>
-        <div class="ft">按月口径：198 元 / 316 元每人每月。两档均含 2,000 积分/人/月（团队共享）、企业自定义技能与专家、安全审计。</div>
-      </div>
+    <div class="card reveal">
+      <div class="step">STEP 02</div>
+      <h3>组合</h3>
+      <p>连接单点能力，形成可用流程。</p>
     </div>
-
-    <div class="accounting reveal">
-      <h3>算账有个更简单的口径：别按积分算，按「件」算</h3>
-      <p>账号费是固定的（<b>每人每年 2,376 元，一天不到 7 块</b>，知识库与安全都在里面），跟着用量走的只有积分。花一份积分，换回一件活：一份海报、一份方案、一张报表、一条短视频。<b>SOP：先全员真用一个月 → 用账单除以产出的件数 → 和以前外包／加急的单价对比</b>，预算上限开工前一起定好。</p>
+    <div class="card reveal">
+      <div class="step">STEP 03</div>
+      <h3>部署</h3>
+      <p>供应商配置，按约安排培训。</p>
     </div>
-
-    <h3 style="font-size:20px;margin-top:56px" class="reveal">采购五步：从想清楚到全员用起来</h3>
-    <div class="buy-flow reveal">
-      <div class="bstep"><div class="n">1</div><h4>说清场景与人数</h4><p>哪些部门先用、多少人、最想省掉哪三件重复活。</p><span class="out">产出：需求清单</span></div>
-      <div class="bstep"><div class="n">2</div><h4>试用 / 看演示</h4><p>免费版先跑，或约一次演示，用自己公司的真实材料试。</p><span class="out">产出：可行性判断</span></div>
-      <div class="bstep"><div class="n">3</div><h4>定版本与坐席</h4><p>个人版还是企业版、SaaS 还是专有云、买几个坐席。</p><span class="out">产出：配置与预算</span></div>
-      <div class="bstep"><div class="n">4</div><h4>账号关联与下单</h4><p>在腾讯云下单；通过伙伴采购的，先按伙伴流程关联客户账号。</p><span class="out">产出：订单与账号</span></div>
-      <div class="bstep"><div class="n">5</div><h4>开通 + 陪跑</h4><p>全员配账号 → 干出 2–3 个样板 → 全公司照着用。</p><span class="out">产出：样板与 SOP</span></div>
+    <div class="card reveal">
+      <div class="step">STEP 04</div>
+      <h3>服务</h3>
+      <p>供应商履约，平台跟踪协调。</p>
     </div>
-
-    <h3 style="font-size:20px;margin-top:52px" class="reveal">直达链接</h3>
-    <div class="links-grid reveal">
-      <a class="link-card" href="https://www.workbuddy.cn/" target="_blank" rel="noopener">
-        <span class="ic" style="color:var(--yellow)">◈</span><h4>官网与客户端下载</h4>
-        <p>了解产品、下载 Windows / macOS 客户端，微信扫码即可登录。</p><span class="go">前往 workbuddy.cn ↗</span>
-      </a>
-      <a class="link-card" href="https://cloud.tencent.com/act/pro/workbuddy" target="_blank" rel="noopener">
-        <span class="ic" style="color:var(--cyan)">◇</span><h4>腾讯云活动与价格公示</h4>
-        <p>版本、活动与最新定价以这里为准；下单前请再核对一次。</p><span class="go">查看官方公示 ↗</span>
-      </a>
-      <a class="link-card" href="https://codebuddy.cn/profile/plan" target="_blank" rel="noopener">
-        <span class="ic" style="color:var(--violet)">▣</span><h4>积分与套餐采购</h4>
-        <p>WorkBuddy 与 CodeBuddy 账户共用，Credits 在这里查看与补充。</p><span class="go">管理积分 ↗</span>
-      </a>
-      <a class="link-card" href="https://workbuddy.cn/docs/workbuddy/Overview" target="_blank" rel="noopener">
-        <span class="ic" style="color:var(--green)">▤</span><h4>官方文档与入门</h4>
-        <p>安装、模式、技能、连接器、自动化的操作说明，适合 IT 与管理员。</p><span class="go">阅读文档 ↗</span>
-      </a>
-    </div>
-
-    <button class="buy-entry reveal" type="button" data-purchase>
-      <span class="be-ic">¥</span>
-      <span class="be-txt">
-        <span class="be-tag">伙伴通道 · 企业版下单</span>
-        <strong>WorkBuddy 购买链接</strong>
-        <small>点开后按四步依次操作：开始实名认证 → 完成实名认证 → 伙伴后台确认关联 → 确认账号数量及时长后下单。官方链接在新标签打开，本页保留不动。</small>
-      </span>
-      <span class="be-btn">打开购买引导　→</span>
-    </button>
-
-    <div class="note" style="margin-top:26px">
-      <b>关于通过伙伴采购：</b>本站由零点引擎（腾讯云 &amp; WorkBuddy 代理合作伙伴）整理，可提供选型、演示、账号关联与全员陪跑。如已有对接顾问，请直接联系；官网留资时备注「零点引擎」即可。伙伴关联客户账号需遵循腾讯云渠道规则（邀请链接注册、注册 3 日内、解绑 10 日内等适用场景），具体以腾讯云最新规则为准。
-    </div>
-    <p class="small" style="margin-top:14px">价格口径整理自 2026-07-30 官方授权资料与渠道材料，会随活动调整；本站为合作伙伴介绍材料，<b style="color:var(--muted)">非腾讯官方报价单</b>，最终以腾讯云官网公示与合同为准。</p>
   </div>
-</section>
+</div>
 
-<!-- ============ 07 FAQ ============ -->
-<section class="sec" id="faq">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">07 / FAQ · 常见问题</div>
-      <h2>采购前最常被问的九个问题</h2>
-      <p class="lead">都是实际沟通里会卡住的地方，先答清楚，省一轮会。</p>
-    </div>
-    <div class="faq-list reveal" id="faqList"></div>
-  </div>
-</section>
+<!-- ── 04 · 产品矩阵 ── -->
+<div class="section wide" id="products">
+  <h2><span class="num">//</span> 产品矩阵</h2>
+  <div class="banner reveal"><img src="assets/banner-products.webp?v=20261029" width="1100" height="360" alt="产品矩阵场景：使用者在办公桌前操作平板，查看设备与数据看板" loading="lazy" decoding="async"></div>
+  <p class="intro">两类产品能力：数字AI（自研＋代理）与物理AI（大健康设备）。自研产品围绕明确任务打磨，代理产品按功能、成本与授权选型；设备由供应商供货、部署与售后，技术支持原则由供方承担；产品与设备进入零点引擎体系，以带数据、可通过 API 打通为前提。</p>
 
-<!-- ============ 收尾 CTA ============ -->
-<section class="final">
-  <div class="wrap">
-    <div class="eyebrow" style="justify-content:center">GET STARTED</div>
-    <h2>给每个岗位，配一位数字员工</h2>
-    <p>人还是这些人，活干得更快、更好；做对一次，全公司下次照着做。</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="https://cloud.tencent.com/act/pro/workbuddy" target="_blank" rel="noopener">免费开始用 ↗</a>
-      <button class="btn btn-ghost" data-video="assets/videos/intro-full.mp4" data-title="WorkBuddy 数字员工上岗 · 完整解说" data-desc="7 分钟完整解说">再看一次完整解说 ▷</button>
+  <h3 class="subhead">数字AI · 自研 ＋ 代理</h3>
+  <div class="cards cols2">
+    <div class="card reveal">
+      <div class="card-media mascot"><img src="assets/mascot-lingxiaojian.webp?v=20261029" width="300" height="300" alt="零小剪 3D 科技萌宠形象" loading="lazy" decoding="async"></div>
+      <span class="tag live">已上线</span>
+      <h3>零小剪 · AI 内容创作引擎</h3>
+      <p>面向商家与内容团队，围绕已授权素材开展视频内容制作。适用门店经营者与电商内容团队；按确认版本使用，供方原则提供技术支持，具体功能以可演示版本为准。</p>
+      <div class="flow">输入素材 → 组织内容 → 制作与修改 → 审核与使用</div>
+      <a class="link" href="https://www.workbuddy.link/p/zP1LRO9ve0CS4b6qkHkCZz" target="_blank" rel="noopener">进入零小剪页面 →</a>
     </div>
-    <p class="small">第一步很轻：全员配上 → 干出样板 → 全公司照着用。</p>
+    <div class="card reveal">
+      <div class="card-media mascot"><img src="assets/mascot-lingxiaobo.webp?v=20261029" width="300" height="300" alt="零小播 3D 科技萌宠形象" loading="lazy" decoding="async"></div>
+      <span class="tag live">已上线</span>
+      <h3>零小播 · AI 实景直播引擎</h3>
+      <p>把直播任务、工具操作与人工审核组织在同一流程，适用有直播需求的商家与内容运营团队。直播须人工审核与值守，不承诺未经核验的无人值守能力。</p>
+      <div class="flow">确定场景 → 准备内容 → 试播确认 → 运行复盘</div>
+      <a class="link" href="https://lingdian-lingxiaobo.app.workbuddy.host/?sharecode=FC2K7OFH73" target="_blank" rel="noopener">进入零小播页面 →</a>
+    </div>
+    <div class="card reveal">
+      <div class="card-media mascot"><img src="assets/buddy.webp?v=20261029" width="260" height="260" alt="WorkBuddy Buddy 智能体形象" loading="lazy" decoding="async"></div>
+      <span class="tag agent">代理产品方向</span>
+      <h3>通用智能体</h3>
+      <p>代理产品方向：如 WorkBuddy，按功能、成本与授权选型；<span class="pending">豆包Work、千问Work、纳米Work</span> 等名称以正式产品核定为准。商用、转售及集成范围以供应商有效授权为准。</p>
+      <!-- WorkBuddy 渠道合作入口（v5 2026-11-17 合并 v4 已上线变更）：href 指向已上线的正式介绍站 https://stevenlau2000.github.io/workbuddy-intro/（GitHub Pages，源仓库 Stevenlau2000/workbuddy-intro，源站 Workbuddy培训/workbuddy-intro-site）。介绍站实体已移到线上，部署包不再内嵌 30MB 副本；站点版与单文件版入口完全一致、均无路径依赖。更新 SOP：改介绍站内容后推送源仓库即可，主站 href 保持不变；若更换正式 URL，须同步 check_site.py 的 URL_WORKBUDDY_INTRO / WB_INTRO_HREF / F07 白名单与 F07d 断言。禁止写回本机预览地址或旧的站内相对路径。 -->
+      <a class="link" href="https://stevenlau2000.github.io/workbuddy-intro/" target="_blank" rel="noopener noreferrer">WorkBuddy 渠道合作入口 →</a>
+      <!-- 渠道合作入口（v5）：豆包Work 已于 2026-11-17 取得正式入口 https://stevenlau2000.github.io/volcengine-liushi/，改为 a.link.stack 可点击链接（含 target="_blank" / rel="noopener noreferrer"）；千问Work / 纳米Work 仍为禁用态 span 占位。【必须保留 stack】以维持换行（去掉后宽视口会退回 inline-flex 并排）。任何入口 URL 变更都须同步 check_site.py 的 F07 外链白名单、F07c 与 F07c-2 断言 -->
+      <a class="link stack" href="https://stevenlau2000.github.io/volcengine-liushi/" target="_blank" rel="noopener noreferrer">豆包Work 渠道合作入口 →<span class="sr-only">，在新标签页打开</span></a>
+      <span class="link soon stack" aria-disabled="true" title="渠道合作链接待更新">千问Work 渠道合作入口 · 链接更新中</span>
+      <span class="link soon stack" aria-disabled="true" title="渠道合作链接待更新">纳米Work 渠道合作入口 · 链接更新中</span>
+    </div>
+    <div class="card planned reveal">
+      <span class="tag planned">规划待核 · 未来评估</span>
+      <h3>垂类 Agent</h3>
+      <p>垂类扩展方向：零小智（智能客服 / 知识与问答，设有人工转接边界）及其他垂类工作流 Agent，按试点结果增减。规划功能不代表已上线，交付范围以确认版本为准。</p>
+    </div>
   </div>
-</section>
+
+  <h3 class="subhead">物理AI · 大健康设备（苏州米太）</h3>
+  <div class="cards">
+    <div class="card reveal">
+      <div class="card-media device"><img src="assets/dev-ecg.webp?v=20261104" width="640" height="640" alt="AI心电仪：便携式心电采集设备与手机端心电报告" loading="lazy" decoding="async"></div>
+      <span class="tag device">已上线实体 · 按场景配置</span>
+      <h3>AI心电仪</h3>
+      <p>心电采集；按适用人员与场所配置；供应商供货与售后。</p>
+    </div>
+    <div class="card reveal">
+      <div class="card-media device"><img src="assets/dev-stethoscope.webp?v=20261104" width="640" height="640" alt="AI数字听诊器：数字听诊器与手机端心音波形记录" loading="lazy" decoding="async"></div>
+      <span class="tag device">已上线实体 · 按场景配置</span>
+      <h3>AI数字听诊器</h3>
+      <p>数字听诊；供方负责培训支持；专业解读责任另行明确。</p>
+    </div>
+    <div class="card reveal">
+      <div class="card-media device"><img src="assets/dev-ultrasound.webp?v=20261104" width="640" height="640" alt="AI掌上超声：掌上超声探头与手机端超声影像" loading="lazy" decoding="async"></div>
+      <span class="tag device">已上线实体 · 按场景配置</span>
+      <h3>AI掌上超声</h3>
+      <p>超声影像；按型号及注册用途使用；供应商部署与维护。</p>
+    </div>
+  </div>
+  <p class="note"><strong>说明：</strong>设备组合来自苏州米太，按场景配置；库存、物流、售后均由供应商负责。医疗类设备不默认适用于普通美容门店，需区分生活美容、医美机构与健康管理三类场景并核验资质；设备参考图及具体配置按项目核验。</p>
+</div>
+
+<!-- ── 05 · 解决方案 ── -->
+<div class="section wide" id="solutions">
+  <h2><span class="num">//</span> 解决方案</h2>
+  <div class="banner reveal"><img src="assets/banner-solutions.webp?v=20261029" width="1100" height="360" alt="解决方案场景：执业者在诊室内为躺姿客户操作手持设备" loading="lazy" decoding="async"></div>
+  <p class="intro">按场景组合产品与服务，形成三类解决方案；方案统筹是一条独立业务线。技术支持原则由供方承担，零点负责统筹与协调。</p>
+
+  <div class="solcover reveal">
+    <figure class="solcover-fig">
+      <img src="assets/solution-cover.webp?v=20261029" width="768" height="768" alt="解决方案场景封面：AI 助手机器人与两位客户代表在会议桌前沟通，上方浮现日历、审核与文档流程图标" loading="lazy" decoding="async">
+    </figure>
+    <div class="solcover-copy">
+      <div class="solcover-eyebrow">场景封面</div>
+      <h3 class="solcover-title">一次真实沟通，串起工具、设备与服务</h3>
+      <p class="solcover-text">方案不是功能拼装，而是把客户的一次真实沟通拆成可执行环节：工具负责内容与协同，设备负责现场采集与执行，零点负责统筹组合与协调。交付范围以双方确认的方案为准。</p>
+      <div class="solcover-chips"><span>方案统筹</span><span>组合交付</span><span>协同跟踪</span></div>
+    </div>
+  </div>
+
+  <h3 class="subhead">三种类型</h3>
+  <div class="cards">
+    <div class="card reveal">
+      <h3>数字方案</h3>
+      <p>软件与业务流程；配置与技术支持原则上由供方提供。</p>
+    </div>
+    <div class="card reveal">
+      <h3>物理方案</h3>
+      <p>设备与现场服务；供应商供货、部署及售后服务。</p>
+    </div>
+    <div class="card reveal">
+      <h3>融合方案</h3>
+      <p>线上与线下协作；零点统筹，技术支持原则由供方承担。</p>
+    </div>
+  </div>
+
+  <h3 class="subhead">方案示例</h3>
+  <div class="cards">
+    <div class="card reveal">
+      <h3>方案一 · 美业内容与客户服务</h3>
+      <p>零小剪 + 零小播参与，围绕内容生产、直播运营与客户服务组织能力。</p>
+    </div>
+    <div class="card reveal">
+      <h3>方案二 · 机构设备与服务流程建设</h3>
+      <p>大健康设备进入机构服务流程，供应商供货、部署与售后，按约完成建设。</p>
+    </div>
+    <div class="card reveal">
+      <h3>融合方案 · 参考架构</h3>
+      <div class="flow">内容触达 → 咨询预约 → 到店服务 → 服务记录 → 专业处理 → 后续关怀</div>
+    </div>
+  </div>
+  <p class="note"><strong>说明：</strong>方案技术支持原则上由供应商承担；不保证销售结果。数据合规：必要同意与权限、最小化采集留存；健康数据独立权限、访问审计与撤回处理；跨系统连接按项目评审，不预设已完成自动集成。</p>
+</div>
+
+<!-- ── 06 · 治理与分润 ── -->
+<div class="section" id="governance">
+  <h2><span class="num">//</span> 治理与分润</h2>
+  <p class="intro">产品准入与商业政策均以草案形式管理，经批准后执行。下表评分之外，还须先通过「带数据 / 可打通 / 有 API」的业务边界判定（见「定位与边界」）。</p>
+
+  <h3 class="subhead">产品治理 · 准入审核（草案）</h3>
+  <table class="ptable">
+    <thead><tr><th>维度</th><th>分值</th><th>要点</th></tr></thead>
+    <tbody>
+      <tr><td>场景价值</td><td>25</td><td>需求、样例与效果</td></tr>
+      <tr><td>功能质量</td><td>25</td><td>稳定性、接口与计量</td></tr>
+      <tr><td>合规安全</td><td>30</td><td>授权、资质与数据</td></tr>
+      <tr><td>交付商业</td><td>20</td><td>仓配售后、支持与退出</td></tr>
+    </tbody>
+  </table>
+  <p class="note"><strong>说明：</strong>准入门槛建议总分 ≥ 80，否决项清零并完成试点验收方可上架；一票否决项（授权 / 必要资质缺失、重大安全隐患、拒担约定供应责任或测试造假）不以得分抵销；流程为申报 → 联合审查 → 试点验收 → 授权上架，由产品 / 技术 / 合规 / 财务联合签审。评分及流程待批准。</p>
+
+  <h3 class="subhead">商业政策 · 分润参考（草案）</h3>
+  <table class="ptable">
+    <thead><tr><th>业务线</th><th>参考</th><th>内容</th></tr></thead>
+    <tbody>
+      <tr><td>数字AI</td><td>参考零小剪</td><td>分润比例（运营商｜服务商｜社长｜运营中心｜零点总部）按政策分配；以批准合同为准，不得直接相加，需先核角色与收入池，赠送部分不分润</td></tr>
+      <tr><td>物理AI</td><td>参考数字心电仪</td><td>参考价、供货折扣（先行官／社长等）及总部毛利、运营中心提成均按政策分配，以批准政策与合同为准</td></tr>
+    </tbody>
+  </table>
+  <p class="note"><strong>说明：</strong>分润按批准合同执行；供方履约费用纳入报价审核；积分奖励不自动叠加；存在口径待核，不作为结算承诺。</p>
+</div>
+
+<!-- ── 07 · 合作方式 ── -->
+<div class="section" id="partnership">
+  <h2><span class="num">//</span> 合作方式</h2>
+  <p class="intro">轻资产协作｜供应商履约，平台协调。零点引擎聚焦数据与技术底座，不把精力放在物理销售上；体系不设库存，供应商负责仓配售后；客户合同仍须明确各方责任，供应商履约不等于平台免责。</p>
+  <table class="ptable">
+    <thead><tr><th>角色</th><th>职责</th></tr></thead>
+    <tbody>
+      <tr><td>零点引擎</td><td>选品与商务、供应商管理与服务协调</td></tr>
+      <tr><td>供应商仓配</td><td>库存与发货、物流全程负责</td></tr>
+      <tr><td>供应商售后</td><td>退换与维修按约闭环处理</td></tr>
+      <tr><td>供方技术支持</td><td>数字AI与方案，原则由供应商承担</td></tr>
+    </tbody>
+  </table>
+  <p class="note"><strong>说明：</strong>零点引擎与中云智行体系均不设物理AI库存。集团协作：研习社（学习体验）、黑唛传媒（内容传播）、健康服务（专业流程）、壹点好物（选品对接）；孵化 AI 先行官，让产品能力进入具体业务；业务归属与三方职责切分见「定位与边界」。</p>
+</div>
+
+<!-- ── 08 · 链接矩阵 ── -->
+<div class="section wide" id="links">
+  <h2><span class="num">//</span> 链接矩阵</h2>
+  <p class="intro">产品与采购入口。已上线页面可直接进入；建设中入口敬请期待。</p>
+  <div class="cards cols4">
+    <div class="card reveal">
+      <span class="tag live">已上线</span>
+      <h3>零小剪 · AI 内容创作引擎</h3>
+      <p>面向商家与内容团队的视频内容制作引擎。</p>
+      <a class="link" href="https://www.workbuddy.link/p/zP1LRO9ve0CS4b6qkHkCZz" target="_blank" rel="noopener">进入页面 →</a>
+    </div>
+    <div class="card reveal">
+      <span class="tag live">已上线</span>
+      <h3>零小播 · AI 实景直播引擎</h3>
+      <p>直播任务、工具操作与人工审核的统一流程。</p>
+      <a class="link" href="https://lingdian-lingxiaobo.app.workbuddy.host/?sharecode=FC2K7OFH73" target="_blank" rel="noopener">进入页面 →</a>
+    </div>
+    <div class="card reveal">
+      <span class="tag live">已上线</span>
+      <h3>WorkBuddy 企业版采购测算</h3>
+      <p>通用智能体代理方向的企业版采购测算入口。</p>
+      <a class="link" href="https://workbuddy.link/p/jGnwvSmAQ7aKiQAxkjiCHR" target="_blank" rel="noopener">进入页面 →</a>
+    </div>
+    <div class="card soon reveal">
+      <span class="tag">即将上线</span>
+      <h3>物理AI · 设备采购</h3>
+      <p>大健康设备采购入口，按场景配置选购。</p>
+      <span class="link soon">即将上线 — 设备采购入口建设中，敬请期待</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── 09 · CTA ── -->
+<div class="section" id="contact">
+  <h2><span class="num">//</span> 联系我们</h2>
+  <div class="cta-split reveal">
+    <div class="cta-panel">
+      <div class="big">带着需求交流，带着可执行的方案开始。</div>
+      <div class="sub">客户合作 · 渠道协作 · 产品与技术伙伴</div>
+      <p class="note">合作范围与交付安排，以双方确认的方案为准。</p>
+    </div>
+    <figure class="poster-frame" style="margin:0;">
+      <img src="assets/brand-poster.webp?v=20261029" width="1920" height="1080" alt="零点引擎品牌主视觉完整海报：连接 AI 工具，让应用落地；金色光网玻璃球核与三块工具面板相连" loading="lazy" decoding="async">
+      <figcaption class="poster-cap">零点引擎品牌主视觉 · 16:9</figcaption>
+    </figure>
+  </div>
+</div>
 
 </main>
 
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <img src="assets/lingdian-logo.svg" alt="零点引擎">
-        <p>本站由 <b style="color:var(--muted)">零点引擎（腾讯云 &amp; WorkBuddy 代理合作伙伴）</b> 整理，用于客户选型、方案宣讲与内部培训。WorkBuddy 为腾讯云产品，商标与产品权益归腾讯所有。</p>
-        <p style="margin-top:10px">内容参考：黑唛AI研习社生态页、零点引擎《零小剪》发布页、腾讯云渠道材料与公开案例整理。</p>
-      </div>
-      <div>
-        <h5>快速入口</h5>
-        <ul>
-          <li><a href="https://www.workbuddy.cn/" target="_blank" rel="noopener">WorkBuddy 官网 ↗</a></li>
-          <li><a href="https://codebuddy.cn/work" target="_blank" rel="noopener">客户端下载 ↗</a></li>
-          <li><a href="https://cloud.tencent.com/act/pro/workbuddy" target="_blank" rel="noopener">腾讯云活动页 ↗</a></li>
-          <li><a href="https://workbuddy.cn/docs/workbuddy/Overview" target="_blank" rel="noopener">官方文档 ↗</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5>页面导航</h5>
-        <ul>
-          <li><a href="#what">01 它是什么</a></li>
-          <li><a href="#features">02 能做什么</a></li>
-          <li><a href="#industry">04 行业方案</a></li>
-          <li><a href="#videos">05 演示视频</a></li>
-          <li><a href="#buy">06 采购流程</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span>© 2026 零点引擎 · WorkBuddy 介绍页（合作伙伴整理，非官方站点）</span>
-      <span>数据口径：厂商渠道材料 / 公开案例整理；量化结果需结合企业基线复核，不构成收益或效果承诺。</span>
-    </div>
+<!-- ── 10 · Footer ── -->
+<footer class="footer">
+  <div class="fbrand">
+    <img src="assets/logo-mark.png" width="86" height="150" alt="零点引擎">
+    <span>零点引擎 — 技术底座 · 数据底座｜双轮驱动的产品与解决方案平台</span>
   </div>
+  <nav class="fnav" aria-label="页脚导航"><a href="#top">首页</a><a href="#boundary">定位与边界</a><a href="#architecture">业务架构</a><a href="#value">客户价值</a><a href="#products">产品矩阵</a><a href="#solutions">解决方案</a><a href="#governance">治理分润</a><a href="#partnership">合作方式</a><a href="#links">链接矩阵</a><a href="#contact">联系我们</a></nav>
+  <div>V1.4 · 2026.11.10 ｜ 政策解读权仅限公司董事会</div>
+  <div class="motto">Understand. Decide. Execute. Evolve.</div>
+  <div class="fnote">合作范围与交付安排，以双方确认的方案为准；分润与准入评分均为草案，不作为结算承诺；业务边界与定位为内部对齐口径，不构成对外承诺。</div>
+  <img class="ip-mark ip-foot" src="assets/mascot-lingling.webp" width="22" height="30" alt="零零 · 科技小麒麟角色形象（AI 生成概念稿）" loading="lazy" decoding="async">
 </footer>
 
-<!-- ============ 视频弹窗 ============ -->
-<div class="modal" id="videoModal" role="dialog" aria-modal="true" aria-label="视频播放">
-  <div class="modal-in">
-    <div class="modal-hd"><h4 id="modalTitle">视频</h4><button class="x" id="modalClose" aria-label="关闭">×</button></div>
-    <video id="modalVideo" controls playsinline preload="metadata"></video>
-    <div class="modal-ft" id="modalDesc"></div>
-  </div>
-</div>
+<script>
+// ── 轻量入场动画：无 JS 时内容完整可见（.js 类由本脚本添加） ──
+document.documentElement.classList.add('js');
+if ('IntersectionObserver' in window) {
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold:.12, rootMargin:'0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+} else {
+  document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+}
+// ── Hero 编排入场的收尾兜底：动画播完后强制落到终态（低性能设备防残留） ──
+setTimeout(function(){ document.documentElement.classList.add('hero-done'); }, 2600);
 
-<div class="modal" id="purchaseModal" role="dialog" aria-modal="true" aria-label="WorkBuddy 购买引导">
-  <div class="modal-in purchase-in">
-    <div class="modal-hd">
-      <h4>WorkBuddy 购买引导 · 四步完成</h4>
-      <button class="x" id="purchaseClose" aria-label="关闭">×</button>
-    </div>
-    <div class="purchase-body">
-      <p class="purchase-intro">通过零点引擎伙伴通道购买企业版，请按 1 → 4 的顺序操作（弹窗可上下滚动）。带 ↗ 的按钮会在新标签打开腾讯云官方页面，本页保留不动。</p>
+// ── 导航：滚动定位当前栏目（scrollspy） ──
+(function(){
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('#navLinks a'));
+  var sections = navLinks.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+  if ('IntersectionObserver' in window && sections.length){
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var id = e.target.id;
+          navLinks.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === '#'+id); });
+        }
+      });
+    }, { rootMargin:'-45% 0px -50% 0px', threshold:0 });
+    sections.forEach(function(s){ spy.observe(s); });
+  }
+  // ── 移动端抽屉 ──
+  var navToggle = document.getElementById('navToggle');
+  var navLinksEl = document.getElementById('navLinks');
+  if(navToggle && navLinksEl){
+    navToggle.addEventListener('click', function(){
+      var open = navLinksEl.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      navToggle.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
+    });
+    navLinksEl.addEventListener('click', function(e){
+      if(e.target && e.target.tagName === 'A'){ navLinksEl.classList.remove('open'); navToggle.setAttribute('aria-expanded','false'); }
+    });
+    window.addEventListener('resize', function(){ if(window.innerWidth > 1024){ navLinksEl.classList.remove('open'); navToggle.setAttribute('aria-expanded','false'); } });
+  }
+  // ── 顶栏滚动态 ──
+  var topnav = document.getElementById('topnav');
+  var onScroll = function(){ if(topnav) topnav.classList.toggle('scrolled', window.scrollY > 8); };
+  window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+})();
+</script>
 
-      <div class="psteps">
-        <div class="pstep">
-          <span class="pn">1</span>
-          <div class="pc">
-            <h5>开始实名认证</h5>
-            <div class="warn"><span class="wk">⚠️ 一定要点击选择：</span><b>【还没有账号，注册后关联】</b></div>
-            <p>从伙伴邀请链接进入，按页面提示开始注册与实名认证。</p>
-            <a class="pbtn" href="https://partner.cloud.tencent.com/invitation/1000510220926a69cd1be1107?inviteType=2&amp;activity_id=1" target="_blank" rel="noopener">打开邀请链接 ↗</a>
-          </div>
-        </div>
-
-        <div class="pstep">
-          <span class="pn">2</span>
-          <div class="pc">
-            <h5>完成实名认证</h5>
-            <p>腾讯云企业认证方式参考；按文档完成企业实名认证。</p>
-            <a class="pbtn" href="https://cloud.tencent.com/document/product/378/10496" target="_blank" rel="noopener">查看企业认证方式 ↗</a>
-          </div>
-        </div>
-
-        <div class="pstep">
-          <span class="pn">3</span>
-          <div class="pc">
-            <h5>合作伙伴后台确认关联信息</h5>
-            <p>由零点引擎在合作伙伴后台确认关联信息，此步无需您操作。</p>
-            <button class="pbtn is-passive" type="button" disabled>无需您操作</button>
-          </div>
-        </div>
-
-        <div class="pstep">
-          <span class="pn">4</span>
-          <div class="pc">
-            <h5>点击购买链接，确认企业版账号数量及时长</h5>
-            <p>关联确认后再下单，选好企业版坐席数与购买时长，核对订单。</p>
-            <a class="pbtn primary" href="https://buy.cloud.tencent.com/aipay?operation_type=new_buy" target="_blank" rel="noopener">前往购买页 ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <p class="purchase-note">第 3 步完成后再进行第 4 步；渠道关联规则、版本与价格以腾讯云最新公示及订单页为准。如有疑问请联系您的对接顾问。</p>
-    </div>
-  </div>
-</div>
-
-<button class="to-top" id="toTop" aria-label="返回顶部">↑</button>
-<script src="app.js"></script>
 </body>
 </html>

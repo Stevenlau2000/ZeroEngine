@@ -1,24 +1,27 @@
-# 零点引擎主网站 · GitHub Pages
+# 零点引擎主站（V6 场景联结版）
 
 线上地址：https://stevenlau2000.github.io/ZeroEngine/
 
-## 当前版本
-- **站点版本**：V1.4 · 2026.11.10（含「定位与边界」栏目）
-- **部署包版本**：2026-11-17-v5
-- **部署日期**：2026-11-17
+本仓库承载零点引擎官网线上版本，由 GitHub Pages 从 `main` 分支根路径直接发布（`.nojekyll` 关闭 Jekyll 处理）。
 
-## 说明
-本仓库托管零点引擎主网站静态站点（单页，CSS/JS 全内联，无构建步骤）。
-`index.html` + `assets/` 即完整站点；`.nojekyll` 确保 GitHub Pages 正确处理下划线资源。
+## 当前线上版本
 
-- WorkBuddy 渠道合作入口指向正式介绍站：https://stevenlau2000.github.io/workbuddy-intro/
-- 豆包Work 渠道合作入口指向：https://stevenlau2000.github.io/volcengine-liushi/
-- 千问Work / 纳米Work 入口待更新（占位状态）
+| 项 | 值 |
+|---|---|
+| 版本 | V6 场景联结版 |
+| 形态 | 单页锚点式官网（首屏 / 业务总览 / 数字AI / 物理AI / 融合方案 / 新手体验 / FAQ / 需求清单） |
+| 页面 | `index.html` |
+| 样式 | `style.css`（基础层）+ `v6-refine.css`（精修层） |
+| 交互 | `app.js`（锚点导航、滚动进度、分类筛选、FAQ 展开） |
+| 资源 | `assets/`（等距场景插画、产品萌宠、设备图、流程 SVG、LOGO、favicon） |
 
-## 更新 SOP
-1. 从部署包 `零点引擎主网站_部署包_20261117_V14定位与边界/site/` 取 `index.html` 与 `assets/`；
-2. 通过 GitHub Contents API 或 git push 推送到本仓库 `main` 分支；
-3. 等待 Pages 构建（通常 1-2 分钟），核验线上标题、版本号、外链与图片；
-4. 若变更外链/版本 pill，须同步 `check_site.py` 的白名单与断言后再打包。
+## 部署方式
 
-> 本仓库原托管 WorkBuddy 介绍站；介绍站已于 2026-11-12 迁至 `Stevenlau2000/workbuddy-intro`，本仓库自 2026-11-17 起恢复为主网站用途。
+站点为纯静态，无构建步骤。更新流程：替换 `index.html` / `style.css` / `v6-refine.css` / `app.js` / `assets/` 后推送到 `main`，Pages 自动重新构建。
+
+## 维护约定
+
+- 换版前保留上一版完整目录作为回滚锚点；回滚 = 反向推送上一版文件。
+- `assets/` 内被引用的文件不可随意重命名，`index.html` 使用相对路径引用。
+- 合规声明、免责措辞、「AI 生成示意」图注属合规资产，改版不得删除。
+- 品牌色值以品牌手册 V1.4 为准（品牌黄 `#FFE200` / 引擎黑 `#0B0D10`）。

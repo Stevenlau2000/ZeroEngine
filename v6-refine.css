@@ -1,0 +1,164 @@
+/* ============================================================
+   零点引擎官网 V6 · 场景联结精修层
+   蓝本：主网站 V5 场景联结版（48 项 QA 通过）
+   原则：不推翻品牌 VI，只校准品牌黄、强化信息层级、统一组件、
+        升级"需求→组合→落地"流程签名为品牌记忆点。
+   本文件在 style.css 之后加载，仅覆盖视觉，不改动交互 DOM。
+   ============================================================ */
+
+/* ---------- 1. 品牌色校准：黄色统一到品牌标准 #FFE200 ---------- */
+:root{
+  --yellow:#FFE200;          /* 品牌标准黄（V1.4），替代蓝本 #ffe300 */
+  --gold:#8a6800;            /* 深色文字上的黄，保证对比度 */
+  --brand-dim:#0B0D10;       /* 引擎黑，用于超深色区 */
+  --accent:#FF6908;          /* 辅助橙，极少量强调 */
+}
+
+/* ---------- 2. 全局排版节奏：更克制的字重与留白 ---------- */
+html{scroll-behavior:smooth;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+body{font-feature-settings:"tnum" 1}
+
+/* Kicker 增加一根品牌黄短线，建立跨 section 的一致节奏 */
+.kicker{position:relative;padding-left:20px}
+.kicker::before{content:"";position:absolute;left:0;top:.62em;width:12px;height:2px;background:var(--yellow);border-radius:2px}
+.dark .kicker::before,.footer .kicker::before{background:var(--yellow)}
+.kicker b{color:var(--accent);font-variant-numeric:tabular-nums}
+
+/* ---------- 3. 顶栏与三项业务胶囊：更清晰的状态层次 ---------- */
+.topbar{backdrop-filter:blur(10px)}
+.nav-capsule{transition:background .18s,border-color .18s,transform .18s}
+.nav-capsule:hover{border-color:var(--yellow);transform:translateY(-1px)}
+
+/* ---------- 4. 首屏：强化标题与流程签名，信息层级更聚焦 ---------- */
+.hero h1 em{position:relative;white-space:nowrap}
+.hero h1 em::after{content:"";position:absolute;left:2%;right:2%;bottom:-.08em;height:.12em;background:var(--yellow);opacity:.28;border-radius:2px;z-index:-1}
+.hero .btn.yellow{box-shadow:0 8px 24px rgba(255,226,0,.18)}
+.hero .btn.yellow:hover{box-shadow:0 12px 30px rgba(255,226,0,.28)}
+
+/* 三段流程签名：从"文字条"升级为有编号、有节点的品牌记忆点 */
+.scenario-bridge{padding:18px 18px 22px;background:linear-gradient(180deg,#eef2e5 0%,#e7edda 100%);position:relative}
+.scenario-bridge>span{position:relative;padding-top:26px}
+.scenario-bridge>span::before{
+  content:attr(data-step);
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:20px;height:20px;border-radius:50%;
+  background:var(--green);color:#fff;
+  font-size:10px;font-weight:700;line-height:20px;text-align:center;
+  font-variant-numeric:tabular-nums;
+}
+.scenario-bridge>span:last-of-type::before{background:var(--accent)}
+.scenario-bridge b{font-size:15px;letter-spacing:-.01em}
+.scenario-bridge i{position:relative;top:-9px;color:#94a67f}
+.industry-labels span{transition:background .18s,transform .18s}
+.industry-labels:hover span{transform:translateY(-2px)}
+
+/* ---------- 5. 业务总览三卡：编号更醒目，卡片首图更统一 ---------- */
+.business-index{
+  display:inline-block;letter-spacing:.14em;color:#6f7d5c;
+  font-variant-numeric:tabular-nums;
+}
+.business-card{transition:box-shadow .2s,transform .2s}
+.business-card:hover{box-shadow:0 16px 40px rgba(40,60,30,.1);transform:translateY(-3px)}
+.business-card.fusion-card{border-color:#d8cf9f}
+.business-card-heading>.icon{color:#3c5a2e}
+.business-card>a{transition:color .18s}
+.business-card>a:hover{color:var(--accent)}
+
+/* ---------- 6. 组件统一：availability / disclaimer / details ---------- */
+.availability{font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.availability.pending{border:1px dashed #c9b98a}
+.disclaimer{
+  border-left:2px solid #c2cdb3;padding:2px 0 2px 14px;
+  color:#6c7661;
+}
+
+/* details 折叠面板：统一的展开交互反馈 */
+details.summary,.catalog-details>summary,.brief>summary,.partner-details>summary{
+  cursor:pointer;
+}
+.catalog-details>summary,.brief>summary{transition:color .18s}
+.catalog-details>summary:hover,.brief>summary:hover{color:var(--green)}
+
+/* ---------- 7. 按钮体系：主次层级更分明 ---------- */
+.btn{border-radius:10px;letter-spacing:.01em}
+.btn.text{position:relative}
+.btn.text::after{content:"";position:absolute;left:2px;right:2px;bottom:2px;height:1px;background:currentColor;opacity:.35}
+
+/* ---------- 8. 服务路径 / 融合步骤：真实序列，编号视觉强化 ---------- */
+.service-path ol li>span,.solution-number,.step-owner{
+  font-variant-numeric:tabular-nums;
+}
+.journey li{transition:background .18s,transform .18s}
+.journey li:hover{background:var(--yellow);transform:translateY(-2px)}
+
+/* ---------- 9. FAQ / 联系区：可读性与聚焦 ---------- */
+.faq-list details[open] summary{color:var(--green)}
+.guide-note img{filter:saturate(1.05)}
+
+/* ---------- 10. 页脚：品牌收束 ---------- */
+.footer-motto{color:var(--yellow);letter-spacing:.04em}
+.footer-nav a{transition:color .18s}
+.footer-nav a:hover{color:var(--yellow)}
+
+/* ---------- 11. 焦点可见性（质量底线） ---------- */
+:where(a,button,input,textarea,select,summary,[tabindex]):focus-visible{
+  outline:3px solid var(--accent);outline-offset:2px;border-radius:4px;
+}
+
+/* ---------- 12. 响应式微调（不破坏原断点） ---------- */
+@media(max-width:800px){
+  .scenario-bridge>span{padding-top:24px}
+  .scenario-bridge>span::before{width:18px;height:18px;line-height:18px;font-size:9px}
+  .kicker{padding-left:16px}
+  .kicker::before{width:10px}
+}
+@media(max-width:600px){
+  .hero h1 em::after{height:.09em}
+  .scenario-bridge{gap:4px;padding:16px 12px 18px}
+  .scenario-bridge b{font-size:13px}
+  .scenario-bridge small{font-size:8px}
+  .scenario-bridge i{top:-7px;font-size:13px}
+}
+
+/* ---------- 13. 产品卡萌宠形象（零小剪 / 零小播 / WorkBuddy） ---------- */
+/* 标题与 IP 萌宠同排：标题左对齐，萌宠靠右，不挤压 nowrap 标题 */
+.product-title-row{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;width:100%;margin:10px 0 0;
+}
+.product-title-row h3{margin:0;flex:0 1 auto;min-width:0;overflow:visible}
+.product-mascot{
+  flex:0 0 auto;width:72px;height:72px;object-fit:contain;
+  margin:-6px -6px -6px 0;
+  filter:drop-shadow(0 6px 10px rgba(20,30,15,.14));
+  transition:transform .22s ease;
+}
+.digital-summary:hover .product-mascot{transform:translateY(-3px) scale(1.06)}
+
+/* ---------- 14. 尊重减少动态效果 ---------- */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;transform:none!important}
+}
+
+/* 萌宠响应式：窄屏缩小，避免与标题争抢宽度 */
+@media(max-width:1050px){
+  .product-mascot{width:64px;height:64px}
+}
+@media(max-width:600px){
+  .product-mascot{width:58px;height:58px;margin:-4px -4px -4px 0}
+  .product-title-row h3{font-size:24px}
+}
+
+/* ---------- 14. 豆包Work 正式入口（2026-11-17）---------- */
+/* 替代原 .unavailable「入口更新中」占位，改为可点击的产品与服务链接 */
+.card-entry{
+  display:inline-flex; align-items:center; gap:6px;
+  margin-top:17px; padding:7px 14px;
+  font-size:13px; font-weight:600; color:#231916;
+  background:var(--brand-yellow,#FFE200);
+  border-radius:999px; text-decoration:none;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.card-entry:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(11,13,16,.16)}
+.card-entry:focus-visible{outline:2px solid #231916;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.card-entry{transition:none}}

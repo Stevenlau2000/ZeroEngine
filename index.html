@@ -1,876 +1,234 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+
+<html class="no-js" lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>零点引擎 | 连接 AI 工具，让应用落地</title>
-<meta name="description" content="零点引擎：集团技术底座与数据底座，AI 技术应用输出型、数据驱动型公司。以「带数据、可打通、有 API」为业务归属门槛，连接数字AI × 物理AI，让 AI 融入真实业务场景、让个人数据形成统一视图。">
-<link rel="icon" type="image/png" href="assets/logo-mark.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #080c14;
-  --surface: #111827;
-  --surface2: #1e293b;
-  --surface3: #273449;
-  --text: #e2e8f0;
-  --text2: #94a3b8;
-  --text3: #64748b;
-  --amber: #F59E0B;
-  --amber-dim: #92400E;
-  --cyan: #06B6D4;
-  --green: #10B981;
-  /* ── 零点引擎品牌令牌（海报实测） ── */
-  --ink: #000000;        /* 海报世界 · Hero 专用 */
-  --brand: #FFE300;      /* 品牌黄 · logo/主CTA/眉标/光晕/已上线标签 */
-  --brand-2: #C8B078;    /* 眉标金棕（海报实测） */
-  --hero-title: #F6F4F0; /* Hero 主标题暖白 */
-  --hero-sub: #C0C8C8;   /* Hero 副标题冷灰 */
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body {
-  font-family: 'Inter Tight', -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  overflow-x: hidden;
-  position: relative;
-}
-body::before {
-  content: '';
-  position: fixed; inset:0;
-  background-image:
-    linear-gradient(rgba(245,158,11,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(245,158,11,.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── Topnav ── */
-.topnav { position:sticky; top:0; z-index:10; display:flex; align-items:center; gap:16px; padding:14px 28px; background:rgba(8,12,20,.85); backdrop-filter:blur(12px); border-bottom:1px solid var(--surface2); }
-.topnav .brand { display:inline-flex; align-items:center; height:22px; text-decoration:none; }
-.topnav .brand picture { display:inline-flex; align-items:center; height:100%; }
-.topnav .brand img { height:22px; width:auto; max-width:190px; object-fit:contain; display:block; }
-.topnav .ver { margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--cyan); border:1px solid rgba(6,182,212,.3); padding:3px 10px; border-radius:20px; white-space:nowrap; }
-
-/* ── Nav links (desktop) ── */
-.nav-links { display:flex; align-items:center; gap:2px; margin-left:auto; }
-.nav-links a { font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.4px; color:var(--text2); text-decoration:none; padding:8px 12px; position:relative; transition:color .2s; white-space:nowrap; }
-.nav-links a:hover { color:var(--brand); }
-.nav-links a.active { color:var(--brand); }
-.nav-links a::after { content:''; position:absolute; left:12px; right:12px; bottom:2px; height:2px; background:var(--brand); transform:scaleX(0); transform-origin:left; transition:transform .25s; }
-.nav-links a:hover::after, .nav-links a.active::after { transform:scaleX(1); }
-.nav-links a:focus-visible { outline:2px solid var(--brand); outline-offset:3px; border-radius:4px; }
-.nav-toggle { display:none; }
-.topnav.scrolled { background:rgba(8,12,20,.92); border-bottom-color:rgba(255,227,0,.22); }
-
-/* ── Section banner ── */
-.banner { position:relative; border:1px solid var(--surface2); border-radius:10px; overflow:hidden; margin:0 0 24px; }
-.banner::before { content:''; position:absolute; top:0; left:0; width:100%; height:2px; background:linear-gradient(90deg,transparent,var(--amber-dim),var(--amber),var(--amber-dim),transparent); opacity:.7; z-index:1; }
-.banner img { display:block; width:100%; height:220px; object-fit:cover; }
-
-/* ── 解决方案 · 场景封面（两栏） ── */
-.solcover {
-  display:grid; grid-template-columns:432px 1fr; gap:28px; align-items:center;
-  background:linear-gradient(135deg, var(--surface) 0%, rgba(17,24,39,.4) 100%);
-  border:1px solid var(--surface2); border-radius:10px; padding:24px; margin:0 0 24px;
-}
-.solcover-fig { margin:0; border-radius:8px; overflow:hidden; position:relative; border:1px solid rgba(255,227,0,.22); box-shadow:0 12px 32px rgba(0,0,0,.38); }
-.solcover-fig::after { content:''; position:absolute; inset:0; pointer-events:none; box-shadow:inset 0 0 0 1px rgba(255,227,0,.14); }
-.solcover-fig img { display:block; width:100%; height:auto; }
-.solcover-eyebrow { font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:1.5px; color:var(--brand-2); margin-bottom:10px; }
-.solcover-title { font-family:'Inter Tight','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif; font-size:23px; font-weight:700; color:var(--hero-title); margin:0 0 12px; line-height:1.38; letter-spacing:-.01em; }
-.solcover-text { font-size:14px; color:var(--text2); line-height:1.85; margin:0 0 16px; }
-.solcover-chips { display:flex; flex-wrap:wrap; gap:8px; }
-.solcover-chips span { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.5px; color:var(--brand); border:1px solid rgba(255,227,0,.35); background:rgba(255,227,0,.06); padding:5px 13px; border-radius:20px; }
-@media(max-width:768px){ .solcover { grid-template-columns:1fr; gap:18px; padding:18px; } .solcover-title { font-size:19px; } }
-
-/* ── Card media (device thumbnails) ── */
-.card-media { margin:-24px -24px 16px; border-radius:10px 10px 0 0; overflow:hidden; border-bottom:1px solid var(--surface2); }
-.card-media img { display:block; width:100%; height:150px; object-fit:cover; }
-.card:hover .card-media { box-shadow:inset 0 0 0 1px rgba(255,227,0,.28); }
-/* ── 萌宠形象（透明底 · 完整显示 · 小尺寸） ── */
-.card-media.mascot { display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#0a0f1a 0%,#05080f 100%); }
-.card-media.mascot img { width:auto; height:128px; max-width:74%; object-fit:contain; }
-/* 物理AI 设备实拍图：白底产品照 → 纯白"产品台"舞台（与图内白底无缝），contain 完整呈现（禁 cover 裁切） */
-.card-media.device { display:flex; align-items:center; justify-content:center; background:#fff; }
-.card-media.device img { width:100%; height:170px; object-fit:contain; }
-
-/* ── Footer mini-nav ── */
-.fnav { display:flex; flex-wrap:wrap; gap:6px 16px; justify-content:center; margin:12px 0; }
-.fnav a { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text2); text-decoration:none; letter-spacing:.3px; }
-.fnav a:hover { color:var(--brand); }
-
-/* ── Mobile nav (≤1024px: hamburger + drawer) ── */
-@media(max-width:1024px){
-  .nav-toggle { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; margin-left:auto; background:transparent; border:1px solid var(--surface3); border-radius:8px; cursor:pointer; padding:0; }
-  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after { content:''; display:block; width:18px; height:2px; background:var(--brand); position:relative; transition:transform .25s, background .2s; }
-  .nav-toggle span::before { position:absolute; top:-6px; left:0; }
-  .nav-toggle span::after { position:absolute; top:6px; left:0; }
-  .nav-toggle[aria-expanded="true"] span { background:transparent; }
-  .nav-toggle[aria-expanded="true"] span::before { transform:translateY(6px) rotate(45deg); }
-  .nav-toggle[aria-expanded="true"] span::after { transform:translateY(-6px) rotate(-45deg); }
-  .nav-links { position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; gap:0; margin-left:0; background:rgba(8,12,20,.97); border-bottom:1px solid var(--surface2); padding:6px 0; max-height:0; overflow:hidden; transition:max-height .3s ease; }
-  .nav-links.open { max-height:420px; }
-  .nav-links a { padding:14px 20px; }
-  .nav-links a::after { display:none; }
-  .banner img { height:168px; }
-}
-
-/* ── Hero（分栏 · 海报世界） ── */
-.hero {
-  position: relative;
-  z-index: 1;
-  background: var(--ink);
-  text-align: left;
-  overflow: hidden;
-}
-.hero-inner {
-  max-width:1200px; margin:0 auto;
-  padding:84px 40px 40px;
-  display:grid; grid-template-columns:52% 48%; gap:36px; align-items:center;
-}
-.hero .eyebrow {
-  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:500;
-  letter-spacing:2px; color:var(--brand-2); margin-bottom:20px;
-  animation: heroRise .45s .05s both;
-}
-.hero h1 {
-  font-family:'Inter Tight','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
-  font-size:60px; font-weight:800; line-height:1.12; letter-spacing:-.02em;
-  color:var(--hero-title); margin-bottom:20px;
-}
-.hero h1 span { display:block; }
-.hero h1 .l1 { animation: heroRise .5s .12s both; }
-.hero h1 .l2 { animation: heroRise .5s .22s both; }
-.hero .hero-sub {
-  font-size:19px; color:var(--hero-sub); margin-bottom:30px;
-  animation: heroRise .45s .34s both;
-}
-.hero .cta-group { display:flex; justify-content:flex-start; gap:12px; flex-wrap:wrap; animation: heroRise .45s .44s both; }
-.hero .hero-meta {
-  display:flex; align-items:center; gap:14px; margin-top:28px;
-  font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text3);
-  animation: heroRise .4s .54s both;
-}
-.hero .hero-meta .mv { color:var(--cyan); border:1px solid rgba(6,182,212,.3); padding:2px 9px; border-radius:20px; }
-.hero-visual { position:relative; display:flex; align-items:center; justify-content:center; min-height:460px; }
-.hero-visual img {
-  position:relative; z-index:1; display:block; width:auto; height:auto;
-  max-width:100%; max-height:560px;
-  animation: heroFade .7s .18s both;
-}
-.hero-visual::before {
-  content:''; position:absolute; left:50%; top:50%; width:82%; aspect-ratio:1/1;
-  transform:translate(-50%,-50%); z-index:0;
-  background:radial-gradient(circle, rgba(255,227,0,.13) 0%, rgba(255,227,0,.045) 42%, rgba(255,227,0,0) 70%);
-  animation: heroBreathe 9s 1.6s ease-in-out infinite;
-}
-.hero-visual::after {
-  content:''; position:absolute; inset:6% 2%; z-index:2; pointer-events:none;
-  background:linear-gradient(112deg, rgba(255,227,0,0) 44%, rgba(255,227,0,.30) 50%, rgba(255,227,0,0) 56%);
-  animation: heroArc 1.1s .7s ease-out both;
-}
-.hero-fade { height:140px; background:linear-gradient(180deg, #000000 0%, #080c14 100%); }
-@keyframes heroRise { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-@keyframes heroFade { from { opacity:0; transform:translateY(10px) scale(.985); } to { opacity:1; transform:none; } }
-@keyframes heroBreathe { 0%,100% { opacity:.5; transform:translate(-50%,-50%) scale(.94); } 50% { opacity:1; transform:translate(-50%,-50%) scale(1.06); } }
-@keyframes heroArc { 0% { opacity:0; transform:translateX(-55%); } 22% { opacity:1; } 100% { opacity:0; transform:translateX(55%); } }
-
-.cta-group { display:flex; gap:12px; flex-wrap:wrap; }
-.cta {
-  display:inline-flex; align-items:center; gap:8px;
-  padding:12px 28px; border-radius:8px; font-weight:600; font-size:14px;
-  text-decoration:none; transition:all .25s; position:relative;
-}
-.cta.primary { background:var(--brand); color:#000; box-shadow:0 4px 18px rgba(255,227,0,.22); }
-.cta.primary:hover { transform:translateY(-2px); box-shadow:0 8px 26px rgba(255,227,0,.32); }
-.cta.secondary { background:transparent; color:var(--brand); border:1px solid rgba(255,227,0,.55); }
-.cta.secondary:hover { background:rgba(255,227,0,.08); transform:translateY(-2px); }
-
-/* ── Sections ── */
-.section { position:relative; z-index:1; max-width:1080px; margin:48px auto; padding:0 24px; scroll-margin-top:72px; }
-.section.wide { max-width:1100px; padding:0 20px; }
-.section > h2 { font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:600; color:var(--cyan); text-transform:uppercase; letter-spacing:1px; margin-bottom:18px; padding-bottom:10px; border-bottom:1px solid var(--surface2); }
-.section > h2 .num { color:var(--amber); margin-right:8px; }
-.intro { color:var(--text2); font-size:14px; max-width:820px; margin-bottom:24px; }
-.subhead { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600; color:var(--text2); letter-spacing:.5px; margin:28px 0 14px; display:flex; align-items:center; gap:8px; }
-.subhead::before { content:'▸'; color:var(--cyan); font-size:11px; }
-.subhead:first-of-type { margin-top:0; }
-
-/* ── Cards Grid ── */
-.cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:16px; }
-.section .cards { margin:0; }
-.cards.cols2 { grid-template-columns:repeat(2, 1fr); }
-.cards.cols4 { grid-template-columns:repeat(4, 1fr); }
-.card {
-  background: linear-gradient(135deg, var(--surface) 0%, rgba(17,24,39,.4) 100%);
-  border: 1px solid var(--surface2);
-  border-radius: 10px; padding: 24px; transition: all .25s; position:relative; overflow:hidden;
-}
-.card::before {
-  content:''; position:absolute; top:0; left:0; width:100%; height:2px;
-  background:linear-gradient(90deg, transparent, var(--amber-dim), var(--amber), var(--amber-dim), transparent);
-  opacity:0; transition:opacity .3s;
-}
-.card:hover { border-color:rgba(245,158,11,.2); box-shadow:0 0 24px rgba(245,158,11,.06); transform:translateY(-2px); }
-.card:hover::before { opacity:1; }
-.card h3 { font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--amber); margin-bottom:8px; letter-spacing:-.2px; }
-.card p { font-size:13px; color:var(--text3); line-height:1.7; }
-.card .tag {
-  display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.5px;
-  padding:3px 10px; border-radius:20px; border:1px solid var(--surface3);
-  color:var(--text3); margin-bottom:10px;
-}
-.card .tag.live { color:var(--brand); border-color:rgba(255,227,0,.4); background:rgba(255,227,0,.07); }
-.card .tag.agent { color:var(--cyan); border-color:rgba(6,182,212,.3); }
-.card .tag.planned { color:var(--text3); border-style:dashed; border-color:var(--surface3); }
-.card .tag.device { color:var(--green); border-color:rgba(16,185,129,.35); }
-.card .pending { color:var(--text3); border-bottom:1px dashed var(--surface3); }
-.card .link {
-  display:inline-flex; align-items:center; gap:4px; margin-top:14px;
-  color:var(--cyan); text-decoration:none; font-size:12px; font-weight:600; transition:gap .2s;
-}
-.card:hover .link { gap:8px; }
-.card .link.soon { color:var(--text3); cursor:default; }
-.card .link.stack { display:flex; width:fit-content; margin-top:8px; }
-.card .step { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--cyan); letter-spacing:1px; margin-bottom:8px; }
-.card .flow { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--cyan); letter-spacing:.2px; margin-top:10px; line-height:1.9; }
-.card.planned { border-style:dashed; border-color:var(--surface3); opacity:.72; filter:saturate(.5); }
-.card.planned:hover { opacity:1; filter:none; border-color:var(--surface3); box-shadow:none; transform:none; }
-.card.planned:hover::before { opacity:0; }
-.card.planned h3 { color:var(--text2); }
-.card.soon { border:1px dashed var(--brand); background:linear-gradient(135deg, rgba(255,227,0,.045) 0%, rgba(17,24,39,.4) 100%); }
-.card.soon:hover { border-color:var(--brand); box-shadow:none; transform:none; }
-.card.soon:hover::before { opacity:0; }
-.card.soon .tag { color:var(--brand); border:1px dashed rgba(255,227,0,.4); }
-
-/* ── 业务架构 · 双轮交叠（内联 SVG） ── */
-.capline { display:flex; flex-wrap:wrap; gap:8px; margin:-8px 0 22px; }
-.capline span {
-  font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text3);
-  padding:5px 13px; border:1px solid var(--surface3); border-radius:20px;
-}
-.wheels-wrap { position:relative; display:flex; justify-content:center; margin-bottom:26px; }
-.wheels { width:100%; max-width:560px; height:auto; display:block; }
-.wheels .wheel-stroke { stroke-dasharray:100; stroke-dashoffset:100; animation:wheelDraw 1.5s ease-out forwards; }
-.wheels .wheel-stroke.b { animation-delay:.22s; }
-.wheels .wl { font-family:'JetBrains Mono',monospace; }
-.wheels .wl-role { font-size:20px; font-weight:700; fill:var(--brand); }
-.wheels .wl-role2 { font-size:20px; font-weight:700; fill:var(--brand-2); }
-.wheels .wl-sub { font-size:12px; fill:var(--text2); }
-.wheels .wl-core { font-size:19px; font-weight:700; fill:#0d1016; }
-.wheels .wl-core-sub { font-size:11.5px; fill:#33301f; }
-.wheels-mobile { display:none; }
-@keyframes wheelDraw { to { stroke-dashoffset:0; } }
-.wheel-notes { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-.wheel-note {
-  background:linear-gradient(135deg, var(--surface) 0%, rgba(17,24,39,.4) 100%);
-  border:1px solid var(--surface2); border-radius:10px; padding:20px 22px;
-}
-.wheel-note .wn-name { font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:700; color:var(--brand); margin-bottom:3px; }
-.wheel-note .wn-name.alt { color:var(--brand-2); }
-.wheel-note .wn-role { display:block; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--cyan); letter-spacing:.5px; margin-bottom:9px; }
-.wheel-note p { font-size:13px; color:var(--text3); line-height:1.7; }
-
-/* ── Table ── */
-.ptable { width:100%; border-collapse:collapse; margin:16px 0; font-size:13px; }
-.ptable th { background:var(--surface3); color:var(--text); text-align:left; padding:9px 12px; font-family:'JetBrains Mono',monospace; font-weight:600; border:1px solid var(--surface2); }
-.ptable td { padding:9px 12px; border:1px solid var(--surface2); color:var(--text2); vertical-align:top; }
-.ptable tr:nth-child(even) td { background:rgba(30,41,59,.4); }
-.ptable code { font-family:'JetBrains Mono',monospace; color:var(--amber); background:rgba(245,158,11,.08); padding:1px 6px; border-radius:3px; font-size:12px; }
-.note { color:var(--text3); font-size:12px; margin-top:14px; line-height:1.8; }
-.note strong { color:var(--text2); font-weight:600; }
-
-/* ── CTA ── */
-.cta-split { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:center; }
-.cta-panel {
-  position:relative; text-align:left;
-  background:linear-gradient(135deg,var(--surface) 0%,rgba(17,24,39,.4) 100%);
-  border:1px solid var(--surface2); border-radius:10px; padding:48px 32px; overflow:hidden;
-}
-.cta-panel::before { content:''; position:absolute; top:0; left:0; width:100%; height:2px; background:linear-gradient(90deg,transparent,var(--amber-dim),var(--amber),var(--amber-dim),transparent); opacity:.7; }
-.cta-panel .big { font-family:'JetBrains Mono',monospace; font-size:22px; font-weight:700; color:var(--brand); letter-spacing:-.5px; margin-bottom:12px; line-height:1.45; }
-.cta-panel .sub { font-size:14px; color:var(--text2); max-width:520px; }
-.cta-panel .note { margin-top:18px; }
-.poster-frame { border:1px solid var(--surface2); border-radius:10px; padding:10px; background:rgba(8,12,20,.55); }
-.poster-frame img { display:block; width:100%; height:auto; border-radius:6px; background:#000; }
-.poster-cap { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text3); margin-top:10px; text-align:center; letter-spacing:.3px; }
-
-/* ── Footer ── */
-.footer {
-  position:relative; z-index:1; text-align:center; padding:40px;
-  color:var(--text3); font-size:12px; border-top:1px solid var(--surface2);
-}
-.footer .fbrand { display:inline-flex; align-items:center; gap:10px; margin-bottom:10px; }
-.footer .fbrand img { height:32px; width:auto; display:block; }
-.footer .fbrand span { font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text); font-weight:600; }
-.footer .motto { font-family:'JetBrains Mono',monospace; color:var(--text2); margin-top:6px; letter-spacing:.5px; }
-.footer .fnote { margin-top:10px; }
-
-/* ── 公司 IP 形象「零零」（AI 生成概念稿）：纯装饰点缀，不承载文案与承诺 ──
-   版式纪律：object-fit:contain（禁 cover）、width:auto + max-width:none、尺寸走流式布局（禁绝对定位）。 */
-.ip-mark { width:auto; height:auto; max-width:none; object-fit:contain; display:block; opacity:.72; }
-.hero .hero-meta .ip-mark { height:30px; margin-left:2px; }
-.footer .ip-foot { height:30px; margin:16px auto 0; opacity:.5; }
-@media(max-width:768px){ .hero .hero-meta .ip-mark { height:24px; } .footer .ip-foot { height:24px; } }
-
-/* ── Reveal (JS 增强，无 JS 时内容完整可见) ── */
-.js .reveal { opacity:0; transform:translateY(10px); }
-.js .reveal.in { opacity:1; transform:none; transition:opacity .5s ease, transform .5s ease; }
-
-/* ── Responsive ── */
-@media(max-width:768px){
-  .hero-inner { grid-template-columns:1fr; padding:56px 20px 24px; gap:22px; }
-  .hero h1 { font-size:40px; }
-  .hero .hero-sub { font-size:16px; margin-bottom:24px; }
-  .hero-visual { min-height:0; }
-  .hero-visual img { max-width:100%; max-height:420px; }
-  .hero-fade { height:120px; }
-  .topnav { padding:12px 16px; }
-  /* 移动端：品牌标识切 logo-mark（黄色标记），保证竖立形态可读并与导航垂直居中 */
-  .topnav .brand { height:28px; }
-  .topnav .brand img { height:28px; width:auto; max-width:32px; object-fit:contain; }
-  .section { padding:0 16px; }
-  .section.wide { padding:0 16px; }
-  .cards.cols2 { grid-template-columns:1fr; }
-  .cards.cols4 { grid-template-columns:repeat(2,1fr); }
-  .wheel-notes { grid-template-columns:1fr; }
-  .wheels-desktop { display:none; }
-  .wheels-mobile { display:block; max-width:320px; }
-  .cta-split { grid-template-columns:1fr; }
-  .cta-panel { padding:34px 20px; }
-  .cta-panel .big { font-size:17px; }
-}
-@media(max-width:520px){
-  .cards.cols4 { grid-template-columns:1fr; }
-  .hero h1 { font-size:32px; }
-  .hero .eyebrow { font-size:12px; letter-spacing:1px; }
-  .hero .hero-meta { flex-wrap:wrap; gap:10px; }
-}
-
-/* ── Hero 编排入场收尾兜底（JS 加 .hero-done；不干扰常驻呼吸光晕） ── */
-html.hero-done .hero .eyebrow, html.hero-done .hero h1 .l1, html.hero-done .hero h1 .l2,
-html.hero-done .hero .hero-sub, html.hero-done .hero .cta-group,
-html.hero-done .hero .hero-meta, html.hero-done .hero-visual img { animation:none !important; opacity:1 !important; transform:none !important; }
-html.hero-done .hero-visual::after { animation:none !important; opacity:0 !important; }
-
-/* ── 动效降级：prefers-reduced-motion ── */
-@media (prefers-reduced-motion: reduce){
-  html { scroll-behavior: auto; }
-  /* ↓ 全站 transition 复位：覆盖 .reveal 淡入、卡片悬停、CTA 与链接过渡 */
-  *, *::before, *::after{
-    transition-duration:.001ms !important;
-    transition-delay:0s !important;
-  }
-  .js .reveal { opacity:1; transform:none; }
-  /* ↓ Hero 编排入场（heroRise / heroFade）：直接呈现终态 */
-  .hero .eyebrow,
-  .hero h1 .l1,
-  .hero h1 .l2,
-  .hero .hero-sub,
-  .hero .cta-group,
-  .hero .hero-meta,
-  .hero-visual img { animation: none !important; opacity:1 !important; transform:none !important; }
-  /* ↓ Hero 金色光弧（heroArc）：不再扫过 */
-  .hero-visual::after { animation: none !important; opacity:0 !important; }
-  /* ↓ Hero 呼吸光晕（heroBreathe）：保留静态光晕，取消循环 */
-  .hero-visual::before { animation: none !important; opacity:.55 !important; }
-  /* ↓ 双轮图描边绘制（wheelDraw）：直接呈现完整描边 */
-  .wheels .wheel-stroke { animation: none !important; stroke-dashoffset:0 !important; }
-}
-</style>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>零点引擎｜让 AI，用对地方。</title>
+<meta content="联结数字 AI 与物理 AI，回应千行百业的真实需求。零点引擎从客户场景出发，组织 AI 产品选型、能力组合与方案落地。" name="description"/>
+<meta content="#171c19" name="theme-color"/>
+<meta content="零点引擎｜让 AI，用对地方。" property="og:title"/>
+<meta content="联结数字 AI 与物理 AI，回应千行百业的真实需求。" property="og:description"/>
+<meta content="website" property="og:type"/>
+<link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="style.css" rel="stylesheet"/>
+<link href="v6-refine.css" rel="stylesheet"/>
 </head>
-<body>
-
-<header class="topnav" id="topnav">
-  <a class="brand" href="#top" aria-label="零点引擎 回到顶部"><picture><source media="(max-width: 768px)" srcset="assets/logo-mark.png"><img src="assets/logo-lockup.png" width="467" height="150" alt="零点引擎 ZERO ENGINE" loading="eager"></picture></a>
-  <nav class="nav-links" id="navLinks" aria-label="栏目导航">
-    <a href="#boundary">定位与边界</a>
-    <a href="#architecture">业务架构</a>
-    <a href="#value">客户价值</a>
-    <a href="#products">产品矩阵</a>
-    <a href="#solutions">解决方案</a>
-    <a href="#governance">治理分润</a>
-    <a href="#partnership">合作方式</a>
-    <a href="#links">链接矩阵</a>
-    <a href="#contact">联系我们</a>
-  </nav>
-  <button class="nav-toggle" id="navToggle" aria-label="打开导航菜单" aria-expanded="false" aria-controls="navLinks"><span></span></button>
-  <span class="ver">V1.4 · 2026.11.10</span>
+<body id="top">
+<svg aria-hidden="true" style="display:none" xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="i-arrow" viewbox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"></path></symbol>
+<symbol id="i-check" viewbox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></symbol>
+<symbol id="i-edit" viewbox="0 0 24 24"><path d="m14 4 6 6M4 20l5-1L21 7a2 2 0 0 0-6-6L3 13l-1 7Z" transform="translate(1 1) scale(.9)"></path><path d="M13 20h8"></path></symbol>
+<symbol id="i-video" viewbox="0 0 24 24"><rect height="16" rx="3" width="18" x="3" y="4"></rect><path d="m10 8 6 4-6 4Z"></path></symbol>
+<symbol id="i-live" viewbox="0 0 24 24"><rect height="12" rx="4" width="8" x="8" y="3"></rect><path d="M5 10a7 7 0 0 0 14 0M12 17v4m-4 0h8"></path></symbol>
+<symbol id="i-copy" viewbox="0 0 24 24"><rect height="13" rx="2" width="12" x="8" y="8"></rect><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"></path></symbol>
+<symbol id="i-info" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6m0-10v.5"></path></symbol>
+<symbol id="i-menu" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></symbol>
+<symbol id="i-external" viewbox="0 0 24 24"><path d="M13 4h7v7m0-7L9 15m0-11H4v16h16v-5"></path></symbol>
+<symbol id="i-book" viewbox="0 0 24 24"><path d="M12 5v16M12 6C8 3 5 3 2 4v15c3-1 6-1 10 2 4-3 7-3 10-2V4c-3-1-6-1-10 2Z"></path></symbol>
+<symbol id="i-shield" viewbox="0 0 24 24"><path d="m12 2 8 4v6c0 5-8 10-8 10S4 17 4 12V6Z"></path><path d="m8 11 3 3 5-5"></path></symbol>
+<symbol id="i-chat" viewbox="0 0 24 24"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 3v-3H3V6a2 2 0 0 1 2-2Z"></path><path d="M7 9h10M7 13h6"></path></symbol>
+<symbol id="i-pulse" viewbox="0 0 24 24"><path d="M2 12h5l3-8 4 16 3-8h5"></path></symbol>
+<symbol id="i-flow" viewbox="0 0 24 24"><rect height="5" rx="1" width="8" x="8" y="2"></rect><rect height="5" rx="1" width="7" x="2" y="17"></rect><rect height="5" rx="1" width="7" x="15" y="17"></rect><path d="M12 7v5M5 17v-5h14v5"></path></symbol>
+<symbol id="i-grid" viewbox="0 0 24 24"><rect height="7" rx="2" width="7" x="3" y="3"></rect><rect height="7" rx="2" width="7" x="14" y="3"></rect><rect height="7" rx="2" width="7" x="3" y="14"></rect><rect height="7" rx="2" width="7" x="14" y="14"></rect></symbol>
+<symbol id="i-scope" viewbox="0 0 24 24"><path d="M4 3v6a5 5 0 0 0 10 0V3M4 3h2m6 0h2M9 14v3a4 4 0 0 0 8 0v-3"></path><circle cx="17" cy="11" r="3"></circle></symbol>
+<symbol id="i-ultrasound" viewbox="0 0 24 24"><path d="m8 3 8 2-3 9-8-2ZM9 14c-2 6 8 10 10 3M2 17l3-2m-1 6 3-3"></path></symbol>
+</defs></svg>
+<a class="skip" href="#main">跳到主要内容</a>
+<header class="topbar dark">
+<div class="wrap top-inner">
+<a aria-label="零点引擎，返回首页" class="logo" href="#top"><img alt="零点引擎 ZERO ENGINE" height="45" src="assets/logo-reverse.svg" width="150"/></a>
+<button aria-controls="navigation" aria-expanded="false" aria-label="打开导航菜单" class="menu-toggle js-only" id="menuToggle"><svg aria-hidden="true" class="icon"><use href="#i-menu"></use></svg></button>
+<nav aria-label="网站导航" class="nav-links" id="navigation"><a href="#business-overview">业务总览</a><a href="#start">新手体验</a><a href="#faq">常见问题</a><a href="#partner-info">合作资料</a></nav>
+<a class="btn yellow header-cta" data-brief-type="尚未确定" href="#contact">整理我的需求</a>
+</div>
+<div class="category-bar"><div class="wrap category-inner"><span class="category-label">三项核心业务</span><nav aria-label="三项核心业务导航" class="category-nav business-capsules" id="categoryNav"><a class="nav-capsule" href="#digital-ai"><svg aria-hidden="true" class="icon"><use href="#i-grid"></use></svg>数字 AI</a><a class="nav-capsule" href="#physical-ai"><svg aria-hidden="true" class="icon"><use href="#i-pulse"></use></svg>物理 AI</a><a class="nav-capsule" href="#solutions"><svg aria-hidden="true" class="icon"><use href="#i-flow"></use></svg>融合解决方案</a></nav></div></div>
+<div aria-hidden="true" class="reading-progress" id="readingProgress"></div>
 </header>
-
-<!-- ── 01 · Hero（分栏 · 海报 3D 视觉） ── -->
-<section class="hero" id="top">
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <div class="eyebrow">技术底座 · 数据底座</div>
-      <h1><span class="l1">连接 AI 工具</span><span class="l2">让应用落地</span></h1>
-      <p class="hero-sub">让 AI 融入真实业务场景，让数据可打通、可沉淀</p>
-      <div class="cta-group">
-        <a class="cta primary" href="#products">进入产品矩阵</a>
-        <a class="cta secondary" href="#contact">联系我们</a>
-      </div>
-      <div class="hero-meta">
-        <span>集团技术底座 / 数据底座</span>
-        <span class="mv">V1.4 · 2026.11.10</span>
-        <img class="ip-mark" src="assets/mascot-lingling.webp" width="22" height="30" alt="零零 · 科技小麒麟角色形象（AI 生成概念稿）" loading="lazy" decoding="async">
-      </div>
-    </div>
-    <div class="hero-visual">
-      <img src="assets/hero-visual.webp?v=20261029" width="1073" height="1245" alt="零点引擎品牌主视觉：金色光网玻璃球核，与播放、对话、协作三块玻璃面板以光带相连" loading="eager" fetchpriority="high">
-    </div>
-  </div>
-  <div class="hero-fade" aria-hidden="true"></div>
-</section>
-
-<main>
-
-<!-- ── 02A · 定位与边界（2026-11-10 会议口径新增） ── -->
-<div class="section" id="boundary">
-  <h2><span class="num">//</span> 定位与边界</h2>
-  <p class="intro">零点引擎是集团的技术底座、数据底座：AI 技术应用输出型、数据驱动型公司。核心不是把商品卖出去，而是把设备与系统产生的数据接进来、打通、沉淀，形成统一数据视图、场景解决方案与数据赋能能力。</p>
-  <p class="capline"><span>面向个人 / OPC</span><span>代表小 B</span><span>带数据 · 可打通 · 有 API</span><span>不做物理销售</span></p>
-
-  <div class="cards cols2">
-    <div class="card soon">
-      <span class="tag">业务归属判定</span>
-      <h3>以「数据 + API」为门槛</h3>
-      <p>凡涉及数据、需要 API 接口与系统打通的数字AI、物理AI、硬件、软件与系统，归零点引擎；与系统、数据无关的延伸产品不放入。物理设备只是载体，核心是智能系统、接口、数据与后续运营。</p>
-      <div class="flow">带数据 → 有系统 → 有 API → 可打通 → 可运营 → 归零点引擎</div>
-    </div>
-    <div class="card">
-      <span class="tag agent">客户与角色</span>
-      <h3>面向个人 / OPC，代表小 B</h3>
-      <p>核心客户是个人与一人公司（OPC），围绕个人数据构建，而非泛泛做企业数据。平台站在客户角度整合智能体、工具与供应链，先帮客户省钱或挣钱，再谈自身收益；不做两个 B 之间的信息中介。</p>
-      <div class="flow">代表小 B → 整合资源 → 客户先受益 → 建立信任</div>
-    </div>
-  </div>
-
-  <h3 class="subhead" style="margin-top:28px">归属示例</h3>
-  <table class="ptable">
-    <thead><tr><th>业务 / 载体</th><th>数据 + API</th><th>归属</th></tr></thead>
-    <tbody>
-      <tr><td>心脏健康档案、数据集与检测系统</td><td><code>是</code></td><td>零点引擎；硬件由供应商直接供应</td></tr>
-      <tr><td>物理 AI 终端（可穿戴设备等）</td><td><code>是</code></td><td>零点引擎（数据接入与运营）</td></tr>
-      <tr><td>数字 AI 智能体、算力与 token 通道</td><td><code>是</code></td><td>零点引擎</td></tr>
-      <tr><td>智能家居系统</td><td><code>是</code></td><td>零点引擎，与个人健康数据关联</td></tr>
-      <tr><td>健康延伸商品、家庭采买与选品</td><td><code>否</code></td><td>供应链 / 壹点好物体系</td></tr>
-      <tr><td>GEO 与内容服务</td><td>视形态</td><td>归属待定，按场景确定</td></tr>
-    </tbody>
-  </table>
-  <p class="note"><strong>说明：</strong>归属以「是否带数据、能否通过 API 与系统打通」判定，与产品放在哪个界面展示无关；边界确定后不再随项目摇摆。表中「待定」项不作为已开展业务的承诺。</p>
-
-  <h3 class="subhead">职责切分</h3>
-  <table class="ptable">
-    <thead><tr><th>角色</th><th>职责</th></tr></thead>
-    <tbody>
-      <tr><td>零点引擎</td><td>数据接入、打通与沉淀，统一数据视图、场景解决方案与数据运营；选品与商务、供应商管理</td></tr>
-      <tr><td>供应商</td><td>售前与售后、硬件直接供应、部署培训与技术支持、库存与发货</td></tr>
-      <tr><td>供应链 / 壹点好物</td><td>采买供应、客服体系与物理销售</td></tr>
-      <tr><td>平台协调</td><td>服务协调与跟踪，不重复建设售前售后体系</td></tr>
-    </tbody>
-  </table>
-
-  <h3 class="subhead">两类打通</h3>
-  <div class="cards cols2">
-    <div class="card">
-      <h3>算力 / token 支付打通</h3>
-      <p>不同智能体消耗的算力与 token 不同，需统一计费与充值通道，形成可查询的使用视图。</p>
-      <div class="flow">智能体使用 → 统一计量 → 充值与结算</div>
-    </div>
-    <div class="card">
-      <h3>数据打通</h3>
-      <p>拓客、维客、AI 直播等智能体与设备数据可查、可打通，用户使用多个能力后在平台侧形成统一数据视图；有数据之后，才按场景形成解决方案。</p>
-      <div class="flow">多源采集 → 统一视图 → 场景方案</div>
-    </div>
-  </div>
-  <p class="note"><strong>说明：</strong>「个人数据大管家」属于长期方向设想，需逐步试点，不代表已上线能力；数据仅在合作方授权与必要同意范围内采集，遵循最小化采集留存与独立权限管理。本板块为业务边界对齐口径，不构成对外交付承诺，具体合作以双方确认的方案为准。</p>
+<noscript><div class="no-js-notice">当前浏览器未启用 JavaScript。你仍可阅读全部介绍、示例与合作说明；指令定制和复制功能需要启用 JavaScript。</div></noscript>
+<main id="main">
+<section aria-labelledby="hero-title" class="hero business-hero dark scenario-hero"><div class="wrap hero-grid">
+<div class="hero-copy"><div class="eyebrow">零点引擎 · AI 与应用场景的联结者</div><h1 id="hero-title">让 AI，<br/><em>用对地方。</em></h1><p class="hero-lead">联结数字 AI 与物理 AI，<br/>回应千行百业的真实需求。</p><p class="hero-description">从你的业务需求出发，选择合适的 AI 工具与设备，组合成适用于具体场景的产品和解决方案。</p><div class="btn-row"><a class="btn yellow" data-brief-type="尚未确定" href="#contact">从我的场景开始 <svg aria-hidden="true" class="icon"><use href="#i-arrow"></use></svg></a><a class="btn text" href="#business-overview">了解产品与方案 <span aria-hidden="true">↗</span></a></div><p class="hero-micro">刚接触 AI？<a href="#start">先体验一个熟悉的工作任务</a>。</p></div>
+<div class="hero-picture-panel scenario-panel"><div class="scenario-panel-head"><span>让不同的 AI，回应不同的需求</span><small>应用方向示意</small></div><figure class="visual-figure hero-art scenario-art"><button aria-label="放大查看：以客户需求为中心联结多种行业场景的 AI 应用概念图" class="image-open" data-zoom="" type="button"><img alt="以客户需求为中心，将数字 AI 与物理 AI 用于零售餐饮、生产制造、健康服务、企业办公、教育培训和酒店服务的概念场景图" decoding="async" fetchpriority="high" height="960" loading="eager" src="assets/hero-ai-scenarios.webp" width="1440"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成场景示意 · 非已交付客户案例；各行业的具体适用能力需另行评估。</figcaption></figure><div aria-label="图示中的六类应用场景" class="industry-labels"><span>零售餐饮</span><span>生产制造</span><span>健康服务</span><span>企业办公</span><span>教育培训</span><span>酒店服务</span></div><div aria-label="从需求到落地" class="scenario-bridge"><span data-step="01"><b>理解需求</b><small>先看客户与场景</small></span><i aria-hidden="true">→</i><span data-step="02"><b>组合 AI</b><small>数字 AI · 物理 AI</small></span><i aria-hidden="true">→</i><span data-step="03"><b>落地应用</b><small>按项目明确交付</small></span></div></div>
+</div><div class="wrap hero-foot scenario-foot"><span><b>数字 AI</b> 工具与智能体</span><span><b>物理 AI</b> 智能设备与应用</span><span><b>融合解决方案</b> 围绕场景组合交付</span></div></section>
+<section aria-labelledby="business-title" class="section business-overview" id="business-overview"><div class="wrap"><div class="section-head"><div><span class="kicker">我们做什么</span><h2 id="business-title">三项业务，按你的需要选择。</h2><p>线上工作找工具，线下服务选设备，多个环节一起做就看融合方案。</p></div></div><div class="business-grid">
+<article class="business-card"><figure class="visual-figure business-card-visual"><button aria-label="放大查看：经营者在电脑前整理工作资料" class="image-open" data-zoom="" type="button"><img alt="经营者在电脑前整理工作资料" decoding="async" height="432" loading="lazy" src="assets/scene-work.webp" width="768"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成场景示意</figcaption></figure><span class="business-index">01 / DIGITAL AI</span><div class="business-card-heading"><svg aria-hidden="true" class="icon"><use href="#i-grid"></use></svg><h3>数字 AI</h3></div><p class="business-value">用软件工具和智能体，<br/>完成具体的线上工作。</p><dl><dt>业务内容</dt><dd>自研垂类产品 + 代理通用智能体</dd><dt>产品举例</dt><dd>零小剪、零小播、WorkBuddy</dd><dt>适合需求</dt><dd>内容制作、直播准备、日常办公</dd></dl><a href="#digital-ai">了解数字 AI <span aria-hidden="true">→</span></a></article>
+<article class="business-card"><figure class="visual-figure business-card-visual"><button aria-label="放大查看：心电仪、数字听诊器和掌上超声的设备参考图拼版" class="image-open" data-zoom="" type="button"><img alt="心电仪、数字听诊器和掌上超声的设备参考图拼版" decoding="async" height="675" loading="lazy" src="assets/device-family.webp" width="1200"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>既有资料设备参考图 · 型号待核</figcaption></figure><span class="business-index">02 / PHYSICAL AI</span><div class="business-card-heading"><svg aria-hidden="true" class="icon"><use href="#i-pulse"></use></svg><h3>物理 AI</h3></div><p class="business-value">用智能设备，<br/>支持合适的线下服务场景。</p><dl><dt>业务内容</dt><dd>大健康设备选型与场景配置</dd><dt>设备举例</dt><dd>AI 心电仪、数字听诊器、掌上超声</dd><dt>适合需求</dt><dd>符合资质要求的机构设备配置</dd></dl><a href="#physical-ai">了解物理 AI <span aria-hidden="true">→</span></a></article>
+<article class="business-card fusion-card"><figure class="visual-figure business-card-visual"><button aria-label="放大查看：内容工作、咨询与现场服务衔接的空间场景" class="image-open" data-zoom="" type="button"><img alt="内容工作、咨询与现场服务衔接的空间场景" decoding="async" height="788" loading="lazy" src="assets/scene-fusion.webp" width="1400"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成场景示意</figcaption></figure><span class="business-index">03 / SOLUTIONS</span><div class="business-card-heading"><svg aria-hidden="true" class="icon"><use href="#i-flow"></use></svg><h3>融合解决方案</h3></div><p class="business-value">按业务流程，<br/>把软件、设备和服务组织起来。</p><dl><dt>业务内容</dt><dd>场景规划、能力组合与交付协调</dd><dt>方案举例</dt><dd>内容触达与机构现场服务的衔接</dd><dt>适合需求</dt><dd>多个环节需要一起规划与实施</dd></dl><a href="#solutions">了解融合方案 <span aria-hidden="true">→</span></a></article>
+</div><p class="business-note"><strong>可以分开选，也可以组合。</strong> 数字 AI 和物理 AI 是两类产品能力，解决方案是独立业务线。具体采用哪些能力，由你的任务、预算与资质要求决定。</p></div></section><section aria-labelledby="digital-title" class="section digital-business" id="digital-ai"><div class="wrap"><div class="section-head"><div><span class="kicker"><b>01 /</b> 数字 AI</span><h2 id="digital-title">把 AI 用在内容制作和日常工作里。</h2><p>自研产品围绕具体任务打磨，通用智能体按功能、成本与授权选型。先选一个需要完成的工作，再决定用什么工具。</p></div><span aria-hidden="true" class="business-section-icon"><svg class="icon"><use href="#i-grid"></use></svg></span></div><div class="digital-supply"><span><b>自研产品</b> 零小剪 · 零小播</span><span><b>代理产品方向</b> WorkBuddy 等通用智能体</span></div><div class="digital-summary-grid">
+<article class="digital-summary"><figure class="visual-figure product-picture"><button aria-label="放大查看：内容创作者剪辑商品视频的场景" class="image-open" data-zoom="" type="button"><img alt="内容创作者剪辑商品视频的场景" decoding="async" height="432" loading="lazy" src="assets/scene-video.webp" width="768"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成场景 · 非产品真实界面</figcaption></figure><svg aria-hidden="true" class="icon"><use href="#i-video"></use></svg><span class="availability">自研产品 · 内容制作</span><div class="product-title-row"><h3>零小剪</h3><img class="product-mascot" src="assets/mascot-lingxiaojian.webp" alt="零小剪萌宠形象：手持剪辑板的黑金猫咪" width="72" height="72" loading="lazy"/></div><p>围绕有授权的图片与经营素材，开展视频内容制作、修改和审核。</p><a class="btn small" href="https://www.workbuddy.link/p/zP1LRO9ve0CS4b6qkHkCZz" rel="noopener noreferrer" target="_blank">查看产品介绍 <span aria-hidden="true">↗</span><span class="sr-only">，在新标签页打开</span></a></article>
+<article class="digital-summary"><figure class="visual-figure product-picture"><button aria-label="放大查看：商家在手机和麦克风前准备直播的场景" class="image-open" data-zoom="" type="button"><img alt="商家在手机和麦克风前准备直播的场景" decoding="async" height="432" loading="lazy" src="assets/scene-live.webp" width="768"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成场景 · 非产品真实界面</figcaption></figure><svg aria-hidden="true" class="icon"><use href="#i-live"></use></svg><span class="availability">自研产品 · 直播流程</span><div class="product-title-row"><h3>零小播</h3><img class="product-mascot" src="assets/mascot-lingxiaobo.webp" alt="零小播萌宠形象：手持麦克风的黑金猫咪" width="72" height="72" loading="lazy"/></div><p>组织直播任务、工具操作和人工审核，做好准备、试播与运行复盘。</p><a class="btn small" href="https://lingdian-lingxiaobo.app.workbuddy.host/?sharecode=FC2K7OFH73" rel="noopener noreferrer" target="_blank">查看产品介绍 <span aria-hidden="true">↗</span><span class="sr-only">，在新标签页打开</span></a></article>
+<article class="digital-summary"><figure class="visual-figure product-picture"><button aria-label="放大查看：经营者使用电脑整理资料并核对草稿的场景" class="image-open" data-zoom="" type="button"><img alt="经营者使用电脑整理资料并核对草稿的场景" decoding="async" height="432" loading="lazy" src="assets/scene-work.webp" width="768"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成场景 · 非产品真实界面</figcaption></figure><svg aria-hidden="true" class="icon"><use href="#i-chat"></use></svg><span class="availability">代理方向 · 通用 AI</span><div class="product-title-row"><h3>WorkBuddy</h3><img class="product-mascot" src="assets/mascot-workbuddy.webp" alt="WorkBuddy 萌宠形象：白蓝色智能机器人" width="72" height="72" loading="lazy"/></div><p>了解通用智能体的产品与渠道信息，按实际办公任务核对功能和使用条件。</p><a class="btn small" href="https://stevenlau2000.github.io/workbuddy-intro/" rel="noopener noreferrer" target="_blank">查看产品与渠道 <span aria-hidden="true">↗</span><span class="sr-only">，在新标签页打开</span></a></article>
+</div><p class="disclaimer">功能、费用与账号权限以当前服务说明和可演示版本为准。直播须人工审核与值守；技术支持原则上由供方提供。</p>
+<details class="catalog-details digital-catalog" id="digital-catalog"><summary>查看数字 AI 产品详情与更多工具<span>自研介绍 · 通用 AI · 采购测算 · 规划方向</span></summary><div class="digital-catalog-body"><nav aria-label="数字 AI 子栏目" class="digital-subnav"><a href="#products">自研产品</a><a href="#general-ai">通用 AI</a><a href="#more-tools">规划与更多工具</a></nav><section aria-labelledby="products-title" class="section products catalog-subsection" id="products">
+<div class="wrap">
+<div class="section-head"><div><span class="kicker"><b>工具与服务 /</b> 内容 AI</span><h2 id="products-title">任务想清楚了，再挑工具。</h2><p>根据你要做的事，查看产品介绍。先核对可用功能与费用，再决定是否使用。</p></div><p class="aside-note">以下按钮打开产品介绍页面。<br/>具体能力以当前可演示版本为准。</p></div>
+<div class="product-grid">
+<article class="product" id="product-j"><figure class="visual-figure detail-product-picture"><button aria-label="放大查看：视频制作的场景示意" class="image-open" data-zoom="" type="button"><img alt="视频制作的场景示意" decoding="async" height="432" loading="lazy" src="assets/scene-video.webp" width="768"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成场景 · 非软件截图</figcaption></figure><div class="product-body"><div class="product-label">零小剪<span>内容制作</span></div><h3>把你的素材做成视频。</h3><p>适合手里有产品图片、经营素材，想开始制作视频的个人创业者、商家与内容团队。</p><ul><li><svg aria-hidden="true" class="icon"><use href="#i-check"></use></svg>先准备有授权的素材和想表达的内容</li><li><svg aria-hidden="true" class="icon"><use href="#i-check"></use></svg>按工具能力制作、修改，再审核使用</li></ul><a class="btn" href="https://www.workbuddy.link/p/zP1LRO9ve0CS4b6qkHkCZz" rel="noopener noreferrer" target="_blank">查看零小剪介绍 <svg aria-hidden="true" class="icon"><use href="#i-external"></use></svg><span class="sr-only">，在新标签页打开</span></a><p class="product-caution">账号、功能、计费与素材限制，请在使用前确认。技术支持原则上由供方提供。</p></div></article>
+<article class="product" id="product-b"><figure class="visual-figure detail-product-picture"><button aria-label="放大查看：人工参与直播准备的场景示意" class="image-open" data-zoom="" type="button"><img alt="人工参与直播准备的场景示意" decoding="async" height="432" loading="lazy" src="assets/scene-live.webp" width="768"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成场景 · 非软件截图</figcaption></figure><div class="product-body"><div class="product-label">零小播<span>直播准备与运营</span></div><h3>把直播流程安排明白。</h3><p>适合有直播需求的个人创业者、商家与内容团队，将任务、工具操作和人工审核组织起来。</p><ul><li><svg aria-hidden="true" class="icon"><use href="#i-check"></use></svg>先确定场景、内容与试播安排</li><li><svg aria-hidden="true" class="icon"><use href="#i-check"></use></svg>明确人工值守，再进入运行与复盘</li></ul><a class="btn" href="https://lingdian-lingxiaobo.app.workbuddy.host/?sharecode=FC2K7OFH73" rel="noopener noreferrer" target="_blank">查看零小播介绍 <svg aria-hidden="true" class="icon"><use href="#i-external"></use></svg><span class="sr-only">，在新标签页打开</span></a><p class="product-caution">直播须人工审核与值守。不承诺未经核验的无人值守能力或销售结果。</p></div></article>
 </div>
-
-<!-- ── 02 · 业务架构（双轮交叠） ── -->
-<div class="section" id="architecture">
-  <h2><span class="num">//</span> 业务架构</h2>
-  <p class="intro">两类产品能力，三条业务线。双轮驱动，按场景形成交付；产品与设备同时是数据的入口与载体，归口判定见「定位与边界」。</p>
-  <p class="capline"><span>轻资产协作</span><span>供应商履约</span><span>平台协调</span><span>场景交付</span><span>数据打通</span></p>
-  <div class="wheels-wrap reveal">
-    <svg class="wheels wheels-desktop" viewBox="0 0 424 270" role="img" aria-labelledby="wheelsTitle wheelsDesc" xmlns="http://www.w3.org/2000/svg">
-      <title id="wheelsTitle">双轮交叠业务架构图</title>
-      <desc id="wheelsDesc">左轮为数字AI（自研 ＋ 代理），右轮为物理AI（大健康 · 聚焦美业），两轮交叠的中心为解决方案（组合与服务协调 · 独立业务线）。</desc>
-      <defs>
-        <linearGradient id="wheelGold" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#FFE300" stop-opacity=".62"/>
-          <stop offset="55%" stop-color="#E8C94A" stop-opacity=".5"/>
-          <stop offset="100%" stop-color="#C8B078" stop-opacity=".42"/>
-        </linearGradient>
-        <clipPath id="lensDesktop"><circle cx="272" cy="135" r="112"/></clipPath>
-      </defs>
-      <circle cx="152" cy="135" r="112" fill="#FFE300" fill-opacity=".06"/>
-      <circle cx="272" cy="135" r="112" fill="#C8B078" fill-opacity=".07"/>
-      <g clip-path="url(#lensDesktop)"><circle cx="152" cy="135" r="112" fill="url(#wheelGold)"/></g>
-      <circle class="wheel-stroke" cx="152" cy="135" r="112" pathLength="100" fill="none" stroke="#FFE300" stroke-width="2.5" stroke-opacity=".9"/>
-      <circle class="wheel-stroke b" cx="272" cy="135" r="112" pathLength="100" fill="none" stroke="#C8B078" stroke-width="2.5" stroke-opacity=".9"/>
-      <text class="wl wl-role" x="100" y="127" text-anchor="middle">数字AI</text>
-      <text class="wl wl-sub" x="100" y="151" text-anchor="middle">自研 ＋ 代理</text>
-      <text class="wl wl-role2" x="324" y="127" text-anchor="middle">物理AI</text>
-      <text class="wl wl-sub" x="324" y="151" text-anchor="middle">大健康 · 聚焦美业</text>
-      <text class="wl wl-core" x="212" y="133" text-anchor="middle">解决方案</text>
-      <text class="wl wl-core-sub" x="212" y="157" text-anchor="middle">组合与服务协调</text>
-      <text class="wl wl-core-sub" x="212" y="176" text-anchor="middle">独立业务线</text>
-    </svg>
-    <svg class="wheels wheels-mobile" viewBox="0 0 300 370" role="img" aria-labelledby="wheelsTitleM wheelsDescM" xmlns="http://www.w3.org/2000/svg">
-      <title id="wheelsTitleM">双轮交叠业务架构图（竖排）</title>
-      <desc id="wheelsDescM">上轮为数字AI（自研 ＋ 代理），下轮为物理AI（大健康 · 聚焦美业），两轮交叠的中心为解决方案（组合与服务协调 · 独立业务线）。</desc>
-      <defs>
-        <linearGradient id="wheelGoldM" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#FFE300" stop-opacity=".62"/>
-          <stop offset="55%" stop-color="#E8C94A" stop-opacity=".5"/>
-          <stop offset="100%" stop-color="#C8B078" stop-opacity=".42"/>
-        </linearGradient>
-        <clipPath id="lensMobile"><circle cx="150" cy="245" r="112"/></clipPath>
-      </defs>
-      <circle cx="150" cy="125" r="112" fill="#FFE300" fill-opacity=".06"/>
-      <circle cx="150" cy="245" r="112" fill="#C8B078" fill-opacity=".07"/>
-      <g clip-path="url(#lensMobile)"><circle cx="150" cy="125" r="112" fill="url(#wheelGoldM)"/></g>
-      <circle class="wheel-stroke" cx="150" cy="125" r="112" pathLength="100" fill="none" stroke="#FFE300" stroke-width="2.5" stroke-opacity=".9"/>
-      <circle class="wheel-stroke b" cx="150" cy="245" r="112" pathLength="100" fill="none" stroke="#C8B078" stroke-width="2.5" stroke-opacity=".9"/>
-      <text class="wl wl-role" x="150" y="62" text-anchor="middle">数字AI</text>
-      <text class="wl wl-sub" x="150" y="84" text-anchor="middle">自研 ＋ 代理</text>
-      <text class="wl wl-core" x="150" y="175" text-anchor="middle">解决方案</text>
-      <text class="wl wl-core-sub" x="150" y="198" text-anchor="middle">组合与服务协调</text>
-      <text class="wl wl-core-sub" x="150" y="216" text-anchor="middle">独立业务线</text>
-      <text class="wl wl-role2" x="150" y="310" text-anchor="middle">物理AI</text>
-      <text class="wl wl-sub" x="150" y="332" text-anchor="middle">大健康 · 聚焦美业</text>
-    </svg>
-  </div>
-  <div class="wheel-notes">
-    <div class="wheel-note reveal">
-      <div class="wn-name">数字AI</div>
-      <span class="wn-role">自研 ＋ 代理</span>
-      <p>自研垂类产品，组合通用智能体。自研产品围绕明确任务打磨；代理产品按功能、成本与授权选型，技术支持原则由供应商承担。</p>
-    </div>
-    <div class="wheel-note reveal">
-      <div class="wn-name alt">物理AI</div>
-      <span class="wn-role">大健康 · 聚焦美业</span>
-      <p>以大健康设备建立线下服务能力，从已有产品组合中确定适用设备，入场景以美业需求切入，区分生活美容、医美机构与健康管理。设备库存、物流与售后由供应商负责，技术支持原则由供方承担。</p>
-    </div>
-    <div class="wheel-note reveal">
-      <div class="wn-name">解决方案</div>
-      <span class="wn-role">组合与服务协调 · 独立业务线</span>
-      <p>方案统筹，连接数字AI与物理AI能力，按场景形成交付，是一条独立业务线。零点负责统筹与协调，技术支持原则由供方承担。</p>
-    </div>
-  </div>
+<div class="category-shortcuts"><span>还想看看其他用途？</span><a href="#general-ai">日常办公与通用 AI <span aria-hidden="true">↗</span></a><a href="#physical-ai">智能设备 <span aria-hidden="true">↗</span></a><a href="#more-tools">规划中的工具 <span aria-hidden="true">↗</span></a></div>
+<p class="disclaimer">零小剪、零小播的功能、服务状态与价格，请在使用前确认。本页不提供在线购买。</p>
 </div>
-
-<!-- ── 03 · 客户价值四步 ── -->
-<div class="section wide" id="value">
-  <h2><span class="num">//</span> 客户价值</h2>
-  <div class="banner reveal"><img src="assets/banner-value.webp?v=20261029" width="1100" height="360" alt="客户价值场景：两人在办公桌前协作讨论，笔记本电脑与笔记本摊开" loading="lazy" decoding="async"></div>
-  <p class="intro">从客户任务出发，减少选择与落地的断点。</p>
-  <div class="cards cols4">
-    <div class="card reveal">
-      <div class="step">STEP 01</div>
-      <h3>选型</h3>
-      <p>按任务与预算，筛选工具和设备。</p>
-    </div>
-    <div class="card reveal">
-      <div class="step">STEP 02</div>
-      <h3>组合</h3>
-      <p>连接单点能力，形成可用流程。</p>
-    </div>
-    <div class="card reveal">
-      <div class="step">STEP 03</div>
-      <h3>部署</h3>
-      <p>供应商配置，按约安排培训。</p>
-    </div>
-    <div class="card reveal">
-      <div class="step">STEP 04</div>
-      <h3>服务</h3>
-      <p>供应商履约，平台跟踪协调。</p>
-    </div>
-  </div>
+</section><section aria-labelledby="general-title" class="section category-section general-area catalog-subsection" id="general-ai">
+<div class="wrap">
+<div class="section-head"><div><span class="kicker"><b>工具与服务 /</b> 通用 AI</span><h2 id="general-title">日常办公，从一个熟悉的任务开始。</h2><p>整理内容、准备资料，或把一个问题说清楚。带着自己的任务，了解通用智能体的可用功能与使用条件。</p></div><span aria-hidden="true" class="section-marker">AI</span></div><figure class="visual-figure catalog-visual"><button aria-label="放大查看：独立经营者使用电脑核对办公资料" class="image-open" data-zoom="" type="button"><img alt="独立经营者使用电脑核对办公资料" decoding="async" height="432" loading="lazy" src="assets/scene-work.webp" width="768"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成场景 · 非 WorkBuddy 实际界面</figcaption></figure>
+<article class="general-feature"><div class="general-feature-copy"><span class="availability">代理方向 · 产品与渠道</span><h3>WorkBuddy</h3><p>先了解产品与渠道信息，再按功能、成本和授权范围选型。企业版采购测算单独提供，方便有团队需求的用户查看。</p><div class="btn-row"><a class="btn" href="https://stevenlau2000.github.io/workbuddy-intro/" rel="noopener noreferrer" target="_blank">查看 WorkBuddy 介绍 <svg aria-hidden="true" class="icon"><use href="#i-external"></use></svg><span class="sr-only">，在新标签页打开</span></a><a class="btn outline" href="https://workbuddy.link/p/jGnwvSmAQ7aKiQAxkjiCHR" rel="noopener noreferrer" target="_blank">企业版采购测算 <span aria-hidden="true">↗</span><span class="sr-only">，在新标签页打开</span></a></div><p class="disclaimer">测算页面面向企业，不作为个人版定价。当前功能、费用和可供状态需以供应商确认为准。</p></div><aside class="selection-guide"><svg aria-hidden="true" class="icon"><use href="#i-chat"></use></svg><h4>选工具前，先带上这些信息</h4><ul><li>你希望完成的具体任务</li><li>个人使用，还是团队协作</li><li>可接受的预算与使用频率</li><li>需要处理哪些资料、谁可以访问</li></ul><a href="#practice">先整理我的任务说明 <span aria-hidden="true">→</span></a></aside></article>
+<details class="catalog-details"><summary>其他通用 AI 方向<span>名称与入口待核 · 展开查看</span></summary><div class="catalog-details-body"><div class="compact-grid">
+<article class="compact-card"><span class="availability pending">代理方向 · 待核</span><h3>豆包Work</h3><p>拟引入的通用 AI 产品方向，正式名称与授权范围待确认。</p><a class="card-entry" href="https://stevenlau2000.github.io/volcengine-liushi/" target="_blank" rel="noopener noreferrer">查看产品与服务 <span aria-hidden="true">↗</span><span class="sr-only">，在新标签页打开</span></a></article>
+<article class="compact-card"><span class="availability pending">代理方向 · 待核</span><h3>千问Work</h3><p>拟引入的通用 AI 产品方向，正式名称与授权范围待确认。</p><span class="unavailable">入口更新中</span></article>
+<article class="compact-card"><span class="availability pending">代理方向 · 待核</span><h3>纳米Work</h3><p>拟引入的通用 AI 产品方向，正式名称与授权范围待确认。</p><span class="unavailable">入口更新中</span></article>
+</div></div></details>
+<p class="disclaimer">商用、转售与系统集成范围，以供应商有效授权为准。使用前请核对外部服务的当前功能、费用与账号条件。</p>
 </div>
-
-<!-- ── 04 · 产品矩阵 ── -->
-<div class="section wide" id="products">
-  <h2><span class="num">//</span> 产品矩阵</h2>
-  <div class="banner reveal"><img src="assets/banner-products.webp?v=20261029" width="1100" height="360" alt="产品矩阵场景：使用者在办公桌前操作平板，查看设备与数据看板" loading="lazy" decoding="async"></div>
-  <p class="intro">两类产品能力：数字AI（自研＋代理）与物理AI（大健康设备）。自研产品围绕明确任务打磨，代理产品按功能、成本与授权选型；设备由供应商供货、部署与售后，技术支持原则由供方承担；产品与设备进入零点引擎体系，以带数据、可通过 API 打通为前提。</p>
-
-  <h3 class="subhead">数字AI · 自研 ＋ 代理</h3>
-  <div class="cards cols2">
-    <div class="card reveal">
-      <div class="card-media mascot"><img src="assets/mascot-lingxiaojian.webp?v=20261029" width="300" height="300" alt="零小剪 3D 科技萌宠形象" loading="lazy" decoding="async"></div>
-      <span class="tag live">已上线</span>
-      <h3>零小剪 · AI 内容创作引擎</h3>
-      <p>面向商家与内容团队，围绕已授权素材开展视频内容制作。适用门店经营者与电商内容团队；按确认版本使用，供方原则提供技术支持，具体功能以可演示版本为准。</p>
-      <div class="flow">输入素材 → 组织内容 → 制作与修改 → 审核与使用</div>
-      <a class="link" href="https://www.workbuddy.link/p/zP1LRO9ve0CS4b6qkHkCZz" target="_blank" rel="noopener">进入零小剪页面 →</a>
-    </div>
-    <div class="card reveal">
-      <div class="card-media mascot"><img src="assets/mascot-lingxiaobo.webp?v=20261029" width="300" height="300" alt="零小播 3D 科技萌宠形象" loading="lazy" decoding="async"></div>
-      <span class="tag live">已上线</span>
-      <h3>零小播 · AI 实景直播引擎</h3>
-      <p>把直播任务、工具操作与人工审核组织在同一流程，适用有直播需求的商家与内容运营团队。直播须人工审核与值守，不承诺未经核验的无人值守能力。</p>
-      <div class="flow">确定场景 → 准备内容 → 试播确认 → 运行复盘</div>
-      <a class="link" href="https://lingdian-lingxiaobo.app.workbuddy.host/?sharecode=FC2K7OFH73" target="_blank" rel="noopener">进入零小播页面 →</a>
-    </div>
-    <div class="card reveal">
-      <div class="card-media mascot"><img src="assets/buddy.webp?v=20261029" width="260" height="260" alt="WorkBuddy Buddy 智能体形象" loading="lazy" decoding="async"></div>
-      <span class="tag agent">代理产品方向</span>
-      <h3>通用智能体</h3>
-      <p>代理产品方向：如 WorkBuddy，按功能、成本与授权选型；<span class="pending">豆包Work、千问Work、纳米Work</span> 等名称以正式产品核定为准。商用、转售及集成范围以供应商有效授权为准。</p>
-      <!-- WorkBuddy 渠道合作入口（v5 2026-11-17 合并 v4 已上线变更）：href 指向已上线的正式介绍站 https://stevenlau2000.github.io/workbuddy-intro/（GitHub Pages，源仓库 Stevenlau2000/workbuddy-intro，源站 Workbuddy培训/workbuddy-intro-site）。介绍站实体已移到线上，部署包不再内嵌 30MB 副本；站点版与单文件版入口完全一致、均无路径依赖。更新 SOP：改介绍站内容后推送源仓库即可，主站 href 保持不变；若更换正式 URL，须同步 check_site.py 的 URL_WORKBUDDY_INTRO / WB_INTRO_HREF / F07 白名单与 F07d 断言。禁止写回本机预览地址或旧的站内相对路径。 -->
-      <a class="link" href="https://stevenlau2000.github.io/workbuddy-intro/" target="_blank" rel="noopener noreferrer">WorkBuddy 渠道合作入口 →</a>
-      <!-- 渠道合作入口（v5）：豆包Work 已于 2026-11-17 取得正式入口 https://stevenlau2000.github.io/volcengine-liushi/，改为 a.link.stack 可点击链接（含 target="_blank" / rel="noopener noreferrer"）；千问Work / 纳米Work 仍为禁用态 span 占位。【必须保留 stack】以维持换行（去掉后宽视口会退回 inline-flex 并排）。任何入口 URL 变更都须同步 check_site.py 的 F07 外链白名单、F07c 与 F07c-2 断言 -->
-      <a class="link stack" href="https://stevenlau2000.github.io/volcengine-liushi/" target="_blank" rel="noopener noreferrer">豆包Work 渠道合作入口 →<span class="sr-only">，在新标签页打开</span></a>
-      <span class="link soon stack" aria-disabled="true" title="渠道合作链接待更新">千问Work 渠道合作入口 · 链接更新中</span>
-      <span class="link soon stack" aria-disabled="true" title="渠道合作链接待更新">纳米Work 渠道合作入口 · 链接更新中</span>
-    </div>
-    <div class="card planned reveal">
-      <span class="tag planned">规划待核 · 未来评估</span>
-      <h3>垂类 Agent</h3>
-      <p>垂类扩展方向：零小智（智能客服 / 知识与问答，设有人工转接边界）及其他垂类工作流 Agent，按试点结果增减。规划功能不代表已上线，交付范围以确认版本为准。</p>
-    </div>
-  </div>
-
-  <h3 class="subhead">物理AI · 大健康设备（苏州米太）</h3>
-  <div class="cards">
-    <div class="card reveal">
-      <div class="card-media device"><img src="assets/dev-ecg.webp?v=20261104" width="640" height="640" alt="AI心电仪：便携式心电采集设备与手机端心电报告" loading="lazy" decoding="async"></div>
-      <span class="tag device">已上线实体 · 按场景配置</span>
-      <h3>AI心电仪</h3>
-      <p>心电采集；按适用人员与场所配置；供应商供货与售后。</p>
-    </div>
-    <div class="card reveal">
-      <div class="card-media device"><img src="assets/dev-stethoscope.webp?v=20261104" width="640" height="640" alt="AI数字听诊器：数字听诊器与手机端心音波形记录" loading="lazy" decoding="async"></div>
-      <span class="tag device">已上线实体 · 按场景配置</span>
-      <h3>AI数字听诊器</h3>
-      <p>数字听诊；供方负责培训支持；专业解读责任另行明确。</p>
-    </div>
-    <div class="card reveal">
-      <div class="card-media device"><img src="assets/dev-ultrasound.webp?v=20261104" width="640" height="640" alt="AI掌上超声：掌上超声探头与手机端超声影像" loading="lazy" decoding="async"></div>
-      <span class="tag device">已上线实体 · 按场景配置</span>
-      <h3>AI掌上超声</h3>
-      <p>超声影像；按型号及注册用途使用；供应商部署与维护。</p>
-    </div>
-  </div>
-  <p class="note"><strong>说明：</strong>设备组合来自苏州米太，按场景配置；库存、物流、售后均由供应商负责。医疗类设备不默认适用于普通美容门店，需区分生活美容、医美机构与健康管理三类场景并核验资质；设备参考图及具体配置按项目核验。</p>
+</section><section aria-labelledby="more-title" class="section category-section extra-area catalog-subsection" id="more-tools">
+<div class="wrap">
+<div class="section-head"><div><span class="kicker"><b>工具与服务 /</b> 更多工具</span><h2 id="more-title">按具体工作，继续扩展工具。</h2><p>垂类智能体面向特定行业与工作任务。产品是否上线、能够交付哪些功能，都需要经过试点和版本确认。</p></div><span class="availability pending">规划内容，不作为已上线功能</span></div><figure class="visual-figure catalog-visual"><button aria-label="放大查看：请求经过智能体分配到知识资料、任务和人工服务的原理图" class="image-open" data-zoom="" type="button"><img alt="请求经过智能体分配到知识资料、任务和人工服务的原理图" decoding="async" height="360" loading="lazy" src="assets/agent-routing.svg" width="960"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>规划原理示意 · 不代表功能已上线</figcaption></figure>
+<div class="planned-grid"><article class="planned-tool"><svg aria-hidden="true" class="icon"><use href="#i-chat"></use></svg><div><span class="availability pending">规划评估</span><h3>零小智</h3><p>智能客服、知识与问答方向，保留人工转接边界。按试点结果确认能力与服务范围。</p><span class="unavailable">暂未提供使用入口</span></div></article><article class="planned-tool"><svg aria-hidden="true" class="icon"><use href="#i-flow"></use></svg><div><span class="availability pending">未来评估</span><h3>其他垂类 Agent</h3><p>面向特定行业或工作步骤的智能体，根据实际需求与试点结果增减。</p><span class="unavailable">后续按确认版本更新</span></div></article></div>
+<details class="catalog-details" id="links"><summary>已有产品与采购相关入口<span>常用产品与采购链接 · 在新标签页打开</span></summary><div class="catalog-details-body"><div class="entry-directory"><a href="https://www.workbuddy.link/p/zP1LRO9ve0CS4b6qkHkCZz" rel="noopener noreferrer" target="_blank"><strong>零小剪</strong><span>内容创作介绍 ↗</span></a><a href="https://lingdian-lingxiaobo.app.workbuddy.host/?sharecode=FC2K7OFH73" rel="noopener noreferrer" target="_blank"><strong>零小播</strong><span>直播工具介绍 ↗</span></a><a href="https://stevenlau2000.github.io/workbuddy-intro/" rel="noopener noreferrer" target="_blank"><strong>WorkBuddy</strong><span>产品与渠道介绍 ↗</span></a><a href="https://workbuddy.link/p/jGnwvSmAQ7aKiQAxkjiCHR" rel="noopener noreferrer" target="_blank"><strong>企业版采购测算</strong><span>用于企业版需求参考 ↗</span></a></div><p class="disclaimer">设备采购入口仍在建设中。外部页面的功能、费用、账号权限与服务状态，以供应商确认为准。</p></div></details>
 </div>
-
-<!-- ── 05 · 解决方案 ── -->
-<div class="section wide" id="solutions">
-  <h2><span class="num">//</span> 解决方案</h2>
-  <div class="banner reveal"><img src="assets/banner-solutions.webp?v=20261029" width="1100" height="360" alt="解决方案场景：执业者在诊室内为躺姿客户操作手持设备" loading="lazy" decoding="async"></div>
-  <p class="intro">按场景组合产品与服务，形成三类解决方案；方案统筹是一条独立业务线。技术支持原则由供方承担，零点负责统筹与协调。</p>
-
-  <div class="solcover reveal">
-    <figure class="solcover-fig">
-      <img src="assets/solution-cover.webp?v=20261029" width="768" height="768" alt="解决方案场景封面：AI 助手机器人与两位客户代表在会议桌前沟通，上方浮现日历、审核与文档流程图标" loading="lazy" decoding="async">
-    </figure>
-    <div class="solcover-copy">
-      <div class="solcover-eyebrow">场景封面</div>
-      <h3 class="solcover-title">一次真实沟通，串起工具、设备与服务</h3>
-      <p class="solcover-text">方案不是功能拼装，而是把客户的一次真实沟通拆成可执行环节：工具负责内容与协同，设备负责现场采集与执行，零点负责统筹组合与协调。交付范围以双方确认的方案为准。</p>
-      <div class="solcover-chips"><span>方案统筹</span><span>组合交付</span><span>协同跟踪</span></div>
-    </div>
-  </div>
-
-  <h3 class="subhead">三种类型</h3>
-  <div class="cards">
-    <div class="card reveal">
-      <h3>数字方案</h3>
-      <p>软件与业务流程；配置与技术支持原则上由供方提供。</p>
-    </div>
-    <div class="card reveal">
-      <h3>物理方案</h3>
-      <p>设备与现场服务；供应商供货、部署及售后服务。</p>
-    </div>
-    <div class="card reveal">
-      <h3>融合方案</h3>
-      <p>线上与线下协作；零点统筹，技术支持原则由供方承担。</p>
-    </div>
-  </div>
-
-  <h3 class="subhead">方案示例</h3>
-  <div class="cards">
-    <div class="card reveal">
-      <h3>方案一 · 美业内容与客户服务</h3>
-      <p>零小剪 + 零小播参与，围绕内容生产、直播运营与客户服务组织能力。</p>
-    </div>
-    <div class="card reveal">
-      <h3>方案二 · 机构设备与服务流程建设</h3>
-      <p>大健康设备进入机构服务流程，供应商供货、部署与售后，按约完成建设。</p>
-    </div>
-    <div class="card reveal">
-      <h3>融合方案 · 参考架构</h3>
-      <div class="flow">内容触达 → 咨询预约 → 到店服务 → 服务记录 → 专业处理 → 后续关怀</div>
-    </div>
-  </div>
-  <p class="note"><strong>说明：</strong>方案技术支持原则上由供应商承担；不保证销售结果。数据合规：必要同意与权限、最小化采集留存；健康数据独立权限、访问审计与撤回处理；跨系统连接按项目评审，不预设已完成自动集成。</p>
+</section></div></details>
+<div class="section-action"><div><strong>有一项线上工作，想先试用 AI？</strong><p>可以直接开始新手练习，也可以整理你的工具需求。</p></div><div class="btn-row"><a class="btn outline" href="#start">进入新手体验</a><a class="btn" data-brief-type="数字 AI" href="#contact">整理数字 AI 需求</a></div></div>
+</div></section><section aria-labelledby="physical-title" class="section category-section physical-area" id="physical-ai">
+<div class="wrap">
+<div class="section-head"><div><span class="kicker"><b>02 /</b> 物理 AI</span><h2 id="physical-title">让智能设备，进入合适的线下场景。</h2><p>物理 AI 是与实体设备结合的 AI 应用。当前围绕大健康场景开展设备选型，关注美业相关需求；医疗设备须按机构、人员与注册用途核验适用条件。</p></div><p class="aside-note">设备类别来自既有业务资料。<br/>图片与具体供货型号需核验。</p></div>
+<div class="device-grid">
+<article class="device-card"><figure class="visual-figure device-picture"><button aria-label="放大查看：AI 心电仪设备参考图" class="image-open" data-zoom="" type="button"><img alt="AI 心电仪设备参考图" decoding="async" height="667" loading="lazy" src="assets/device-ecg.webp" width="1000"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>既有资料设备参考图 · 具体型号需核验</figcaption></figure><div class="device-copy"><span class="availability">设备选型 · 按场景配置</span><h3>AI 心电仪</h3><p>用于心电采集，按适用人员与场所配置。具体用途以型号与注册信息为准。</p><dl><dt>使用前确认</dt><dd>适用人员、场所与操作要求</dd><dt>服务分工</dt><dd>供应商供货与售后</dd></dl></div></article>
+<article class="device-card"><figure class="visual-figure device-picture"><button aria-label="放大查看：数字听诊器设备参考图" class="image-open" data-zoom="" type="button"><img alt="数字听诊器设备参考图" decoding="async" height="700" loading="lazy" src="assets/device-stethoscope.webp" width="700"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>既有资料设备参考图 · 具体型号需核验</figcaption></figure><div class="device-copy"><span class="availability">设备选型 · 按场景配置</span><h3>AI 数字听诊器</h3><p>用于数字听诊。使用培训与专业解读的责任，需要在服务安排中分别确认。</p><dl><dt>使用前确认</dt><dd>操作培训与专业解读责任</dd><dt>服务分工</dt><dd>供方负责培训支持</dd></dl></div></article>
+<article class="device-card"><figure class="visual-figure device-picture"><button aria-label="放大查看：掌上超声设备参考图" class="image-open" data-zoom="" type="button"><img alt="掌上超声设备参考图" decoding="async" height="667" loading="lazy" src="assets/device-ultrasound.webp" width="1000"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>既有资料设备参考图 · 具体型号需核验</figcaption></figure><div class="device-copy"><span class="availability">设备选型 · 按场景配置</span><h3>AI 掌上超声</h3><p>用于超声影像，按具体型号及注册用途使用，并核验人员与机构条件。</p><dl><dt>使用前确认</dt><dd>型号、注册用途与使用资质</dd><dt>服务分工</dt><dd>供应商部署与维护</dd></dl></div></article>
 </div>
-
-<!-- ── 06 · 治理与分润 ── -->
-<div class="section" id="governance">
-  <h2><span class="num">//</span> 治理与分润</h2>
-  <p class="intro">产品准入与商业政策均以草案形式管理，经批准后执行。下表评分之外，还须先通过「带数据 / 可打通 / 有 API」的业务边界判定（见「定位与边界」）。</p>
-
-  <h3 class="subhead">产品治理 · 准入审核（草案）</h3>
-  <table class="ptable">
-    <thead><tr><th>维度</th><th>分值</th><th>要点</th></tr></thead>
-    <tbody>
-      <tr><td>场景价值</td><td>25</td><td>需求、样例与效果</td></tr>
-      <tr><td>功能质量</td><td>25</td><td>稳定性、接口与计量</td></tr>
-      <tr><td>合规安全</td><td>30</td><td>授权、资质与数据</td></tr>
-      <tr><td>交付商业</td><td>20</td><td>仓配售后、支持与退出</td></tr>
-    </tbody>
-  </table>
-  <p class="note"><strong>说明：</strong>准入门槛建议总分 ≥ 80，否决项清零并完成试点验收方可上架；一票否决项（授权 / 必要资质缺失、重大安全隐患、拒担约定供应责任或测试造假）不以得分抵销；流程为申报 → 联合审查 → 试点验收 → 授权上架，由产品 / 技术 / 合规 / 财务联合签审。评分及流程待批准。</p>
-
-  <h3 class="subhead">商业政策 · 分润参考（草案）</h3>
-  <table class="ptable">
-    <thead><tr><th>业务线</th><th>参考</th><th>内容</th></tr></thead>
-    <tbody>
-      <tr><td>数字AI</td><td>参考零小剪</td><td>分润比例（运营商｜服务商｜社长｜运营中心｜零点总部）按政策分配；以批准合同为准，不得直接相加，需先核角色与收入池，赠送部分不分润</td></tr>
-      <tr><td>物理AI</td><td>参考数字心电仪</td><td>参考价、供货折扣（先行官／社长等）及总部毛利、运营中心提成均按政策分配，以批准政策与合同为准</td></tr>
-    </tbody>
-  </table>
-  <p class="note"><strong>说明：</strong>分润按批准合同执行；供方履约费用纳入报价审核；积分奖励不自动叠加；存在口径待核，不作为结算承诺。</p>
+<div class="boundary-note"><svg aria-hidden="true" class="icon"><use href="#i-shield"></use></svg><div><strong>医疗设备需要单独核验适用资质。</strong><p>生活美容、医美机构与健康管理属于不同场景，医疗类设备不默认适用于普通美容门店。库存、物流与售后由供应商负责；专业解读与医疗责任另行明确。</p></div></div>
+<div class="section-action"><div><strong>有设备配置需求？先写清用途和使用场所。</strong><p>设备采购入口建设中，本页暂不提供设备下单。</p></div><a class="btn outline" data-brief-type="物理 AI" href="#contact">整理设备需求 <svg aria-hidden="true" class="icon"><use href="#i-arrow"></use></svg></a></div>
 </div>
-
-<!-- ── 07 · 合作方式 ── -->
-<div class="section" id="partnership">
-  <h2><span class="num">//</span> 合作方式</h2>
-  <p class="intro">轻资产协作｜供应商履约，平台协调。零点引擎聚焦数据与技术底座，不把精力放在物理销售上；体系不设库存，供应商负责仓配售后；客户合同仍须明确各方责任，供应商履约不等于平台免责。</p>
-  <table class="ptable">
-    <thead><tr><th>角色</th><th>职责</th></tr></thead>
-    <tbody>
-      <tr><td>零点引擎</td><td>选品与商务、供应商管理与服务协调</td></tr>
-      <tr><td>供应商仓配</td><td>库存与发货、物流全程负责</td></tr>
-      <tr><td>供应商售后</td><td>退换与维修按约闭环处理</td></tr>
-      <tr><td>供方技术支持</td><td>数字AI与方案，原则由供应商承担</td></tr>
-    </tbody>
-  </table>
-  <p class="note"><strong>说明：</strong>零点引擎与中云智行体系均不设物理AI库存。集团协作：研习社（学习体验）、黑唛传媒（内容传播）、健康服务（专业流程）、壹点好物（选品对接）；孵化 AI 先行官，让产品能力进入具体业务；业务归属与三方职责切分见「定位与边界」。</p>
+</section><section aria-labelledby="solutions-title" class="section category-section solution-area" id="solutions">
+<div class="wrap">
+<div class="section-head"><div><span class="kicker"><b>03 /</b> 融合解决方案</span><h2 id="solutions-title">把线上工作与线下服务，接成一套方案。</h2><p>围绕一个真实业务场景，组合数字 AI 工具、物理 AI 设备与人员服务。零点引擎负责选型、商务对接和统筹协调，供应商按约提供部署、技术支持与相关服务。</p></div></div><div class="fusion-example"><div class="fusion-example-title"><span class="availability">参考场景 · 非已交付案例</span><h3>一家有资质的健康服务机构，可以怎样组合？</h3><p>先介绍服务，再衔接咨询、设备使用与专业处理。每一步由谁负责，在方案中说清楚。</p></div><figure class="visual-figure fusion-picture"><button aria-label="放大查看：左侧内容工作室、中间咨询接待、右侧设备与专业服务空间的连接示意" class="image-open" data-zoom="" type="button"><img alt="左侧内容工作室、中间咨询接待、右侧设备与专业服务空间的连接示意" decoding="async" height="788" loading="lazy" src="assets/scene-fusion.webp" width="1400"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成参考场景 · 非真实客户案例，非已完成系统集成</figcaption></figure><ol class="fusion-steps"><li><span class="step-owner digital-owner">数字 AI</span><strong>介绍服务</strong><p>用零小剪、零小播辅助准备内容，人工审核后使用。</p></li><li><span class="step-owner people-owner">人员与流程</span><strong>咨询与预约</strong><p>由人员确认需求、安排服务；系统连接另行评审。</p></li><li><span class="step-owner physical-owner">物理 AI</span><strong>现场设备应用</strong><p>符合资质要求的人员，按注册用途使用设备。</p></li><li><span class="step-owner people-owner">专业人员</span><strong>解读与后续服务</strong><p>由专业人员承担解读，按授权与约定提供后续服务。</p></li></ol><div class="fusion-coordination"><svg aria-hidden="true" class="icon"><use href="#i-flow"></use></svg><p><strong>零点引擎贯穿方案统筹与服务协调。</strong> 软件、设备和人员职责按项目确认，供应商按约履约。</p></div><p class="disclaimer">参考流程不代表系统已自动打通，也不构成医疗效果或经营收益承诺。健康数据须有必要同意、独立权限与访问审计。</p></div>
+<details class="catalog-details delivery-options"><summary>方案可以怎样组合？<span>可单独使用数字或物理能力，也可融合交付</span></summary><div class="catalog-details-body"><div class="solution-grid">
+<article class="solution-card"><span class="solution-number">01</span><h3>数字方案</h3><p>围绕软件与业务流程组织能力，适合先梳理内容制作、直播准备等工作。</p><span>配置与技术支持原则上由供方提供</span></article>
+<article class="solution-card"><span class="solution-number">02</span><h3>物理方案</h3><p>围绕设备与现场服务组织流程，在核验资质后确定配置与实施安排。</p><span>供应商负责供货、部署与售后</span></article>
+<article class="solution-card"><span class="solution-number">03</span><h3>融合方案</h3><p>连接线上与线下环节，按需要组合数字 AI、物理 AI 与相关服务。</p><span>零点统筹协调，供方按约支持</span></article>
+</div></div></details><div class="service-path" id="value"><h3>从需求到使用，先确认每一步。</h3><ol><li><span>01</span><strong>选型</strong><p>按任务与预算筛选工具、设备。</p></li><li><span>02</span><strong>组合</strong><p>将单点能力组织成可用流程。</p></li><li><span>03</span><strong>部署</strong><p>供应商配置，按约安排培训。</p></li><li><span>04</span><strong>服务</strong><p>供应商履约，平台跟踪协调。</p></li></ol></div>
+<details class="catalog-details" id="solution-examples"><summary>查看场景方案示例<span>美业内容、机构流程与融合方案</span></summary><div class="catalog-details-body"><div class="example-pair"><article><h3>美业内容与客户服务</h3><p>由零小剪、零小播参与，围绕内容生产、直播运营与客户服务组织能力。实际功能与交付内容需逐项确认。</p></article><article><h3>机构设备与服务流程建设</h3><p>让大健康设备进入符合资质要求的机构流程，供应商负责供货、部署与售后，按约完成建设。</p></article></div><h4 class="flow-heading">融合方案参考流程</h4><ol class="journey"><li>内容触达</li><li>咨询预约</li><li>到店服务</li><li>服务记录</li><li>专业处理</li><li>后续关怀</li></ol><p class="disclaimer">这是参考架构，不预设跨系统已经自动集成。连接方式需按项目评审；数据采集应取得必要同意，并遵循权限控制与最小化留存。健康数据须有独立权限、访问审计和撤回处理。</p></div></details>
+<p class="disclaimer">方案统筹是一条独立业务线，可按需采用数字、物理或融合方案。技术支持原则上由供方承担，不保证销售结果。</p>
+<div class="section-action"><div><strong>涉及多个环节？先描述你的业务流程。</strong><p>写下现有工具、设备、使用场所和希望解决的问题。</p></div><a class="btn" data-brief-type="融合解决方案" href="#contact">整理融合方案需求 <svg aria-hidden="true" class="icon"><use href="#i-arrow"></use></svg></a></div></div>
+</section><section aria-labelledby="start-title" class="section starter learning-entry" id="start">
+<div class="wrap">
+<div class="section-head"><div><span class="kicker">新手体验 / 从一个小任务开始</span><h2 id="start-title">刚接触 AI，可以先体验一次。</h2><p>了解业务后，从你熟悉的经营任务开始。这里用数字 AI 的文案、视频和直播准备说明怎么起步；设备与方案需求可回到对应业务栏目。</p></div><p class="aside-note">选中一项，查看起步步骤。<br/>不确定时，可以先选写文案。</p></div><div class="visual-story-row"><figure class="visual-figure learning-picture"><button aria-label="放大查看：咖啡店经营者在柜台用笔记本整理内容需求" class="image-open" data-zoom="" type="button"><img alt="咖啡店经营者在柜台用笔记本整理内容需求" decoding="async" height="432" loading="lazy" src="assets/scene-cafe.webp" width="768"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成的虚构咖啡店场景</figcaption></figure><div><span class="kicker">先从熟悉的场景开始</span><h3>手边的一家店，<br/>就是一个练习起点。</h3><p>你可以先为商品写一段介绍，再试着整理视频或直播脚本。下方选择任务，跟着步骤完成第一轮尝试。</p><a href="#practice">看看怎样整理一条指令 <span aria-hidden="true">→</span></a></div></div>
+<fieldset class="task-grid" id="tasks"><legend class="sr-only">选择你想先完成的任务</legend>
+<label class="task-option"><input checked="" name="task" type="radio" value="copy"/><span class="task-card"><svg aria-hidden="true" class="icon"><use href="#i-edit"></use></svg><span aria-hidden="true" class="task-check"></span><strong>写一条经营文案</strong><span class="desc">有产品、有想法，<br/>还没想好怎么介绍。</span><span class="outcome">先得到：一份可修改的文案初稿</span></span></label>
+<label class="task-option"><input name="task" type="radio" value="video"/><span class="task-card"><svg aria-hidden="true" class="icon"><use href="#i-video"></use></svg><span aria-hidden="true" class="task-check"></span><strong>做一条短视频</strong><span class="desc">手里有照片和素材，<br/>想让更多人看懂你的产品。</span><span class="outcome">先准备：一份脚本与素材清单</span></span></label>
+<label class="task-option"><input name="task" type="radio" value="live"/><span class="task-card"><svg aria-hidden="true" class="icon"><use href="#i-live"></use></svg><span aria-hidden="true" class="task-check"></span><strong>准备一次直播</strong><span class="desc">想试试直播介绍产品，<br/>先把流程和讲解内容理清。</span><span class="outcome">先准备：一份流程与试播清单</span></span></label>
+</fieldset>
+<div aria-atomic="true" aria-live="polite" class="route" id="route"><div><span class="pill">你的起步路线</span><h3 id="routeTitle">先把产品介绍清楚</h3><p class="small" id="routeHint">准备好真实产品信息，就可以开始写。</p></div><ol id="routeSteps"><li><strong>整理信息</strong>写下产品、读者和卖点。</li><li><strong>请 AI 起草</strong>把下方指令放进你常用的 AI 工具。</li><li><strong>核对再发布</strong>确认价格、事实和语气。</li></ol></div>
+<div class="route-bottom"><a class="btn" href="#practice">跟着示例试一次 <svg aria-hidden="true" class="icon"><use href="#i-arrow"></use></svg></a><p id="routeTip">提示词，就是你交给 AI 的任务说明。下面可以直接填写。</p></div>
 </div>
+</section><section aria-labelledby="practice-title" class="section practice" id="practice">
+<div class="wrap">
+<div class="section-head"><div><span class="kicker">新手体验 / 整理第一条指令</span><h2 id="practice-title">先试一次，把需求说清楚。</h2><p>把示例内容换成你的情况，带走一段能直接复制的指令。</p></div><p class="aside-note">这是本地指令整理器。<br/>不会调用 AI，也不会上传输入。</p></div><figure class="visual-figure prompt-diagram"><button aria-label="放大查看：已有资料经过 AI 整理形成草稿，再由人核对的原理图" class="image-open" data-zoom="" type="button"><img alt="已有资料经过 AI 整理形成草稿，再由人核对的原理图" decoding="async" height="360" loading="lazy" src="assets/prompt-flow.svg" width="960"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>你的资料 → AI 草稿 → 人工核对。先说清任务，再检查事实、授权与表达。</figcaption></figure>
+<div class="practice-grid">
+<form id="promptForm" novalidate=""><p class="form-title">说说你的生意</p>
+<div class="field"><label for="business">你在做什么？<span>产品或服务</span></label><input autocomplete="off" id="business" maxlength="100" type="text" value="一家社区咖啡店"/></div>
+<div class="field"><label for="audience">想让谁看到？<span>具体一点更好</span></label><input autocomplete="off" id="audience" maxlength="140" type="text" value="附近工作、想在午休时喝杯咖啡的人"/></div>
+<div class="field"><label for="sellingPoint">你想介绍什么？<span>请填写真实信息</span></label><textarea id="sellingPoint" maxlength="350" rows="3">介绍店里的现磨咖啡与安静座位。营业时间、地址和价格稍后由我补充。</textarea></div>
+<div class="btn-row js-only"><button class="btn" type="submit">整理成我的指令 <svg aria-hidden="true" class="icon"><use href="#i-arrow"></use></svg></button><button class="btn text small" id="resetExample" type="button">恢复示例</button></div>
+<p class="form-note">当前任务：<strong id="selectedTask">写一条经营文案</strong>。可在上方切换。<br/>请输入非敏感信息，避免客户姓名、电话与健康数据。</p>
+</form>
+<div>
+<div class="output-panel"><div class="output-top"><strong id="promptHeading">可以交给 AI 的指令</strong><span class="pill">可复制 · 可修改</span></div>
+<div aria-labelledby="promptHeading" class="prompt-text" id="promptText" role="region" tabindex="0">请帮我为一家社区咖啡店写一条经营文案。
+读者：附近工作、想在午休时喝杯咖啡的人。
+真实信息：介绍店里的现磨咖啡与安静座位。营业时间、地址和价格稍后由我补充。
 
-<!-- ── 08 · 链接矩阵 ── -->
-<div class="section wide" id="links">
-  <h2><span class="num">//</span> 链接矩阵</h2>
-  <p class="intro">产品与采购入口。已上线页面可直接进入；建设中入口敬请期待。</p>
-  <div class="cards cols4">
-    <div class="card reveal">
-      <span class="tag live">已上线</span>
-      <h3>零小剪 · AI 内容创作引擎</h3>
-      <p>面向商家与内容团队的视频内容制作引擎。</p>
-      <a class="link" href="https://www.workbuddy.link/p/zP1LRO9ve0CS4b6qkHkCZz" target="_blank" rel="noopener">进入页面 →</a>
-    </div>
-    <div class="card reveal">
-      <span class="tag live">已上线</span>
-      <h3>零小播 · AI 实景直播引擎</h3>
-      <p>直播任务、工具操作与人工审核的统一流程。</p>
-      <a class="link" href="https://lingdian-lingxiaobo.app.workbuddy.host/?sharecode=FC2K7OFH73" target="_blank" rel="noopener">进入页面 →</a>
-    </div>
-    <div class="card reveal">
-      <span class="tag live">已上线</span>
-      <h3>WorkBuddy 企业版采购测算</h3>
-      <p>通用智能体代理方向的企业版采购测算入口。</p>
-      <a class="link" href="https://workbuddy.link/p/jGnwvSmAQ7aKiQAxkjiCHR" target="_blank" rel="noopener">进入页面 →</a>
-    </div>
-    <div class="card soon reveal">
-      <span class="tag">即将上线</span>
-      <h3>物理AI · 设备采购</h3>
-      <p>大健康设备采购入口，按场景配置选购。</p>
-      <span class="link soon">即将上线 — 设备采购入口建设中，敬请期待</span>
-    </div>
-  </div>
+请给我一个标题和一段正文，语气自然，表达具体。只使用我提供的信息；缺少的价格、地址和营业时间请标为“待补充”。不要编造优惠、客户评价或效果承诺。
+最后列出发布前需要我确认的信息。</div>
+<div class="output-footer"><span>复制后，粘贴到你常用的 AI 对话工具中。</span><button class="btn small js-only" id="copyPrompt" type="button"><svg aria-hidden="true" class="icon"><use href="#i-copy"></use></svg>复制指令</button></div>
 </div>
-
-<!-- ── 09 · CTA ── -->
-<div class="section" id="contact">
-  <h2><span class="num">//</span> 联系我们</h2>
-  <div class="cta-split reveal">
-    <div class="cta-panel">
-      <div class="big">带着需求交流，带着可执行的方案开始。</div>
-      <div class="sub">客户合作 · 渠道协作 · 产品与技术伙伴</div>
-      <p class="note">合作范围与交付安排，以双方确认的方案为准。</p>
-    </div>
-    <figure class="poster-frame" style="margin:0;">
-      <img src="assets/brand-poster.webp?v=20261029" width="1920" height="1080" alt="零点引擎品牌主视觉完整海报：连接 AI 工具，让应用落地；金色光网玻璃球核与三块工具面板相连" loading="lazy" decoding="async">
-      <figcaption class="poster-cap">零点引擎品牌主视觉 · 16:9</figcaption>
-    </figure>
-  </div>
+<div class="tiny-howto"><svg aria-hidden="true" class="icon"><use href="#i-info"></use></svg><span>本页只整理任务说明。文案、视频和直播内容需在相应工具中制作，并由你审核。</span></div>
 </div>
+</div>
+<div class="checklist"><strong>拿到 AI 初稿后，检查一下：</strong><label><input type="checkbox"/>事实和价格准确</label><label><input type="checkbox"/>素材有使用授权</label><label><input type="checkbox"/>表达符合我的生意</label></div>
+</div>
+</section><section aria-labelledby="examples-title" class="section" id="examples">
+<div class="wrap example-area">
+<div><span class="kicker">新手体验 / 看一个具体示例</span><span class="pill">虚构练习 · 社区咖啡店</span><h2 id="examples-title">一杯咖啡，<br/>可以怎样讲给客人听？</h2><p>同一份产品信息，可以分别整理成文案和视频脚本。先看这份简单示例，再想想你的产品有哪些值得说清楚的细节。</p><div class="example-flow"><span>真实产品信息</span><span aria-hidden="true">→</span><span>AI 协助起草</span><span aria-hidden="true">→</span><span>你来确认与修改</span></div><a class="btn text" href="#practice" style="margin-top:20px;color:#395a37">换成我的生意试试 <svg aria-hidden="true" class="icon"><use href="#i-arrow"></use></svg></a><figure class="visual-figure example-picture"><button aria-label="放大查看：咖啡店示例的业务环境" class="image-open" data-zoom="" type="button"><img alt="咖啡店示例的业务环境" decoding="async" height="432" loading="lazy" src="assets/scene-cafe.webp" width="768"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>AI 生成场景 · 与右侧虚构文案示例对应</figcaption></figure></div>
+<div class="story-board">
+<div class="story-top"><strong>社区咖啡店的内容练习</strong><span>示例内容，非效果承诺</span></div>
+<div aria-label="切换咖啡店示例内容" class="story-tabs js-only" role="tablist"><button aria-controls="panel-input" aria-selected="false" id="tab-input" role="tab" tabindex="-1" type="button">原始需求</button><button aria-controls="panel-copy" aria-selected="true" id="tab-copy" role="tab" type="button">文案初稿</button><button aria-controls="panel-video" aria-selected="false" id="tab-video" role="tab" tabindex="-1" type="button">视频脚本</button></div>
+<div aria-labelledby="tab-input" class="story-content" id="panel-input" role="tabpanel" tabindex="0"><h3>我想介绍店里的现磨咖啡。</h3><p>我的读者是在附近工作的人。我想告诉他们，午休时可以来喝杯咖啡，店里也有安静的座位。</p><p style="margin-top:12px">地址、营业时间和价格由店主补充，暂不编写优惠信息。</p></div>
+<div aria-labelledby="tab-copy" class="story-content" id="panel-copy" role="tabpanel" tabindex="0"><h3>午休，给自己留一杯咖啡的时间。</h3><p>来店里点杯现磨咖啡，找个安静的座位坐一会儿。忙完手头的事，也可以慢慢喝。</p><p style="margin-top:16px">地址：[待补充]<br/>营业时间：[待补充]<br/>饮品价格：[待补充]</p></div>
+<div aria-labelledby="tab-video" class="story-content" id="panel-video" role="tabpanel" tabindex="0"><h3>用 3 个镜头介绍一家小店</h3><dl><dt>镜头 01</dt><dd>拍门头与门口环境，让客人认得出店。</dd><dt>镜头 02</dt><dd>拍磨豆、萃取和出杯，展示实际制作过程。</dd><dt>镜头 03</dt><dd>拍安静的座位区，结尾补上核实后的地址与营业时间。</dd></dl></div>
+<div class="story-note">发布前：替换占位信息，检查画面授权，去掉不符合实际情况的描述。</div>
+</div>
+</div>
+</section><section aria-labelledby="faq-title" class="section" id="faq">
+<div class="wrap faq-layout">
+<div class="faq-intro"><span class="kicker">开始前的小疑问</span><h2 id="faq-title">选产品与方案前，<br/>先把这些事问清楚。</h2><p>先了解业务区别、服务分工与使用边界。没有技术背景，也可以从具体需求说起。</p><div class="guide-note"><img alt="零点引擎品牌角色零零，AI 生成概念形象" height="68" src="assets/lingling.webp" width="68"/><p>从你熟悉的一件小事开始。<br/>零零陪你把第一步看明白。</p></div><figure class="visual-figure faq-picture"><button aria-label="放大查看：用放大镜核对工具，并用盾牌表示权限和安全检查" class="image-open" data-zoom="" type="button"><img alt="用放大镜核对工具，并用盾牌表示权限和安全检查" decoding="async" height="360" loading="lazy" src="assets/choose-check.svg" width="960"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>选工具前，核对用途、费用、权限和责任。</figcaption></figure></div>
+<div class="faq-list"><details open=""><summary>数字 AI、物理 AI、融合解决方案有什么区别？</summary><div class="faq-answer"><p><strong>数字 AI</strong>是软件工具与智能体，主要处理内容制作、办公等线上工作。<strong>物理 AI</strong>是与实体设备结合的 AI 应用，需要核对设备用途、人员和场所条件。</p><p><strong>融合解决方案</strong>围绕业务流程组织软件、设备和服务。可以按需使用其中一类能力，也可以组合，不要求同时采购所有产品。</p></div></details><details><summary>谁负责交付、技术支持和设备售后？</summary><div class="faq-answer"><p>零点引擎负责选型、商务对接、供应商管理与服务协调。设备库存、物流与售后由供应商负责；数字 AI 与解决方案的技术支持原则上由供方承担。</p><p>具体交付、收费与责任应写入协议。供应商履约不自动免除平台在客户合同中的责任。</p></div></details>
+<details><summary>没有技术背景，可以从哪里开始？</summary><div class="faq-answer"><p>可以先选“写一条经营文案”。填入你熟悉的产品信息，把整理好的指令粘贴到 AI 对话工具，再核对它写出的内容。本页练习不需要写代码。</p></div></details>
+<details><summary>提示词、智能体，分别是什么意思？</summary><div class="faq-answer"><p><strong>提示词</strong>是你交给 AI 的任务说明，通常包括背景、要做的事和输出要求。</p><p><strong>智能体（Agent）</strong>是围绕任务配置的 AI 应用，有些能够调用工具或按步骤执行任务。具体能做什么，取决于产品版本、权限和配置。</p></div></details>
+<details><summary>需要一开始就买很多工具吗？</summary><div class="faq-answer"><p>建议先选一个明确任务，用已有工具完成一次小样，再判断哪些能力需要补充。付费前确认试用条件、费用、用量、素材限制和售后安排。本页没有展示经核实的统一价格或免费权益。</p></div></details>
+<details><summary>AI 生成的内容，可以直接发布吗？</summary><div class="faq-answer"><p>请先检查事实、价格、表达与素材授权。AI 可能补出不真实的信息；对客户评价、经营效果、健康功效等内容尤其需要核验。使用他人的肖像、声音、商标和音乐时，也要确认相应权利。</p></div></details>
+<details><summary>这里填的需求，会发给谁？</summary><div class="faq-answer"><p>本页的指令整理和需求清单都在浏览器本地处理，不调用 AI，不上传输入，也不会自动提交。打开外部产品页面后，适用对方的服务条款和隐私政策。</p><p>复制到外部 AI 工具前，请移除客户姓名、电话、健康数据及其他未经授权的信息。</p></div></details>
+<details><summary>用上 AI，就能增加收入吗？</summary><div class="faq-answer"><p>经营结果取决于产品、服务、客户需求和你的执行。这里的示例用于说明操作思路，不代表真实客户业绩，也不作获客、成交或收益承诺。</p></div></details>
+<details><summary>还提供设备或行业解决方案吗？</summary><div class="faq-answer"><p>零点引擎业务包括数字 AI、物理 AI 和融合解决方案。物理 AI 面向大健康场景，设备的型号、注册用途、使用人员与场所资质都要单独核验。医疗设备不默认适用于普通美容门店。</p><p>可以通过顶部“物理 AI”和“融合解决方案”查看设备与场景说明；供应商责任及政策草案保留在“合作资料”中。</p></div></details>
+</div>
+</div>
+</section><section aria-labelledby="contact-title" class="contact" id="contact"><div class="wrap"><div class="contact-box">
+<div><span class="kicker">从需求开始 / 数字 AI · 物理 AI · 融合解决方案</span><h2 id="contact-title">你的业务需要哪一类支持？</h2><p>告诉我们你正在做什么、已有的工具或设备，以及希望解决的问题。先整理成一份需求清单，再交给你已有的业务联系人。</p><figure class="visual-figure contact-picture"><button aria-label="放大查看：将资料放入文件夹并与工作人员核对需求的原理图" class="image-open" data-zoom="" type="button"><img alt="将资料放入文件夹并与工作人员核对需求的原理图" decoding="async" height="360" loading="lazy" src="assets/brief-plan.svg" width="960"/><span aria-hidden="true" class="zoom-hint">↗ 放大</span></button><figcaption>把任务、准备和待确认事项整理在一起。</figcaption></figure></div>
+<div><div class="btn-row"><a class="btn" href="#business-overview">再看业务总览</a><button class="btn outline js-only" id="openBrief" type="button">填写需求清单</button></div><p class="small-note">本页未设置在线咨询或提交渠道，不会自动发送信息。</p></div>
+<details class="brief" id="briefDetails"><summary>整理一份可带走的需求清单</summary><div class="brief-grid">
+<div><div class="field"><label for="briefBusiness">你的业务或机构是什么？</label><input autocomplete="off" id="briefBusiness" maxlength="160" placeholder="例如：社区商店、内容工作室或健康服务机构。" type="text"/></div><div class="field"><label for="briefType">主要关注哪类业务？</label><select id="briefType"><option>尚未确定</option><option>数字 AI</option><option>物理 AI</option><option>融合解决方案</option></select></div><div class="field"><label for="briefGoal">你希望 AI 帮你完成什么？</label><textarea id="briefGoal" maxlength="400" placeholder="例如：制作产品视频、确认设备适用条件，或组织线上与线下服务流程。" rows="3"></textarea></div><div class="field"><label for="briefResources">你已经准备了什么？<span>素材、时间或希望先确认的问题</span></label><textarea id="briefResources" maxlength="400" placeholder="例如：现有工具和设备、使用场所、资质、预算或希望先确认的问题。" rows="3"></textarea></div><p class="form-note">仅在当前页面整理，不保存或上传。请勿填写个人敏感信息。</p></div>
+<div><div class="brief-output" id="briefOutput">我的需求清单
 
-</main>
+业务或机构：[请填写]
+关注业务：尚未确定
+希望完成：[请填写具体需求]
+已有准备：[请填写现有工具、设备或待确认问题]
 
-<!-- ── 10 · Footer ── -->
-<footer class="footer">
-  <div class="fbrand">
-    <img src="assets/logo-mark.png" width="86" height="150" alt="零点引擎">
-    <span>零点引擎 — 技术底座 · 数据底座｜双轮驱动的产品与解决方案平台</span>
-  </div>
-  <nav class="fnav" aria-label="页脚导航"><a href="#top">首页</a><a href="#boundary">定位与边界</a><a href="#architecture">业务架构</a><a href="#value">客户价值</a><a href="#products">产品矩阵</a><a href="#solutions">解决方案</a><a href="#governance">治理分润</a><a href="#partnership">合作方式</a><a href="#links">链接矩阵</a><a href="#contact">联系我们</a></nav>
-  <div>V1.4 · 2026.11.10 ｜ 政策解读权仅限公司董事会</div>
-  <div class="motto">Understand. Decide. Execute. Evolve.</div>
-  <div class="fnote">合作范围与交付安排，以双方确认的方案为准；分润与准入评分均为草案，不作为结算承诺；业务边界与定位为内部对齐口径，不构成对外承诺。</div>
-  <img class="ip-mark ip-foot" src="assets/mascot-lingling.webp" width="22" height="30" alt="零零 · 科技小麒麟角色形象（AI 生成概念稿）" loading="lazy" decoding="async">
-</footer>
-
-<script>
-// ── 轻量入场动画：无 JS 时内容完整可见（.js 类由本脚本添加） ──
-document.documentElement.classList.add('js');
-if ('IntersectionObserver' in window) {
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold:.12, rootMargin:'0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
-} else {
-  document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
-}
-// ── Hero 编排入场的收尾兜底：动画播完后强制落到终态（低性能设备防残留） ──
-setTimeout(function(){ document.documentElement.classList.add('hero-done'); }, 2600);
-
-// ── 导航：滚动定位当前栏目（scrollspy） ──
-(function(){
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll('#navLinks a'));
-  var sections = navLinks.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
-  if ('IntersectionObserver' in window && sections.length){
-    var spy = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          var id = e.target.id;
-          navLinks.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === '#'+id); });
-        }
-      });
-    }, { rootMargin:'-45% 0px -50% 0px', threshold:0 });
-    sections.forEach(function(s){ spy.observe(s); });
-  }
-  // ── 移动端抽屉 ──
-  var navToggle = document.getElementById('navToggle');
-  var navLinksEl = document.getElementById('navLinks');
-  if(navToggle && navLinksEl){
-    navToggle.addEventListener('click', function(){
-      var open = navLinksEl.classList.toggle('open');
-      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      navToggle.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
-    });
-    navLinksEl.addEventListener('click', function(e){
-      if(e.target && e.target.tagName === 'A'){ navLinksEl.classList.remove('open'); navToggle.setAttribute('aria-expanded','false'); }
-    });
-    window.addEventListener('resize', function(){ if(window.innerWidth > 1024){ navLinksEl.classList.remove('open'); navToggle.setAttribute('aria-expanded','false'); } });
-  }
-  // ── 顶栏滚动态 ──
-  var topnav = document.getElementById('topnav');
-  var onScroll = function(){ if(topnav) topnav.classList.toggle('scrolled', window.scrollY > 8); };
-  window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
-})();
-</script>
-
-</body>
-</html>
+此清单仅在本页整理，尚未发送给任何联系人。</div><div class="btn-row js-only"><button class="btn small" id="copyBrief" type="button">复制需求清单</button><button class="btn outline small" id="downloadBrief" type="button">下载文本</button></div></div>
+</div></details>
+</div></div></section></main>
+<footer class="footer dark"><div class="wrap">
+<div class="footer-top"><div><a aria-label="零点引擎，返回顶部" href="#top"><img alt="零点引擎 ZERO ENGINE" class="footer-logo" height="46" src="assets/logo-reverse.svg" width="150"/></a><p class="footer-motto">让 AI，用对地方。</p></div><nav aria-label="页脚导航" class="footer-nav"><a href="#business-overview">业务总览</a><a href="#digital-ai">数字 AI</a><a href="#physical-ai">物理 AI</a><a href="#solutions">融合解决方案</a><a href="#start">新手体验</a><a href="#contact">需求清单</a></nav></div>
+<details class="partner-details" id="partner-info"><summary>公司业务与合作资料 <span>面向机构与合作伙伴 · 含原稿政策草案 · 点击展开 +</span></summary><div class="partner-body">
+<h3 id="architecture">数字 AI、物理 AI 与融合解决方案</h3><p>零点引擎是产品与解决方案平台。数字 AI 包括自研垂类产品和通用智能体代理方向；物理 AI 围绕大健康场景，优先关注美业相关需求；解决方案负责组合产品、统筹服务与协调交付，也是一条独立业务线。可按需采用数字、物理或融合方案。</p><p>选型按任务与预算开展，组合阶段组织可用流程，部署由供方配置并按约培训，服务阶段由供方履约、平台跟踪协调。零点负责统筹与协调，技术支持原则上由供方承担，具体责任以协议为准。</p>
+<p>产品与设备已分别整理到主页面的<a href="#general-ai">通用 AI</a>、<a href="#physical-ai">物理 AI</a>、<a href="#solutions">解决方案</a>及<a href="#more-tools">更多工具</a>栏目。</p>
+<h4 id="governance">治理与分润：原稿草案，待批准</h4>
+<p class="intro">产品准入与商业政策均以草案形式管理，经批准后执行。</p>
+<h4 class="subhead">产品治理 · 准入审核（草案）</h4>
+<div aria-label="治理与分润：原稿草案，待批准表格，窄屏可横向滚动" class="table-wrap" role="region" tabindex="0"><table class="ptable">
+<thead><tr><th scope="col">维度</th><th scope="col">分值</th><th scope="col">要点</th></tr></thead>
+<tbody>
+<tr><td>场景价值</td><td>25</td><td>需求、样例与效果</td></tr>
+<tr><td>功能质量</td><td>25</td><td>稳定性、接口与计量</td></tr>
+<tr><td>合规安全</td><td>30</td><td>授权、资质与数据</td></tr>
+<tr><td>交付商业</td><td>20</td><td>仓配售后、支持与退出</td></tr>
+</tbody>
+</table></div>
+<p class="note"><strong>说明：</strong>准入门槛建议总分 ≥ 80，否决项清零并完成试点验收方可上架；一票否决项（授权 / 必要资质缺失、重大安全隐患、拒担约定供应责任或测试造假）不以得分抵销；流程为申报 → 联合审查 → 试点验收 → 授权上架，由产品 / 技术 / 合规 / 财务联合签审。评分及流程待批准。</p>
+<h4 class="subhead">商业政策 · 分润参考（草案）</h4>
+<div aria-label="治理与分润：原稿草案，待批准表格，窄屏可横向滚动" class="table-wrap" role="region" tabindex="0"><table class="ptable">
+<thead><tr><th scope="col">业务线</th><th scope="col">参考</th><th scope="col">内容</th></tr></thead>
+<tbody>
+<tr><td>数字AI</td><td>参考零小剪</td><td>分润比例（运营商｜服务商｜社长｜运营中心｜零点总部）按政策分配；以批准合同为准，不得直接相加，需先核角色与收入池，赠送部分不分润</td></tr>
+<tr><td>物理AI</td><td>参考数字心电仪</td><td>参考价、供货折扣（先行官／社长等）及总部毛利、运营中心提成均按政策分配，以批准政策与合同为准</td></tr>
+</tbody>
+</table></div>
+<p class="note"><strong>说明：</strong>分润按批准合同执行；供方履约费用纳入报价审核；积分奖励不自动叠加；存在口径待核，不作为结算承诺。</p>
+<h4 id="partnership">合作方式与各方责任</h4>
+<p class="intro">轻资产协作｜供应商履约，平台协调。体系不设库存，供应商负责仓配售后；客户合同仍须明确各方责任，供应商履约不等于平台免责。</p>
+<div aria-label="合作方式与各方责任表格，窄屏可横向滚动" class="table-wrap" role="region" tabindex="0"><table class="ptable">
+<thead><tr><th scope="col">角色</th><th scope="col">职责</th></tr></thead>
+<tbody>
+<tr><td>零点引擎</td><td>选品与商务、供应商管理与服务协调</td></tr>
+<tr><td>供应商仓配</td><td>库存与发货、物流全程负责</td></tr>
+<tr><td>供应商售后</td><td>退换与维修按约闭环处理</td></tr>
+<tr><td>供方技术支持</td><td>数字AI与方案，原则由供应商承担</td></tr>
+</tbody>
+</table></div>
+<p class="note"><strong>说明：</strong>零点引擎与中云智行体系均不设物理AI库存。集团协作：研习社（学习体验）、黑唛传媒（内容传播）、健康服务（专业流程）、壹点好物（选品对接）；孵化 AI 先行官，让产品能力进入具体业务。</p>
+</div></details>
+<p class="visual-disclosure wrap">配图说明：工作与服务场景为 AI 生成的虚构示意；设备图沿用既有介绍资料，不保证对应当前供货型号。原理图用于解释流程，不表示产品界面、系统集成或效果已获验证。</p><div class="footer-bottom"><span>© 2026 零点引擎 · 数字 AI · 物理 AI · 融合解决方案</span><span>页面示例用于学习说明。合作范围与交付安排，以双方确认的方案为准。</span><a href="#top">回到顶部 ↑</a></div>
+</div></footer>
+<div aria-live="polite" class="toast" hidden="" id="toast" role="status"></div>
+<div aria-labelledby="copyFallbackTitle" aria-modal="true" class="copy-fallback" hidden="" id="copyFallback" role="dialog"><h2 id="copyFallbackTitle">请手动复制这段文字</h2><p>当前浏览器未允许自动复制。内容已选中，可长按复制或使用 Ctrl/Cmd+C。</p><textarea aria-label="需要复制的内容" id="fallbackText" readonly=""></textarea><button class="btn small" id="closeFallback" type="button">完成</button></div>
+<dialog aria-labelledby="visualTitle" class="visual-viewer" id="visualViewer"><div class="viewer-toolbar"><h2 id="visualTitle">图片说明</h2><button aria-label="关闭放大图片" id="closeVisual" type="button">关闭 ×</button></div><div id="visualImageHost"></div><p id="visualCaption"></p></dialog><script src="app.js"></script></body></html>

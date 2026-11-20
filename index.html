@@ -32,6 +32,9 @@
 <symbol id="i-grid" viewbox="0 0 24 24"><rect height="7" rx="2" width="7" x="3" y="3"></rect><rect height="7" rx="2" width="7" x="14" y="3"></rect><rect height="7" rx="2" width="7" x="3" y="14"></rect><rect height="7" rx="2" width="7" x="14" y="14"></rect></symbol>
 <symbol id="i-scope" viewbox="0 0 24 24"><path d="M4 3v6a5 5 0 0 0 10 0V3M4 3h2m6 0h2M9 14v3a4 4 0 0 0 8 0v-3"></path><circle cx="17" cy="11" r="3"></circle></symbol>
 <symbol id="i-ultrasound" viewbox="0 0 24 24"><path d="m8 3 8 2-3 9-8-2ZM9 14c-2 6 8 10 10 3M2 17l3-2m-1 6 3-3"></path></symbol>
+<symbol id="i-share" viewbox="0 0 24 24"><circle cx="18" cy="5" r="2.5"></circle><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="19" r="2.5"></circle><path d="m8.2 10.9 7.6-4.4M8.2 13.1l7.6 4.4"></path></symbol>
+<symbol id="i-top" viewbox="0 0 24 24"><path d="M12 20V4m-6 6 6-6 6 6"></path></symbol>
+<symbol id="i-headset" viewbox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1"></path><rect height="6" rx="2" width="4" x="2" y="13"></rect><rect height="6" rx="2" width="4" x="18" y="13"></rect><path d="M20 19v.5a2.5 2.5 0 0 1-2.5 2.5H14"></path></symbol>
 </defs></svg>
 <a class="skip" href="#main">跳到主要内容</a>
 <header class="topbar dark">
@@ -229,6 +232,18 @@
 </div></details>
 <p class="visual-disclosure wrap">配图说明：工作与服务场景为 AI 生成的虚构示意；设备图沿用既有介绍资料，不保证对应当前供货型号。原理图用于解释流程，不表示产品界面、系统集成或效果已获验证。</p><div class="footer-bottom"><span>© 2026 零点引擎 · 数字 AI · 物理 AI · 融合解决方案</span><span>页面示例用于学习说明。合作范围与交付安排，以双方确认的方案为准。</span><a href="#top">回到顶部 ↑</a></div>
 </div></footer>
+<div aria-label="页面快捷操作" class="float-dock" id="floatDock">
+<button aria-controls="shareSheet" aria-expanded="false" aria-haspopup="dialog" aria-label="分享本页" class="float-btn" id="floatShare" type="button"><svg aria-hidden="true" class="icon"><use href="#i-share"></use></svg><span>分享</span></button>
+<button aria-label="返回页面顶部" class="float-btn" id="floatTop" type="button"><svg aria-hidden="true" class="icon"><use href="#i-top"></use></svg><span>顶部</span></button>
+<a aria-label="客服与帮助：前往常见问题" class="float-btn" href="#faq"><svg aria-hidden="true" class="icon"><use href="#i-headset"></use></svg><span>客服</span></a>
+<div aria-label="分享本页的方式" class="share-sheet" id="shareSheet" role="dialog" hidden="">
+<p class="share-sheet-title">分享本页</p>
+<button class="share-opt" data-share="copy" type="button"><svg aria-hidden="true" class="icon"><use href="#i-copy"></use></svg>复制链接</button>
+<button class="share-opt" data-share="wechat" type="button"><svg aria-hidden="true" class="icon"><use href="#i-chat"></use></svg>分享到微信好友</button>
+<button class="share-opt" data-share="system" hidden="" id="shareSystem" type="button"><svg aria-hidden="true" class="icon"><use href="#i-share"></use></svg>系统分享</button>
+<p class="share-sheet-hint">选择「分享到微信好友」将复制链接，再粘贴给好友即可。</p>
+</div>
+</div>
 <div aria-live="polite" class="toast" hidden="" id="toast" role="status"></div>
 <div aria-labelledby="copyFallbackTitle" aria-modal="true" class="copy-fallback" hidden="" id="copyFallback" role="dialog"><h2 id="copyFallbackTitle">请手动复制这段文字</h2><p>当前浏览器未允许自动复制。内容已选中，可长按复制或使用 Ctrl/Cmd+C。</p><textarea aria-label="需要复制的内容" id="fallbackText" readonly=""></textarea><button class="btn small" id="closeFallback" type="button">完成</button></div>
 <dialog aria-labelledby="visualTitle" class="visual-viewer" id="visualViewer"><div class="viewer-toolbar"><h2 id="visualTitle">图片说明</h2><button aria-label="关闭放大图片" id="closeVisual" type="button">关闭 ×</button></div><div id="visualImageHost"></div><p id="visualCaption"></p></dialog><script src="app.js"></script></body></html>

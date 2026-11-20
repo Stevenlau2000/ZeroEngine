@@ -162,3 +162,64 @@ details.summary,.catalog-details>summary,.brief>summary,.partner-details>summary
 .card-entry:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(11,13,16,.16)}
 .card-entry:focus-visible{outline:2px solid #231916;outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.card-entry{transition:none}}
+
+/* ---------- 15. 固定悬浮快捷按钮组：分享 / 顶部 / 客服 ---------- */
+/* 竖排白底圆形按钮，固定右侧；z-index 60：高于 topbar(30)，低于 toast(70)/copyFallback(80) */
+.float-dock{
+  position:fixed;right:20px;bottom:112px;z-index:60;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.float-btn{
+  width:60px;height:60px;border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  background:#fff;color:var(--green);
+  border:1px solid rgba(49,84,63,.14);
+  box-shadow:0 6px 20px rgba(11,13,16,.14);
+  text-decoration:none;font-size:11px;font-weight:650;line-height:1.15;
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease,color .18s ease;
+}
+.float-btn .icon{width:22px;height:22px;stroke-width:1.8}
+.float-btn:hover,.float-btn:focus-visible{transform:translateY(-3px);box-shadow:0 10px 26px rgba(11,13,16,.22)}
+.float-btn:hover{background:var(--yellow);color:#231916}
+.float-btn:active{transform:translateY(-1px)}
+.float-btn[aria-expanded="true"]{background:var(--yellow);color:#231916}
+
+/* 分享面板：锚定在按钮组上方，向上展开，不遮挡页面主体 */
+.share-sheet{
+  position:absolute;right:0;bottom:calc(100% + 12px);width:188px;
+  display:flex;flex-direction:column;gap:3px;
+  padding:12px;background:#fff;color:var(--ink);
+  border:1px solid var(--line);border-radius:16px;
+  box-shadow:0 16px 40px rgba(11,13,16,.22);
+  transform-origin:bottom right;
+  animation:share-in .16s ease-out;
+}
+@keyframes share-in{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}
+.share-sheet-title{margin:2px 6px 6px;font-size:12px;font-weight:700;color:var(--green);letter-spacing:.02em}
+.share-opt{
+  display:flex;align-items:center;gap:9px;width:100%;
+  padding:9px 10px;border:0;border-radius:10px;
+  background:transparent;color:var(--ink);
+  font-size:13px;font-weight:600;text-align:left;cursor:pointer;
+  transition:background .15s ease;
+}
+.share-opt .icon{width:18px;height:18px;color:var(--green)}
+.share-opt:hover,.share-opt:focus-visible{background:var(--yellow)}
+.share-sheet-hint{margin:6px 6px 0;font-size:11px;line-height:1.5;color:var(--muted)}
+
+/* 响应式：窄屏缩小按钮、贴近右侧，避免遮挡正文 */
+@media(max-width:600px){
+  .float-dock{right:12px;bottom:96px;gap:10px}
+  .float-btn{width:52px;height:52px;font-size:10px}
+  .float-btn .icon{width:19px;height:19px}
+  .share-sheet{width:172px}
+}
+@media(max-width:360px){
+  .float-dock{right:8px;bottom:84px;gap:8px}
+  .float-btn{width:48px;height:48px}
+}
+@media(prefers-reduced-motion:reduce){
+  .float-btn{transition:none}
+  .share-sheet{animation:none}
+}
+@media print{.float-dock{display:none!important}}
